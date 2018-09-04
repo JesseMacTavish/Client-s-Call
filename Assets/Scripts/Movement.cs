@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     public float _speed = 0.75f;
     private Camera Main;
     private Vector3 cameraPos;
+    private SpriteRenderer _renderer;
 
     // Use this for initialization
     void Start()
@@ -19,6 +20,7 @@ public class Movement : MonoBehaviour
         _velocity = new Vector3(0, 0);
         Main = Camera.main;
         cameraPos = Main.transform.position;
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -27,11 +29,13 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             _accelleration += new Vector3(_speed, 0);
+            _renderer.flipX = false;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             _accelleration += new Vector3(-_speed, 0);
+            _renderer.flipX = true;
         }
 
         if (Input.GetKey(KeyCode.W))
