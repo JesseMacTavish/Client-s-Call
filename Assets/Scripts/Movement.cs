@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     private Vector3 _velocity;
     private Vector3 _accelleration;
     public float _speed = 0.75f;
-    private Camera Main;
+    private Camera mainCamera;
     private Vector3 cameraPos;
 
     // Use this for initialization
@@ -17,8 +17,8 @@ public class Movement : MonoBehaviour
         _transform = GetComponent<Transform>();
         _accelleration = new Vector3(0, 0);
         _velocity = new Vector3(0, 0);
-        Main = Camera.main;
-        cameraPos = Main.transform.position;
+        mainCamera = Camera.main;
+        cameraPos = mainCamera.transform.position;
     }
 
     // Update is called once per frame
@@ -60,7 +60,7 @@ public class Movement : MonoBehaviour
         _transform.position += _velocity;
 
         cameraPos.x = _transform.position.x;
-        Main.transform.position = cameraPos;
+        mainCamera.transform.position = cameraPos;
 
         _accelleration.Set(0, 0, 0);
         _velocity.Set(0, 0, 0);

@@ -13,4 +13,8 @@ public class ButtonScript : MonoBehaviour
         button.Select();
     }
 
+    public void FinishDialog()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 }

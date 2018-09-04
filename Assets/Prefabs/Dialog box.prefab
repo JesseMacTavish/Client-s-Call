@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 222775189591110422}
   - component: {fileID: 114689849912079628}
   - component: {fileID: 114232562597736508}
+  - component: {fileID: 114290699919433040}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -110,6 +111,7 @@ GameObject:
   - component: {fileID: 222662903607714170}
   - component: {fileID: 114364905871006884}
   - component: {fileID: 114336083733966970}
+  - component: {fileID: 114293838909249106}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -145,6 +147,7 @@ GameObject:
   - component: {fileID: 222485687744949234}
   - component: {fileID: 114295662315927632}
   - component: {fileID: 114685491416552382}
+  - component: {fileID: 114973507642229790}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -224,7 +227,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114689849912079628}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114290699919433040}
+        m_MethodName: FinishDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114282897231081288
@@ -254,6 +268,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114290699919433040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1373412666350534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2250dab2c4732eb4ebac17081b2bda79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114292966353745184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,6 +312,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114293838909249106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456736148065348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2250dab2c4732eb4ebac17081b2bda79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114295662315927632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,7 +388,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114364905871006884}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114293838909249106}
+        m_MethodName: FinishDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114364905871006884
@@ -453,7 +500,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114295662315927632}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114973507642229790}
+        m_MethodName: FinishDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114689849912079628
@@ -592,7 +650,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114282897231081288}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114826826731113168}
+        m_MethodName: FinishDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114942687562885492
@@ -628,6 +697,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114973507642229790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1682079611866850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2250dab2c4732eb4ebac17081b2bda79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114980300870065486
 MonoBehaviour:
   m_ObjectHideFlags: 1

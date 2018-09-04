@@ -5,15 +5,17 @@ using UnityEngine;
 public class CharacterScript : MonoBehaviour
 {
     public GameObject dialog;
-   
+
     void OnTriggerEnter(Collider other)
     {
-        dialog.SetActive(true);
+        if (dialog != null)
+            dialog.SetActive(true);
     }
 
     void OnTriggerExit(Collider other)
     {
-        dialog.SetActive(false);
+        if (dialog != null)
+            dialog.SetActive(false);
     }
 
     public void KillSanta()
