@@ -19,9 +19,8 @@ public class JsonParser : MonoBehaviour
 [System.Serializable]
 public class JsonClass
 {
-    //Json properties here
-    //E.G:
-    //var Key;
+    public string Greetings;
+    public string Followup;
 
     public static JsonClass Instance
     {
