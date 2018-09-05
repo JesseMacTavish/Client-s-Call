@@ -24,24 +24,33 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ObjectToFollow.transform.position.z < transform.position.z)
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector3.zero;
+
+        Rigidbody target = ObjectToFollow.GetComponent<Rigidbody>();
+
+        if (target.position.z < rigidbody.position.z)
         {
-            transform.position += down;
+            //transform.position += down;
+            rigidbody.velocity += down;
         }
 
-        if (ObjectToFollow.transform.position.z > transform.position.z)
+        if (target.position.z > rigidbody.position.z)
         {
-            transform.position += up;
+            //transform.position += up;
+            rigidbody.velocity += up;
         }
 
-        if (ObjectToFollow.transform.position.x < transform.position.x)
+        if (target.position.x < rigidbody.position.x)
         {
-            transform.position += left;
+            //transform.position += left;
+            rigidbody.velocity += left;
         }
 
-        if (ObjectToFollow.transform.position.x > transform.position.z)
+        if (target.position.x > rigidbody.position.x)
         {
-            transform.position += right;
+            //transform.position += right;
+            rigidbody.velocity += right;
         }
     }
 }

@@ -6,75 +6,69 @@ public class Movement : MonoBehaviour
 {
     private Transform _transform;
     private Vector3 _velocity;
-    private Vector3 _accelleration;
     public float _speed = 0.75f;
     private Camera mainCamera;
     private Vector3 cameraPos;
     private SpriteRenderer _renderer;
+    private Rigidbody _rigidbody;
+
+    private Vector3 horizontalMovement;
+    private Vector3 verticalMovement;
+
 
     // Use this for initialization
     void Start()
     {
         _transform = GetComponent<Transform>();
-        _accelleration = new Vector3(0, 0);
         _velocity = new Vector3(0, 0);
         mainCamera = Camera.main;
         cameraPos = mainCamera.transform.position;
         _renderer = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody>();
+
+        horizontalMovement = new Vector3(_speed, 0);
+        verticalMovement = new Vector3(0, 0, _speed * 3);
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetAxisRaw("Horizontal") == 1)
         {
-            _accelleration += new Vector3(_speed, 0);
-
             if (_renderer.flipX)
             {
                 _renderer.flipX = false;
             }
         }
-
-        if (Input.GetKey(KeyCode.A))
+        else if (Input.GetAxisRaw("Horizontal") == -1)
         {
-            _accelleration += new Vector3(-_speed, 0);
-
             if (!_renderer.flipX)
             {
                 _renderer.flipX = true;
             }
         }
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            _accelleration += new Vector3(0, 0, _speed * 3);
-        }
+        _rigidbody.velocity = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            _accelleration += new Vector3(0, 0, -_speed * 3);
-        }
+        _velocity += Input.GetAxisRaw("Horizontal") * horizontalMovement;
+        _velocity += Input.GetAxisRaw("Vertical") * verticalMovement;
 
         addVelocity();
     }
 
     private void addVelocity()
     {
-        _velocity += _accelleration;
-
         if (_velocity.magnitude > _speed * 3)
         {
             _velocity.Normalize();
             _velocity *= _speed * 2.5f;
         }
 
-        _transform.position += _velocity;
+        _rigidbody.velocity = _velocity;
 
         cameraPos.x = _transform.position.x;
         mainCamera.transform.position = cameraPos;
-
-        _accelleration.Set(0, 0, 0);
+        
         _velocity.Set(0, 0, 0);
     }
 }
