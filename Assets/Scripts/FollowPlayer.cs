@@ -1,56 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class FollowPlayer : MonoBehaviour
 {
     public GameObject ObjectToFollow;
-    public float _speed = 0.5f;
-
-    Vector3 up;
-    Vector3 down;
-    Vector3 left;
-    Vector3 right;
+    private Rigidbody _rigidbody;
+    private NavMeshAgent _agent;
+    private SpriteRenderer _renderer;
 
     // Use this for initialization
-    void Start()
+
+    private void Start()
     {
-        up = new Vector3(0, 0, _speed);
-        down = new Vector3(0, 0, -_speed);
-        left = new Vector3(-_speed, 0, 0);
-        right = new Vector3(_speed, 0, 0);
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.destination = ObjectToFollow.transform.position;
+        _agent.updateRotation = false;
+
+        _rigidbody = GetComponent<Rigidbody>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        rigidbody.velocity = Vector3.zero;
-
         Rigidbody target = ObjectToFollow.GetComponent<Rigidbody>();
 
-        if (target.position.z < rigidbody.position.z)
+        _agent.destination = target.position;
+        if (target.position.x < _rigidbody.position.x)
         {
-            //transform.position += down;
-            rigidbody.velocity += down;
+            _renderer.flipX = true;
         }
-
-        if (target.position.z > rigidbody.position.z)
+        else
         {
-            //transform.position += up;
-            rigidbody.velocity += up;
-        }
-
-        if (target.position.x < rigidbody.position.x)
-        {
-            //transform.position += left;
-            rigidbody.velocity += left;
-        }
-
-        if (target.position.x > rigidbody.position.x)
-        {
-            //transform.position += right;
-            rigidbody.velocity += right;
+            _renderer.flipX = false;
         }
     }
 }
