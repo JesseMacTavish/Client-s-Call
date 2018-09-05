@@ -18,14 +18,9 @@ public class Movement : MonoBehaviour
         _transform = GetComponent<Transform>();
         _accelleration = new Vector3(0, 0);
         _velocity = new Vector3(0, 0);
-<<<<<<< HEAD
-        Main = Camera.main;
-        cameraPos = Main.transform.position;
-        _renderer = GetComponent<SpriteRenderer>();
-=======
         mainCamera = Camera.main;
         cameraPos = mainCamera.transform.position;
->>>>>>> f0743e1187b96a2286e7c2e64b7b18c899eaaa71
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -34,13 +29,21 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             _accelleration += new Vector3(_speed, 0);
-            _renderer.flipX = false;
+
+            if (_renderer.flipX)
+            {
+                _renderer.flipX = false;
+            }
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             _accelleration += new Vector3(-_speed, 0);
-            _renderer.flipX = true;
+
+            if (!_renderer.flipX)
+            {
+                _renderer.flipX = true;
+            }
         }
 
         if (Input.GetKey(KeyCode.W))
