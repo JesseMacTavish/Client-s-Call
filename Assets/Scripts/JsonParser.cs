@@ -8,7 +8,7 @@ public class JsonParser : MonoBehaviour
     public static string _path;
     public static string jsonString;
 
-    private void Start()
+    private void Awake()
     {
         _path = Application.streamingAssetsPath + "/Character.json";
         jsonString = File.ReadAllText(_path);
@@ -19,8 +19,7 @@ public class JsonParser : MonoBehaviour
 [System.Serializable]
 public class JsonClass
 {
-    public string Greetings;
-    public string Followup;
+    public string[] Smalltalk;
 
     public static JsonClass Instance
     {

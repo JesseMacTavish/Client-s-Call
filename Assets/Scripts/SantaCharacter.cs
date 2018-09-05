@@ -6,21 +6,52 @@ using UnityEngine.UI;
 public class SantaCharacter : MonoBehaviour
 {
     public GameObject dialogBox;
-    Text text;
+    Text dialog;
+    int dialogBoxID;
+
+    //Variables for slow type
+    public float typeDelay = 0.1f;
+    float time;
+    string fullText;
+    string typedCharacters = "";
 
     void Start()
     {
-        text = dialogBox.GetComponentInChildren<Text>();
-        text.text = JsonClass.Instance.Greetings;
+        dialog = dialogBox.GetComponentInChildren<Text>();
+        fullText = JsonClass.Instance.Smalltalk[0];
     }
 
     void Update()
     {
+        Type();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
-            text.text = JsonClass.Instance.Followup;
-
+            NextDialogBox();
         }
+    }
+
+    void Type()
+    {
+        time += Time.deltaTime;
+        while (time >= typeDelay && typedCharacters.Length < fullText.Length)
+        {
+            typedCharacters += fullText[typedCharacters.Length];
+            time = 0;
+        }
+        dialog.text = typedCharacters;
+    }
+
+    void NextDialogBox()
+    {
+        dialog.text = "";
+        typedCharacters = "";
+
+        if (dialogBoxID < JsonClass.Instance.Smalltalk.Length - 1)
+        {
+            dialogBoxID++;
+        }
+
+        fullText = JsonClass.Instance.Smalltalk[dialogBoxID];
     }
 }
