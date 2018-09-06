@@ -27,13 +27,20 @@ public class FollowPlayer : MonoBehaviour
         Rigidbody target = ObjectToFollow.GetComponent<Rigidbody>();
 
         _agent.destination = target.position;
+
         if (target.position.x < _rigidbody.position.x)
         {
-            _renderer.flipX = true;
+            if (!_renderer.flipX)
+            {
+                _renderer.flipX = true;
+            }
         }
         else
         {
-            _renderer.flipX = false;
+            if (_renderer.flipX)
+            {
+                _renderer.flipX = false;
+            }
         }
     }
 }

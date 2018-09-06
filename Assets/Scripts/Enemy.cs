@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float _hitCooldown = 1;
     [SerializeField] private float _health = 5;
+    private float _cooldown = 0;
+
     public static List<GameObject> Enemies = new List<GameObject>();
 
     // Use this for initialization
@@ -16,16 +19,29 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (_cooldown > 0)
+        {
+            _cooldown -= 1 * Time.deltaTime;
+        }
     }
 
-    public void Hit()
+    public void Hit(int pDamage = 1)
     {
-        _health--;
-        if (_health <= 0)
+        if (_cooldown <= 0)
         {
-            Enemies.Remove(gameObject);
-            Destroy(gameObject);
+            _health -= pDamage;
+            startCooldown();
+
+            if (_health <= 0)
+            {
+                Enemies.Remove(gameObject);
+                Destroy(gameObject);
+            }
         }
+    }
+
+    private void startCooldown()
+    {
+        _cooldown = _hitCooldown;
     }
 }

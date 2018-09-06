@@ -5,13 +5,16 @@ using System.IO;
 
 public class JsonParser : MonoBehaviour
 {
-    public static string _path;
-    public static string jsonString;
+    [Tooltip("The name of the .json file")]
+    public string FileName = "Character.json";
+
+    private string _path;
+    public static string JsonString;
 
     private void Awake()
     {
-        _path = Application.streamingAssetsPath + "/Character.json";
-        jsonString = File.ReadAllText(_path);
+        _path = Application.streamingAssetsPath + "/" + FileName;
+        JsonString = File.ReadAllText(_path);
         JsonClass jason = JsonClass.Instance;
     }
 }
@@ -25,7 +28,7 @@ public class JsonClass
     {
         get
         {
-            return JsonUtility.FromJson<JsonClass>(JsonParser.jsonString);
+            return JsonUtility.FromJson<JsonClass>(JsonParser.JsonString);
         }
     }
 }
