@@ -1,14 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SantaCharacter : MonoBehaviour
 {
+    //TODO: jesse get back to work!!!
+    //TODO: no u
+
     public GameObject dialogBox;
     public GameObject optionsBox;
+    public int ammountOfOptions;
+    List<Action> optionsAction;
     Text dialog;
-    int dialogBoxID;
+    Text name;
+    int dialogBoxID = 1;
     bool optionsOn;
 
     //Variables for slow type
@@ -21,14 +28,21 @@ public class SantaCharacter : MonoBehaviour
     void Start()
     {
         dialog = dialogBox.GetComponentInChildren<Text>();
-        fullText = JsonClass.Instance.Smalltalk[0];
+        name = dialogBox.transform.Find("Name").GetComponent<Text>();
+        name.text = JsonClass.Instance.Smalltalk[0];
+        fullText = JsonClass.Instance.Smalltalk[1];
+
+        optionsAction = new List<Action>();
+        optionsAction.Insert(0, Option1);
+        optionsAction.Insert(1, Option2);
+        optionsAction.Insert(2, Option3);
     }
 
     void Update()
     {
         Type();
 
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonUp("Fire1") && !optionsOn)
         {
             Continue();
         }
@@ -58,14 +72,7 @@ public class SantaCharacter : MonoBehaviour
             return;
         }
 
-        if (optionsOn)
-        {
-            optionsOn = false;
-            optionsBox.SetActive(false);
-        }
-
-        dialog.text = "";
-        typedCharacters = "";
+        ClearText();
 
         if (dialogBoxID < JsonClass.Instance.Smalltalk.Length - 1)
         {
@@ -91,34 +98,55 @@ public class SantaCharacter : MonoBehaviour
 
     void ShowOptions()
     {
+        for (int i = 0; i < ammountOfOptions; i++)
+        {
+            GameObject option = optionsBox.transform.GetChild(i).gameObject;
+            option.SetActive(true);
+            option.GetComponentInChildren<Text>().text = fullTextOptions[i];
+            option.GetComponent<Button>().Select();
+            //So here very intersting thing happens. If u think this is retarded, I dare u to try it
+            int x = i;
+            option.GetComponent<Button>().onClick.AddListener(() => optionsAction[x]());
+        }
+
         optionsOn = true;
-        optionsBox.transform.Find("Option 1").GetComponentInChildren<Text>().text = fullTextOptions[1];
-        optionsBox.GetComponentInChildren<Button>().Select();
-        optionsBox.transform.Find("Option 2").GetComponentInChildren<Text>().text = fullTextOptions[2];
     }
 
-    //public void Option1()
-    //{
-    //    Debug.Log("Yo, I am working");
-    //    //set all the booleans
+    void CloseOptions()
+    {
+        optionsOn = false;
+        optionsBox.SetActive(false);
+    }
 
-    //    DecisionTracker.achiever += JsonClass.Instance.SantaPoints[0];
-    //    DecisionTracker.explorer += JsonClass.Instance.SantaPoints[1];
-    //    DecisionTracker.socializer += JsonClass.Instance.SantaPoints[2];
-    //    DecisionTracker.killer += JsonClass.Instance.SantaPoints[3];
-    //}
+    void ClearText()
+    {
+        dialog.text = "";
+        typedCharacters = "";
+    }
 
-    //public void Option2()
-    //{
-    //    Debug.Log("Yo, I am working");
+    public void Option1()
+    {
+        DecisionTracker.acceptedSanta = true;
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer1[0];
 
-    //    //set all the booleans
+        CloseOptions();
+    }
 
-    //    DecisionTracker.achiever += JsonClass.Instance.SantaPoints[4];
-    //    DecisionTracker.explorer += JsonClass.Instance.SantaPoints[5];
-    //    DecisionTracker.socializer += JsonClass.Instance.SantaPoints[6];
-    //    DecisionTracker.killer += JsonClass.Instance.SantaPoints[7];
-    //}
+    public void Option2()
+    {
+        DecisionTracker.declineSanta = true;
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer2[0];
 
-    
+        CloseOptions();
+    }
+
+    public void Option3()
+    {
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer3[0];
+
+        CloseOptions();
+    }
 }

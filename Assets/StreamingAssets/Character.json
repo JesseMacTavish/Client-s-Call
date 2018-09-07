@@ -1,8 +1,20 @@
 ﻿{
   "Smalltalk": [
+    "Jeff",
     "Hello travaler, me name is Jeff!",
     "Nice weather today. Good time for some rape and murder!",
-    "Wanna join me on my fun-spree?|Hell yeah, I like to kill!|Hell no, you are the worst!",
-    "Oh well, gonna do it without you then."
+    "Wanna join me on my fun-spree?|Hell yeah, I like to kill!|Hell no, you are the worst!|Nah, I would prefer to play with a child."
+  ],
+
+  "SmalltalkAnswer1": [
+    "That's what I am talking about! Let's go brother!"
+  ],
+
+  "SmalltalkAnswer2": [
+    "Too bad. I guess I will have to do that on my own."
+  ],
+
+  "SmalltalkAnswer3": [
+    "What? Jesus Christ be praised, you are such a freak."
   ]
 }
