@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +7,12 @@ using UnityEngine.UI;
 public class SantaCharacter : MonoBehaviour
 {
     //TODO: jesse get back to work!!!
+    //TODO: no u
 
     public GameObject dialogBox;
     public GameObject optionsBox;
+    public int ammountOfOptions;
+    List<Action> optionsAction;
     Text dialog;
     Text name;
     int dialogBoxID = 1;
@@ -26,14 +30,19 @@ public class SantaCharacter : MonoBehaviour
         dialog = dialogBox.GetComponentInChildren<Text>();
         name = dialogBox.transform.Find("Name").GetComponent<Text>();
         name.text = JsonClass.Instance.Smalltalk[0];
-        fullText = JsonClass.Instance.Smalltalk[1];                                   
+        fullText = JsonClass.Instance.Smalltalk[1];
+
+        optionsAction = new List<Action>();
+        optionsAction.Insert(0, Option1);
+        optionsAction.Insert(1, Option2);
+        optionsAction.Insert(2, Option3);
     }
 
     void Update()
     {
         Type();
 
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1") && !optionsOn)
         {
             Continue();
         }
@@ -89,14 +98,18 @@ public class SantaCharacter : MonoBehaviour
 
     void ShowOptions()
     {
+        for (int i = 0; i < ammountOfOptions; i++)
+        {
+            GameObject option = optionsBox.transform.GetChild(i).gameObject;
+            option.SetActive(true);
+            option.GetComponentInChildren<Text>().text = fullTextOptions[i];
+            option.GetComponent<Button>().Select();
+            //So here very intersting thing happens. If u think this is retarded, I dare u to try it
+            int x = i;
+            option.GetComponent<Button>().onClick.AddListener(() => optionsAction[x]());
+        }
+
         optionsOn = true;
-        GameObject option1 = optionsBox.transform.Find("Option 1").gameObject;
-        GameObject option2 = optionsBox.transform.Find("Option 2").gameObject;
-        option1.GetComponentInChildren<Text>().text = fullTextOptions[1];
-        option2.GetComponentInChildren<Text>().text = fullTextOptions[2];
-        option1.GetComponent<Button>().onClick.AddListener(() => Option1());
-        option2.GetComponent<Button>().onClick.AddListener(() => Option2());
-        option1.GetComponent<Button>().Select();
     }
 
     void CloseOptions()
@@ -125,6 +138,14 @@ public class SantaCharacter : MonoBehaviour
         DecisionTracker.declineSanta = true;
         ClearText();
         fullText = JsonClass.Instance.SmalltalkAnswer2[0];
+
+        CloseOptions();
+    }
+
+    public void Option3()
+    {
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer3[0];
 
         CloseOptions();
     }

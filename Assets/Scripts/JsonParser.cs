@@ -25,6 +25,7 @@ public class JsonClass
     public string[] Smalltalk;
     public string[] SmalltalkAnswer1;
     public string[] SmalltalkAnswer2;
+    public string[] SmalltalkAnswer3;
 
     public static JsonClass Instance
     {
