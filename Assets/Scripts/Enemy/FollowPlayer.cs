@@ -14,6 +14,7 @@ public class FollowPlayer : MonoBehaviour
     private SpriteRenderer _renderer;
 
     private bool _playerWithinReach = false;
+    private bool _playerAboveMe;
 
     // Use this for initialization
 
@@ -73,6 +74,23 @@ public class FollowPlayer : MonoBehaviour
             if (_renderer.flipX)
             {
                 _renderer.flipX = false;
+                _agent.velocity = Vector3.zero;
+            }
+        }
+
+        if (pTarget.position.z < _rigidbody.position.z)
+        {
+            if (_playerAboveMe)
+            {
+                _playerAboveMe = false;
+                _agent.velocity = Vector3.zero;
+            }
+        }
+        else
+        {
+            if (!_playerAboveMe)
+            {
+                _playerAboveMe = true;
                 _agent.velocity = Vector3.zero;
             }
         }

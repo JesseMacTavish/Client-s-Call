@@ -2538,16 +2538,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114482522898718396, guid: c357bae138abbee429882836ca9e7970,
-        type: 2}
-      propertyPath: ObjectToFollow
-      value: 
-      objectReference: {fileID: 1430427271}
     - target: {fileID: 114202701415683870, guid: c357bae138abbee429882836ca9e7970,
         type: 2}
       propertyPath: Player
       value: 
       objectReference: {fileID: 1430427277}
+    - target: {fileID: 114482522898718396, guid: c357bae138abbee429882836ca9e7970,
+        type: 2}
+      propertyPath: ObjectToFollow
+      value: 
+      objectReference: {fileID: 1430427271}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c357bae138abbee429882836ca9e7970, type: 2}
   m_IsPrefabParent: 0

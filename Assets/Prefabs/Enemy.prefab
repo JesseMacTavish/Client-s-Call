@@ -40,8 +40,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1653819467274914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -101.1, y: -19.56, z: 21.9}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 46.136024, y: -19.51912, z: -34.844013}
   m_LocalScale: {x: 20.9371, y: 20.937088, z: 20.937088}
   m_Children: []
   m_Father: {fileID: 0}
@@ -151,7 +151,7 @@ NavMeshAgent:
   m_Height: 0.42
   m_BaseOffset: 0.21
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!212 &212096838850785336
 SpriteRenderer:
   m_ObjectHideFlags: 1

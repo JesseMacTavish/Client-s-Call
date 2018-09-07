@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         if (_health <= 0)
         {
             //Die
-            //Destroy(gameObject);
+            GetComponent<PlayerAnimation>().DeathAnimation();
         }
     }
 
