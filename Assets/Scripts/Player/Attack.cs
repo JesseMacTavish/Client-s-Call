@@ -15,6 +15,8 @@ public class Attack : MonoBehaviour
 
     private SpriteRenderer _renderer;
     private PlayerAnimation _animation;
+    private EnemyHandler _handler;
+    private Rigidbody _rigidbody;
 
     private float _cooldown = 0;
 
@@ -23,6 +25,8 @@ public class Attack : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _animation = GetComponent<PlayerAnimation>();
+        _handler = EnemyHandler.Instance;
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -33,14 +37,7 @@ public class Attack : MonoBehaviour
             //if not doing a combo, press once. While doing a combo you can hold
             if (Input.GetButtonDown("Fire1") || (Input.GetButton("Fire1") && _animation.IsInCombo))
             {
-                if (_renderer.flipX) //attack in the direction we're looking
-                {
-                    attack("left");
-                }
-                else
-                {
-                    attack("right");
-                }
+                attack();
             }
         }
         else
@@ -49,6 +46,7 @@ public class Attack : MonoBehaviour
         }
     }
 
+    /**
     private void attack(string pDirection)
     {
         int damage = DefaultDamage;
@@ -60,38 +58,78 @@ public class Attack : MonoBehaviour
             damage *= 2;
         }
 
-        List<GameObject> enemies = new List<GameObject>(Enemy.Enemies);
+        List<int> indices = new List<int>();
 
         pDirection = pDirection.ToLower();
         if (pDirection == "left")
         {
-            foreach (GameObject enemy in enemies) //loop through all enemies
+            foreach (GameObject enemy in _handler.Enemies) //loop through all enemies
             {
-                if (enemy.transform.position.x <= transform.position.x) //if enemy is to the left of us...
+                if (enemy.GetComponent<Rigidbody>().position.x <= _rigidbody.position.x) //if enemy is to the left of us...
                 {
                     Vector3 delta = transform.position - enemy.transform.position;
                     float distance = delta.magnitude;
                     if (distance <= Attackrange) //...and close enough
                     {
-                        enemy.GetComponent<Enemy>().Hit(damage); //then hit enemy
+                        indices.Add(_handler.Enemies.IndexOf(enemy));
+                        //enemy.GetComponent<Enemy>().Hit(damage); //then hit enemy
                     }
                 }
             }
         }
         else
         {
-            foreach (GameObject enemy in enemies) //same as above, but then for right
+            foreach (GameObject enemy in _handler.Enemies) //same as above, but then for right
             {
-                if (enemy.transform.position.x >= transform.position.x)
+                if (enemy.GetComponent<Rigidbody>().position.x >= _rigidbody.position.x)
                 {
                     Vector3 delta = transform.position - enemy.transform.position;
                     float distance = delta.magnitude;
                     if (distance <= Attackrange)
                     {
-                        enemy.GetComponent<Enemy>().Hit(damage);
+                        indices.Add(_handler.Enemies.IndexOf(enemy));
+                        //enemy.GetComponent<Enemy>().Hit(damage);
                     }
                 }
             }
+        }
+
+        foreach (int index in indices)
+        {
+            _handler.Enemies[index].GetComponent<Enemy>().Hit(damage);
+        }
+    }
+    /**/
+
+    private void attack()
+    {
+        int damage = DefaultDamage;
+
+        _animation.AttackAnimation(); //play the animation
+        if (_animation.IsInCombo) //if we're doing a combo: double damage
+        {
+            startCooldown(); //only start cooldown once you do a combo
+            damage *= 2;
+        }
+
+        List<int> indices = new List<int>();
+
+        foreach (GameObject enemy in _handler.Enemies) //loop through all enemies
+        {
+            if (enemy.GetComponent<Rigidbody>().position.x <= _rigidbody.position.x) //if enemy is to the left of us...
+            {
+                Vector3 delta = transform.position - enemy.transform.position;
+                float distance = delta.magnitude;
+                if (distance <= Attackrange) //...and close enough
+                {
+                    indices.Add(_handler.Enemies.IndexOf(enemy));
+                }
+            }
+        }
+
+        foreach (int index in indices)
+        {
+            _handler.Enemies[index].GetComponent<Enemy>().Hit(damage);
         }
     }
 
