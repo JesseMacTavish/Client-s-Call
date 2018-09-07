@@ -16,7 +16,7 @@ public class PlayerAnimation : MonoBehaviour
     public void AttackAnimation()
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-        
+
         if (currentState.IsName("PlayerAttack") || currentState.IsName("PlayerCombo"))
         {
             _animator.Play("PlayerCombo");
@@ -44,5 +44,15 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    public void DeathAnimation()
+    {
+        AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
+        if (currentState.IsName("PlayerDead"))
+        {
+            return;
+        }
+
+        _animator.Play("PlayerDead");
+    }
 }

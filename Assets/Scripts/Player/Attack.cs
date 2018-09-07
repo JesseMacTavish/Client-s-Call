@@ -17,8 +17,11 @@ public class Attack : MonoBehaviour
     private PlayerAnimation _animation;
     private EnemyHandler _handler;
     private Rigidbody _rigidbody;
+    private BoxCollider _trigger;
 
     private float _cooldown = 0;
+
+    private List<GameObject> _enemiesInRange;
 
     // Use this for initialization
     void Start()
@@ -27,6 +30,10 @@ public class Attack : MonoBehaviour
         _animation = GetComponent<PlayerAnimation>();
         _handler = EnemyHandler.Instance;
         _rigidbody = GetComponent<Rigidbody>();
+        _enemiesInRange = new List<GameObject>();
+
+        _trigger = GetComponent<BoxCollider>();
+        _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
 
     // Update is called once per frame
@@ -45,6 +52,16 @@ public class Attack : MonoBehaviour
             _cooldown -= 1 * Time.deltaTime;
         }
     }
+
+    public List<GameObject> Enemies
+    {
+        get
+        {
+            return _enemiesInRange;
+        }
+    }
+
+    //TODO: make a decision, either seperate left and right or hit everyone around you
 
     /**
     private void attack(string pDirection)
@@ -112,24 +129,20 @@ public class Attack : MonoBehaviour
             damage *= 2;
         }
 
-        List<int> indices = new List<int>();
-
-        foreach (GameObject enemy in _handler.Enemies) //loop through all enemies
+        //go through _enemiesInRange and call hit() on everything
+        for (int i = 0; i < _enemiesInRange.Count; i++)
         {
-            if (enemy.GetComponent<Rigidbody>().position.x <= _rigidbody.position.x) //if enemy is to the left of us...
+            if (_enemiesInRange[i] == null)
             {
-                Vector3 delta = transform.position - enemy.transform.position;
-                float distance = delta.magnitude;
-                if (distance <= Attackrange) //...and close enough
-                {
-                    indices.Add(_handler.Enemies.IndexOf(enemy));
-                }
+                _enemiesInRange.Remove(_enemiesInRange[i]);
             }
-        }
 
-        foreach (int index in indices)
-        {
-            _handler.Enemies[index].GetComponent<Enemy>().Hit(damage);
+            Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+            if (enemy.Hit())
+            {
+                _enemiesInRange.Remove(enemy.gameObject);
+                i--;
+            }
         }
     }
 
@@ -137,4 +150,5 @@ public class Attack : MonoBehaviour
     {
         _cooldown = AttackCooldown;
     }
+
 }

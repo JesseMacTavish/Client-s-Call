@@ -13,6 +13,9 @@ public class FollowPlayer : MonoBehaviour
     private NavMeshAgent _agent;
     private SpriteRenderer _renderer;
 
+    private bool _playerWithinReach = false;
+    private bool _playerAboveMe;
+
     // Use this for initialization
 
     private void Start()
@@ -27,50 +30,123 @@ public class FollowPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (ObjectToFollow == null)
+        {
+            return;
+        }
+
         Rigidbody target = ObjectToFollow.GetComponent<Rigidbody>();
+
+        lookAtTarget(target);
 
         if (!EnemyHandler.Instance.Attackers.Contains(gameObject))
         {
-            if ((target.position - _rigidbody.position).magnitude <= _agent.stoppingDistance)
-            {
-                _state.CurrentState = EnemyStates.EnemyState.ATTACKING;
-            }
-            else
-            {
-                _state.CurrentState = EnemyStates.EnemyState.IDLE;
-            }
+            changeStateIfWithinReach(target, EnemyStates.EnemyState.ATTACKING, EnemyStates.EnemyState.IDLE);
 
             return;
         }
 
+
         if (_state.CurrentState == EnemyStates.EnemyState.MOVING || _state.CurrentState == EnemyStates.EnemyState.ATTACKING)
         {
-
             _agent.destination = target.position;
 
-            if (target.position.x < _rigidbody.position.x)
-            {
-                if (!_renderer.flipX)
-                {
-                    _renderer.flipX = true;
-                }
-            }
-            else
-            {
-                if (_renderer.flipX)
-                {
-                    _renderer.flipX = false;
-                }
-            }
+            changeStateIfWithinReach(target, EnemyStates.EnemyState.ATTACKING, EnemyStates.EnemyState.MOVING);
+        }
+        else
+        {
+            _agent.velocity = Vector3.zero;
+        }
+    }
 
-            if ((target.position - _rigidbody.position).magnitude <= _agent.stoppingDistance)
+    private void lookAtTarget(Rigidbody pTarget)
+    {
+        if (pTarget.position.x < _rigidbody.position.x)
+        {
+            if (!_renderer.flipX)
             {
-                _state.CurrentState = EnemyStates.EnemyState.ATTACKING;
+                _renderer.flipX = true;
+                _agent.velocity = Vector3.zero;
             }
-            else
+        }
+        else
+        {
+            if (_renderer.flipX)
             {
-                _state.CurrentState = EnemyStates.EnemyState.MOVING;
+                _renderer.flipX = false;
+                _agent.velocity = Vector3.zero;
             }
+        }
+
+        if (pTarget.position.z < _rigidbody.position.z)
+        {
+            if (_playerAboveMe)
+            {
+                _playerAboveMe = false;
+                _agent.velocity = Vector3.zero;
+            }
+        }
+        else
+        {
+            if (!_playerAboveMe)
+            {
+                _playerAboveMe = true;
+                _agent.velocity = Vector3.zero;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Change the state if less than [NavMeshAgent.stoppingDistance] away from pTarget
+    /// </summary>
+    /// <param name="pTarget">
+    /// The Rigidbody of the target
+    /// </param>
+    /// <param name="pTrue">
+    /// The state to change to if within reach
+    /// </param>
+    /// <param name="pFalse">
+    /// The state to change to if not within reach
+    /// </param>
+    private void changeStateIfWithinReach(Rigidbody pTarget, EnemyStates.EnemyState pTrue, EnemyStates.EnemyState pFalse)
+    {
+        if (_playerWithinReach)
+        {
+            _state.CurrentState = pTrue;
+        }
+        else
+        {
+            _state.CurrentState = pFalse;
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _playerWithinReach = true;
+            List<GameObject> enemies = other.GetComponent<Attack>().Enemies;
+
+            if (!enemies.Contains(gameObject))
+            {
+                enemies.Add(gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            float distance = (other.GetComponent<Rigidbody>().position - _rigidbody.position).magnitude;
+            if (distance < _agent.stoppingDistance * 2)
+            {
+                return;
+            }
+            _playerWithinReach = false;
+            other.GetComponent<Attack>().Enemies.Remove(gameObject);
         }
     }
 }
