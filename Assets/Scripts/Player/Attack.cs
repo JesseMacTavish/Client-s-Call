@@ -12,11 +12,8 @@ public class Attack : MonoBehaviour
 
     [Tooltip("The cooldown in SECONDS it takes until you can attack again")]
     public float AttackCooldown = 0.2f;
-
-    private SpriteRenderer _renderer;
+    
     private PlayerAnimation _animation;
-    private EnemyHandler _handler;
-    private Rigidbody _rigidbody;
     private BoxCollider _trigger;
 
     private float _cooldown = 0;
@@ -26,10 +23,7 @@ public class Attack : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _renderer = GetComponent<SpriteRenderer>();
         _animation = GetComponent<PlayerAnimation>();
-        _handler = EnemyHandler.Instance;
-        _rigidbody = GetComponent<Rigidbody>();
         _enemiesInRange = new List<GameObject>();
 
         _trigger = GetComponent<BoxCollider>();
@@ -42,14 +36,14 @@ public class Attack : MonoBehaviour
         if (_cooldown <= 0)
         {
             //if not doing a combo, press once. While doing a combo you can hold
-            if (Input.GetButtonDown("Fire1") || (Input.GetButton("Fire1") && _animation.IsInCombo))
+            if (Input.GetButtonDown("Fire1"))
             {
                 attack();
             }
         }
         else
         {
-            _cooldown -= 1 * Time.deltaTime;
+            _cooldown -= 1f * Time.deltaTime;
         }
     }
 
@@ -61,69 +55,12 @@ public class Attack : MonoBehaviour
         }
     }
 
-    //TODO: make a decision, either seperate left and right or hit everyone around you
-
-    /**
-    private void attack(string pDirection)
-    {
-        int damage = DefaultDamage;
-
-        _animation.AttackAnimation(); //play the animation
-        if (_animation.IsInCombo) //if we're doing a combo: double damage
-        {
-            startCooldown(); //only start cooldown once you do a combo
-            damage *= 2;
-        }
-
-        List<int> indices = new List<int>();
-
-        pDirection = pDirection.ToLower();
-        if (pDirection == "left")
-        {
-            foreach (GameObject enemy in _handler.Enemies) //loop through all enemies
-            {
-                if (enemy.GetComponent<Rigidbody>().position.x <= _rigidbody.position.x) //if enemy is to the left of us...
-                {
-                    Vector3 delta = transform.position - enemy.transform.position;
-                    float distance = delta.magnitude;
-                    if (distance <= Attackrange) //...and close enough
-                    {
-                        indices.Add(_handler.Enemies.IndexOf(enemy));
-                        //enemy.GetComponent<Enemy>().Hit(damage); //then hit enemy
-                    }
-                }
-            }
-        }
-        else
-        {
-            foreach (GameObject enemy in _handler.Enemies) //same as above, but then for right
-            {
-                if (enemy.GetComponent<Rigidbody>().position.x >= _rigidbody.position.x)
-                {
-                    Vector3 delta = transform.position - enemy.transform.position;
-                    float distance = delta.magnitude;
-                    if (distance <= Attackrange)
-                    {
-                        indices.Add(_handler.Enemies.IndexOf(enemy));
-                        //enemy.GetComponent<Enemy>().Hit(damage);
-                    }
-                }
-            }
-        }
-
-        foreach (int index in indices)
-        {
-            _handler.Enemies[index].GetComponent<Enemy>().Hit(damage);
-        }
-    }
-    /**/
-
     private void attack()
     {
         int damage = DefaultDamage;
 
         _animation.AttackAnimation(); //play the animation
-        if (_animation.IsInCombo) //if we're doing a combo: double damage
+        if (_animation.IsInCombo || _animation.IsInCombo2) //if we're doing a combo: double damage
         {
             startCooldown(); //only start cooldown once you do a combo
             damage *= 2;
@@ -138,12 +75,23 @@ public class Attack : MonoBehaviour
             }
 
             Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-            if (enemy.Hit())
+
+            if (_animation.IsInCombo2)
+            {
+                throwEnemyUp(enemy);
+            }
+
+            if (enemy.Hit(damage))
             {
                 _enemiesInRange.Remove(enemy.gameObject);
                 i--;
             }
         }
+    }
+
+    private void throwEnemyUp(Enemy pEnemy)
+    {
+
     }
 
     private void startCooldown()

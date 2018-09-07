@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private Vector3 _velocity;
     public float _speed = 0.75f;
+
+    private Vector3 _velocity;
     private Camera mainCamera;
     private Vector3 cameraPos;
     private SpriteRenderer _renderer;
@@ -13,7 +14,7 @@ public class Movement : MonoBehaviour
 
     private Vector3 horizontalMovement;
     private Vector3 verticalMovement;
-
+    private bool _isJumping;
 
     // Use this for initialization
     void Start()

@@ -17,9 +17,15 @@ public class PlayerAnimation : MonoBehaviour
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (currentState.IsName("PlayerAttack") || currentState.IsName("PlayerCombo"))
+        if (currentState.IsName("PlayerAttack"))
         {
             _animator.Play("PlayerCombo");
+            return;
+        }
+
+        if (currentState.IsName("PlayerCombo"))
+        {
+            _animator.Play("PlayerAttackUp");
             return;
         }
 
@@ -41,6 +47,15 @@ public class PlayerAnimation : MonoBehaviour
         {
             AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
             return currentState.IsName("PlayerCombo");
+        }
+    }
+
+    public bool IsInCombo2
+    {
+        get
+        {
+            AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
+            return currentState.IsName("PlayerAttackUp");
         }
     }
 

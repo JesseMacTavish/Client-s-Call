@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [Header("Maximum health")]
-    [SerializeField] private int _maxHealth = 100;
+    //[Header("Maximum health")]
+    //[SerializeField] private int _maxHealth = 100;
 
     [Header("Current health")]
     [SerializeField] private int _health = 100;

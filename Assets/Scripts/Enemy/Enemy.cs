@@ -85,10 +85,6 @@ public class Enemy : MonoBehaviour
 
     private void startAttack()
     {
-        //float distance = (Player.position - _rigidbody.position).magnitude;
-
-        //if (distance <= _agent.stoppingDistance)
-        //{
         if (_attackCooldown > 0)
         {
             _attackCooldown -= 1 * Time.deltaTime;
@@ -100,7 +96,6 @@ public class Enemy : MonoBehaviour
             _attackCooldown = AttackCooldown;
             Invoke("attack", 0.5f);
         }
-        //}
     }
 
     private void attack()
@@ -111,5 +106,10 @@ public class Enemy : MonoBehaviour
         {
             Player.GetComponent<Player>().Hit(_attackPower);
         }
+    }
+
+    private void flyup()
+    {
+
     }
 }

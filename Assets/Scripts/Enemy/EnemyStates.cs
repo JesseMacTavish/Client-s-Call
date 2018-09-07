@@ -9,6 +9,7 @@ public class EnemyStates : MonoBehaviour
         IDLE,
         MOVING,
         ATTACKING,
+        FLYUP,
     }
 
     public EnemyState CurrentState;
