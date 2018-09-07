@@ -9,5 +9,6 @@ public class DecisionTracker : MonoBehaviour
     public static float achiever;
     public static float socializer;
 
-
+    public static bool acceptedSanta;
+    public static bool declineSanta;
 }

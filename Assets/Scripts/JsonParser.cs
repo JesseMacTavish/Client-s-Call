@@ -23,7 +23,8 @@ public class JsonParser : MonoBehaviour
 public class JsonClass
 {
     public string[] Smalltalk;
-    //public int[] SantaPoints;
+    public string[] SmalltalkAnswer1;
+    public string[] SmalltalkAnswer2;
 
     public static JsonClass Instance
     {

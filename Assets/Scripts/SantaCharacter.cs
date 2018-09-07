@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class SantaCharacter : MonoBehaviour
 {
+    //TODO: jesse get back to work!!!
+
     public GameObject dialogBox;
     public GameObject optionsBox;
     Text dialog;
-    int dialogBoxID;
+    Text name;
+    int dialogBoxID = 1;
     bool optionsOn;
 
     //Variables for slow type
@@ -21,14 +24,16 @@ public class SantaCharacter : MonoBehaviour
     void Start()
     {
         dialog = dialogBox.GetComponentInChildren<Text>();
-        fullText = JsonClass.Instance.Smalltalk[0];
+        name = dialogBox.transform.Find("Name").GetComponent<Text>();
+        name.text = JsonClass.Instance.Smalltalk[0];
+        fullText = JsonClass.Instance.Smalltalk[1];                                   
     }
 
     void Update()
     {
         Type();
 
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonUp("Fire1"))
         {
             Continue();
         }
@@ -58,14 +63,7 @@ public class SantaCharacter : MonoBehaviour
             return;
         }
 
-        if (optionsOn)
-        {
-            optionsOn = false;
-            optionsBox.SetActive(false);
-        }
-
-        dialog.text = "";
-        typedCharacters = "";
+        ClearText();
 
         if (dialogBoxID < JsonClass.Instance.Smalltalk.Length - 1)
         {
@@ -92,33 +90,42 @@ public class SantaCharacter : MonoBehaviour
     void ShowOptions()
     {
         optionsOn = true;
-        optionsBox.transform.Find("Option 1").GetComponentInChildren<Text>().text = fullTextOptions[1];
-        optionsBox.GetComponentInChildren<Button>().Select();
-        optionsBox.transform.Find("Option 2").GetComponentInChildren<Text>().text = fullTextOptions[2];
+        GameObject option1 = optionsBox.transform.Find("Option 1").gameObject;
+        GameObject option2 = optionsBox.transform.Find("Option 2").gameObject;
+        option1.GetComponentInChildren<Text>().text = fullTextOptions[1];
+        option2.GetComponentInChildren<Text>().text = fullTextOptions[2];
+        option1.GetComponent<Button>().onClick.AddListener(() => Option1());
+        option2.GetComponent<Button>().onClick.AddListener(() => Option2());
+        option1.GetComponent<Button>().Select();
     }
 
-    //public void Option1()
-    //{
-    //    Debug.Log("Yo, I am working");
-    //    //set all the booleans
+    void CloseOptions()
+    {
+        optionsOn = false;
+        optionsBox.SetActive(false);
+    }
 
-    //    DecisionTracker.achiever += JsonClass.Instance.SantaPoints[0];
-    //    DecisionTracker.explorer += JsonClass.Instance.SantaPoints[1];
-    //    DecisionTracker.socializer += JsonClass.Instance.SantaPoints[2];
-    //    DecisionTracker.killer += JsonClass.Instance.SantaPoints[3];
-    //}
+    void ClearText()
+    {
+        dialog.text = "";
+        typedCharacters = "";
+    }
 
-    //public void Option2()
-    //{
-    //    Debug.Log("Yo, I am working");
+    public void Option1()
+    {
+        DecisionTracker.acceptedSanta = true;
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer1[0];
 
-    //    //set all the booleans
+        CloseOptions();
+    }
 
-    //    DecisionTracker.achiever += JsonClass.Instance.SantaPoints[4];
-    //    DecisionTracker.explorer += JsonClass.Instance.SantaPoints[5];
-    //    DecisionTracker.socializer += JsonClass.Instance.SantaPoints[6];
-    //    DecisionTracker.killer += JsonClass.Instance.SantaPoints[7];
-    //}
+    public void Option2()
+    {
+        DecisionTracker.declineSanta = true;
+        ClearText();
+        fullText = JsonClass.Instance.SmalltalkAnswer2[0];
 
-    
+        CloseOptions();
+    }
 }
