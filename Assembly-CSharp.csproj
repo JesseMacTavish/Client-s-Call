@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\JsonParser.cs" />
      <Compile Include="Assets\Scripts\Movement.cs" />
+     <Compile Include="Assets\Scripts\PlayerAnimation.cs" />
      <Compile Include="Assets\Scripts\SantaCharacter.cs" />
      <Compile Include="Assets\Scripts\StatsHandlerScript.cs" />
  <Reference Include="UnityEngine.UI">
