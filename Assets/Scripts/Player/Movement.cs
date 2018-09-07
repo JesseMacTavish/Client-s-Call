@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private Transform _transform;
     private Vector3 _velocity;
     public float _speed = 0.75f;
     private Camera mainCamera;
@@ -19,7 +18,6 @@ public class Movement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _transform = GetComponent<Transform>();
         _velocity = new Vector3(0, 0);
         mainCamera = Camera.main;
         cameraPos = mainCamera.transform.position;
@@ -66,7 +64,7 @@ public class Movement : MonoBehaviour
 
         _rigidbody.velocity = _velocity;
 
-        cameraPos.x = _transform.position.x;
+        cameraPos.x = _rigidbody.position.x;
         mainCamera.transform.position = cameraPos;
         
         _velocity.Set(0, 0, 0);

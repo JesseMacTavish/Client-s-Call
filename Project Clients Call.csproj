@@ -291,6 +291,7 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyStates.cs" />
     <Compile Include="Assets\Scripts\Enemy\FollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Healthbar.cs" />
     <Compile Include="Assets\Scripts\JsonParser.cs" />
     <Compile Include="Assets\Scripts\Player\Attack.cs" />
     <Compile Include="Assets\Scripts\Player\Movement.cs" />

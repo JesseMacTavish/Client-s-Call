@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Hit(int pDamage = 1)
+    public bool Hit(int pDamage = 1)
     {
         if (_cooldown <= 0)
         {
@@ -64,9 +64,12 @@ public class Enemy : MonoBehaviour
             if (_health <= 0)
             {
                 die();
+                return true;
             }
         }
+        return false;
     }
+
 
     private void startCooldown()
     {
@@ -82,29 +85,29 @@ public class Enemy : MonoBehaviour
 
     private void startAttack()
     {
-        float distance = (Player.position - _rigidbody.position).magnitude;
+        //float distance = (Player.position - _rigidbody.position).magnitude;
 
-        if (distance <= _agent.stoppingDistance)
+        //if (distance <= _agent.stoppingDistance)
+        //{
+        if (_attackCooldown > 0)
         {
-            if (_attackCooldown > 0)
-            {
-                _attackCooldown -= 1 * Time.deltaTime;
-            }
-
-            if (_attackCooldown <= 0)
-            {
-                _animator.Play("EnemyAttack");
-                _attackCooldown = AttackCooldown;
-                Invoke("attack", 0.5f);
-            }
+            _attackCooldown -= 1 * Time.deltaTime;
         }
+
+        if (_attackCooldown <= 0)
+        {
+            _animator.Play("EnemyAttack");
+            _attackCooldown = AttackCooldown;
+            Invoke("attack", 0.5f);
+        }
+        //}
     }
 
     private void attack()
     {
         float distance = (Player.position - _rigidbody.position).magnitude;
-        
-        if (distance <= _agent.stoppingDistance)
+
+        if (distance <= _agent.stoppingDistance + 10)
         {
             Player.GetComponent<Player>().Hit(_attackPower);
         }
