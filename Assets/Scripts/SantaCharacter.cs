@@ -8,6 +8,7 @@ public class SantaCharacter : MonoBehaviour
 {
     //TODO: jesse get back to work!!!
     //TODO: no u
+    //TODO: i do beat-them-up, u novel. so no u, get back to work!
 
     public GameObject dialogBox;
     public GameObject optionsBox;
