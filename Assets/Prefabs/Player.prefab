@@ -138,7 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af4cff9fd2291148bccf7ad6b8ed273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
   _health: 100
   _healthbar: {fileID: 0}
 --- !u!114 &114836248718435550
@@ -152,9 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca1dcabc1d3dde45bcf9b290a097055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attackrange: 10
-  DefaultDamage: 1
+  Attackrange: 0.8
+  DefaultDamage: 0
   AttackCooldown: 0.2
+  AttackForce: 10
 --- !u!212 &212773808761581138
 SpriteRenderer:
   m_ObjectHideFlags: 1

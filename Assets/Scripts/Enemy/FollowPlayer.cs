@@ -30,7 +30,7 @@ public class FollowPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (ObjectToFollow == null)
+        if (ObjectToFollow == null || _state.CurrentState == EnemyStates.EnemyState.FLYUP)
         {
             return;
         }
@@ -55,7 +55,7 @@ public class FollowPlayer : MonoBehaviour
         }
         else
         {
-            _agent.velocity = Vector3.zero;
+                _agent.velocity = Vector3.zero;
         }
     }
 
@@ -141,7 +141,7 @@ public class FollowPlayer : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             float distance = (other.GetComponent<Rigidbody>().position - _rigidbody.position).magnitude;
-            if (distance < _agent.stoppingDistance * 2)
+            if (distance < other.GetComponent<BoxCollider>().size.x)
             {
                 return;
             }

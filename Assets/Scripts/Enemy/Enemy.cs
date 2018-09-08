@@ -108,8 +108,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void flyup()
+    public void Flyup(float pForce)
     {
+        _state.CurrentState = EnemyStates.EnemyState.FLYUP;
+        _rigidbody.velocity = Vector3.zero;
 
+        GetComponent<NavMeshAgent>().enabled = false;
+
+        if (GetComponent<SpriteRenderer>().flipX == true)
+        {
+            _rigidbody.AddForce(new Vector3(0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+        }
+        else
+        {
+            _rigidbody.AddForce(new Vector3(-0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+        }
     }
 }

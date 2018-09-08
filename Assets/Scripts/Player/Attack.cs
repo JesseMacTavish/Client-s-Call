@@ -11,8 +11,11 @@ public class Attack : MonoBehaviour
     public int DefaultDamage = 1;
 
     [Tooltip("The cooldown in SECONDS it takes until you can attack again")]
-    public float AttackCooldown = 0.2f;
-    
+    public float AttackCooldown = 0.5f;
+
+    [Tooltip("The force of the attack that throws up an enemy")]
+    public float AttackForce = 3;
+
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
 
@@ -35,7 +38,6 @@ public class Attack : MonoBehaviour
     {
         if (_cooldown <= 0)
         {
-            //if not doing a combo, press once. While doing a combo you can hold
             if (Input.GetButtonDown("Fire1"))
             {
                 attack();
@@ -58,11 +60,11 @@ public class Attack : MonoBehaviour
     private void attack()
     {
         int damage = DefaultDamage;
+        //startCooldown();
 
         _animation.AttackAnimation(); //play the animation
         if (_animation.IsInCombo || _animation.IsInCombo2) //if we're doing a combo: double damage
         {
-            startCooldown(); //only start cooldown once you do a combo
             damage *= 2;
         }
 
@@ -75,6 +77,7 @@ public class Attack : MonoBehaviour
             }
 
             Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+            Debug.Log("Enemy Hit");
 
             if (_animation.IsInCombo2)
             {
@@ -91,7 +94,7 @@ public class Attack : MonoBehaviour
 
     private void throwEnemyUp(Enemy pEnemy)
     {
-
+        pEnemy.Flyup(AttackForce);
     }
 
     private void startCooldown()

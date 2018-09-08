@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies: []
   Attackers: []
-  MaxAttackers: 3
+  MaxAttackers: 1
 --- !u!4 &733327978
 Transform:
   m_ObjectHideFlags: 0
@@ -1597,8 +1597,8 @@ Prefab:
       objectReference: {fileID: 1869358814}
     - target: {fileID: 114836248718435550, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e,
         type: 2}
-      propertyPath: Attackrange
-      value: 0.8
+      propertyPath: AttackForce
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e, type: 2}
@@ -2741,16 +2741,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 114482522898718396, guid: c357bae138abbee429882836ca9e7970,
-        type: 2}
-      propertyPath: ObjectToFollow
-      value: 
-      objectReference: {fileID: 1430427271}
     - target: {fileID: 114202701415683870, guid: c357bae138abbee429882836ca9e7970,
         type: 2}
       propertyPath: Player
       value: 
       objectReference: {fileID: 1430427277}
+    - target: {fileID: 114482522898718396, guid: c357bae138abbee429882836ca9e7970,
+        type: 2}
+      propertyPath: ObjectToFollow
+      value: 
+      objectReference: {fileID: 1430427271}
     - target: {fileID: 1653819467274914, guid: c357bae138abbee429882836ca9e7970, type: 2}
       propertyPath: m_Name
       value: Enemy (1)

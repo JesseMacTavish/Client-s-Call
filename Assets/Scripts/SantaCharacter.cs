@@ -14,8 +14,8 @@ public class SantaCharacter : MonoBehaviour
     public GameObject optionsBox;
     public int ammountOfOptions;
     List<Action> optionsAction;
-    Text dialog;
-    Text name;
+    Text _dialog;
+    Text _name;
     int dialogBoxID = 1;
     bool optionsOn;
 
@@ -28,9 +28,9 @@ public class SantaCharacter : MonoBehaviour
 
     void Start()
     {
-        dialog = dialogBox.GetComponentInChildren<Text>();
-        name = dialogBox.transform.Find("Name").GetComponent<Text>();
-        name.text = JsonClass.Instance.Smalltalk[0];
+        _dialog = dialogBox.GetComponentInChildren<Text>();
+        _name = dialogBox.transform.Find("Name").GetComponent<Text>();
+        _name.text = JsonClass.Instance.Smalltalk[0];
         fullText = JsonClass.Instance.Smalltalk[1];
 
         optionsAction = new List<Action>();
@@ -57,7 +57,7 @@ public class SantaCharacter : MonoBehaviour
             typedCharacters += fullText[typedCharacters.Length];
             time = 0;
         }
-        dialog.text = typedCharacters;
+        _dialog.text = typedCharacters;
 
         if (typedCharacters.Length == fullText.Length && optionsOn)
         {
@@ -121,7 +121,7 @@ public class SantaCharacter : MonoBehaviour
 
     void ClearText()
     {
-        dialog.text = "";
+        _dialog.text = "";
         typedCharacters = "";
     }
 
