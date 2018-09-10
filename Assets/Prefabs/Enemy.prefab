@@ -41,7 +41,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1653819467274914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -99.3, y: -19.56, z: -52.6}
+  m_LocalPosition: {x: -101.1, y: -19.56, z: 21.9}
   m_LocalScale: {x: 20.9371, y: 20.937088, z: 20.937088}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560a707227e768c4799d3b01c14ea61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageCooldown: 1
-  _health: 5
+  _health: 10
   _attackPower: 5
-  AttackCooldown: 2
+  _attackCooldown: 2
+  _knockUpTime: 0.1
+  _flyTime: 0.1
   Player: {fileID: 0}
 --- !u!114 &114482522898718396
 MonoBehaviour:
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35487b6bfa59364fa21418744a79bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 2
+  CurrentState: 0
 --- !u!195 &195994053855928734
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -144,8 +145,8 @@ NavMeshAgent:
   m_Acceleration: 200
   avoidancePriority: 50
   m_AngularSpeed: 10000
-  m_StoppingDistance: 13
-  m_AutoTraverseOffMeshLink: 1
+  m_StoppingDistance: 15
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 0.42

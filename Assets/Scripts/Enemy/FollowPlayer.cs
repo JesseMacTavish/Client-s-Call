@@ -53,9 +53,9 @@ public class FollowPlayer : MonoBehaviour
 
             changeStateIfWithinReach(target, EnemyStates.EnemyState.ATTACKING, EnemyStates.EnemyState.MOVING);
         }
-        else
+        else if (_state.CurrentState == EnemyStates.EnemyState.IDLE)
         {
-                _agent.velocity = Vector3.zero;
+            _state.CurrentState = EnemyStates.EnemyState.MOVING;
         }
     }
 
@@ -147,6 +147,14 @@ public class FollowPlayer : MonoBehaviour
             }
             _playerWithinReach = false;
             other.GetComponent<Attack>().Enemies.Remove(gameObject);
+        }
+    }
+
+    public bool InReach
+    {
+        get
+        {
+            return _playerWithinReach;
         }
     }
 }

@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [Tooltip("The time in which it takes until the enemy can be damaged again")]
-    [SerializeField] private float _damageCooldown = 1;
-
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private float _health = 5;
 
@@ -15,10 +12,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _attackPower = 1;
 
     [Tooltip("The time IN SECONDS it takes for the enemy to attack")]
-    [SerializeField] public int AttackCooldown = 2;
+    [SerializeField] private int _attackCooldown = 2;
 
-    private float _cooldown = 0;
-    private float _attackCooldown = 2;
+    [Tooltip("The time IN SECONDS it takes for the enemy to reach the highest point when punched up")]
+    [SerializeField] private float _knockUpTime = 1;
+
+    [Tooltip("The time IN SECONDS the enemy will fly still in the air")]
+    [SerializeField] private float _flyTime = 1;
+
+    private float _cooldown = 2;
 
     private EnemyHandler _handler;
     private EnemyStates _state;
@@ -27,6 +29,13 @@ public class Enemy : MonoBehaviour
     public Rigidbody Player;
     private Rigidbody _rigidbody;
     private NavMeshAgent _agent;
+    private float _startY;
+
+    private Vector3 _hitPosition;
+    private Vector3 _hitDirection;
+    private Vector3 _newPosition;
+    private float _value;
+    private float _timeInAir;
 
     // Use this for initialization
     void Start()
@@ -38,6 +47,7 @@ public class Enemy : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
         _agent = GetComponent<NavMeshAgent>();
+        _startY = _rigidbody.position.y;
     }
 
     // Update is called once per frame
@@ -48,32 +58,30 @@ public class Enemy : MonoBehaviour
             startAttack();
         }
 
-        if (_cooldown > 0)
+        if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
         {
-            _cooldown -= 1 * Time.deltaTime;
+            if (_rigidbody.position.y <= _startY)
+            {
+                enable();
+            }
+            else
+            {
+                punchedUp();
+            }
         }
     }
 
     public bool Hit(int pDamage = 1)
     {
-        if (_cooldown <= 0)
+        _health -= pDamage;
+
+        if (_health <= 0)
         {
-            _health -= pDamage;
-            startCooldown();
-
-            if (_health <= 0)
-            {
-                die();
-                return true;
-            }
+            die();
+            return true;
         }
+
         return false;
-    }
-
-
-    private void startCooldown()
-    {
-        _cooldown = _damageCooldown;
     }
 
     private void die()
@@ -85,43 +93,94 @@ public class Enemy : MonoBehaviour
 
     private void startAttack()
     {
-        if (_attackCooldown > 0)
+        if (_cooldown > 0)
         {
-            _attackCooldown -= 1 * Time.deltaTime;
+            _cooldown -= 1 * Time.deltaTime;
         }
 
-        if (_attackCooldown <= 0)
+        if (_cooldown <= 0)
         {
             _animator.Play("EnemyAttack");
-            _attackCooldown = AttackCooldown;
+            _cooldown = _attackCooldown;
             Invoke("attack", 0.5f);
         }
     }
 
     private void attack()
     {
-        float distance = (Player.position - _rigidbody.position).magnitude;
+        //float distance = (Player.position - _rigidbody.position).magnitude;
+        bool inReach = GetComponent<FollowPlayer>().InReach;
 
-        if (distance <= _agent.stoppingDistance + 10)
+        //if (distance <= _agent.stoppingDistance + 10)
+        if(inReach)
         {
             Player.GetComponent<Player>().Hit(_attackPower);
         }
     }
 
+    private void punchedUp()
+    {
+        if (_value >= 1)
+        {
+            flyStill();
+            return;
+        }
+
+        _rigidbody.position = _hitPosition + (_hitDirection * Mathf.Lerp(0, 1, _value));
+
+        _value += (1 / _knockUpTime) * Time.deltaTime;
+    }
+
+    private void flyStill()
+    {
+        _timeInAir += (1 / _flyTime) * Time.deltaTime;
+        if (_timeInAir >= 1)
+        {
+            _rigidbody.useGravity = true;
+        }
+    }
+
     public void Flyup(float pForce)
     {
-        _state.CurrentState = EnemyStates.EnemyState.FLYUP;
-        _rigidbody.velocity = Vector3.zero;
+        if (_state.CurrentState != EnemyStates.EnemyState.FLYUP)
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
 
-        GetComponent<NavMeshAgent>().enabled = false;
+        _state.CurrentState = EnemyStates.EnemyState.FLYUP;
+
+        _agent.enabled = false;
+        _hitPosition = _rigidbody.position;
+        _rigidbody.useGravity = false;
+        _value = 0;
+        _timeInAir = 0;
 
         if (GetComponent<SpriteRenderer>().flipX == true)
         {
-            _rigidbody.AddForce(new Vector3(0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+            //_rigidbody.AddForce(new Vector3(0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+            _newPosition = _hitPosition + new Vector3(2.5f, 10, 0);
         }
         else
         {
-            _rigidbody.AddForce(new Vector3(-0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+            //_rigidbody.AddForce(new Vector3(-0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
+            _newPosition = _hitPosition + new Vector3(-2.5f, 10, 0);
         }
+
+        _hitDirection = _newPosition - _hitPosition;
+    }
+
+    private void enable()
+    {
+        if (!EnemyHandler.Instance.Attackers.Contains(gameObject))
+        {
+            _state.CurrentState = EnemyStates.EnemyState.IDLE;
+        }
+        else
+        {
+            _state.CurrentState = EnemyStates.EnemyState.MOVING;
+        }
+        
+        _rigidbody.velocity = Vector3.zero;
+        _agent.enabled = true;
     }
 }

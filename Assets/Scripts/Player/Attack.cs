@@ -5,21 +5,19 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [Tooltip("The range in which you will hit enemies")]
-    public float Attackrange = 10;
+    public float Attackrange = 1;
 
     [Tooltip("The damage of a standard single attack")]
     public int DefaultDamage = 1;
 
-    [Tooltip("The cooldown in SECONDS it takes until you can attack again")]
-    public float AttackCooldown = 0.5f;
-
-    [Tooltip("The force of the attack that throws up an enemy")]
-    public float AttackForce = 3;
+    [Tooltip("The force of the attack that throws an enemy up")]
+    public float AttackForce = 15;
 
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
 
-    private float _cooldown = 0;
+    private bool _pressedAttack;
+    private int _combo = 0;
 
     private List<GameObject> _enemiesInRange;
 
@@ -30,22 +28,22 @@ public class Attack : MonoBehaviour
         _enemiesInRange = new List<GameObject>();
 
         _trigger = GetComponent<BoxCollider>();
-        _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
+        _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange * 1.4f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_cooldown <= 0)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (!_animation.IsAttacking)
             {
-                attack();
+                _combo = 0;
             }
-        }
-        else
-        {
-            _cooldown -= 1f * Time.deltaTime;
+
+            _pressedAttack = true;
+
+            _animation.AttackAnimation();
         }
     }
 
@@ -60,46 +58,47 @@ public class Attack : MonoBehaviour
     private void attack()
     {
         int damage = DefaultDamage;
-        //startCooldown();
 
-        _animation.AttackAnimation(); //play the animation
-        if (_animation.IsInCombo || _animation.IsInCombo2) //if we're doing a combo: double damage
+        if (!_pressedAttack)
         {
-            damage *= 2;
+            _combo = 0;
+            _animation.StopAll();
+            return;
         }
 
-        //go through _enemiesInRange and call hit() on everything
+        _pressedAttack = false;
+
+        damage *= (_combo + 1);
+        _combo++;
+
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
             if (_enemiesInRange[i] == null)
             {
-                _enemiesInRange.Remove(_enemiesInRange[i]);
+                _enemiesInRange.RemoveAt(i);
             }
 
             Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-            Debug.Log("Enemy Hit");
-
-            if (_animation.IsInCombo2)
-            {
-                throwEnemyUp(enemy);
-            }
-
             if (enemy.Hit(damage))
             {
-                _enemiesInRange.Remove(enemy.gameObject);
+                _enemiesInRange.RemoveAt(i);
                 i--;
             }
         }
     }
 
-    private void throwEnemyUp(Enemy pEnemy)
+    private void throwEnemyUp()
     {
-        pEnemy.Flyup(AttackForce);
-    }
+        for (int i = 0; i < _enemiesInRange.Count; i++)
+        {
+            if (_enemiesInRange[i] == null)
+            {
+                _enemiesInRange.RemoveAt(i);
+            }
 
-    private void startCooldown()
-    {
-        _cooldown = AttackCooldown;
-    }
+            Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
 
+            enemy.Flyup(AttackForce);
+        }
+    }
 }
