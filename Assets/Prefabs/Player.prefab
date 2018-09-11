@@ -22,13 +22,13 @@ GameObject:
   - component: {fileID: 212773808761581138}
   - component: {fileID: 95944713669224194}
   - component: {fileID: 54097523520068422}
-  - component: {fileID: 65728876478206526}
-  - component: {fileID: 65118379467389846}
+  - component: {fileID: 65209660756272154}
+  - component: {fileID: 65659600270799092}
   - component: {fileID: 114351442928327576}
   - component: {fileID: 114238130285422632}
   - component: {fileID: 114836248718435550}
   - component: {fileID: 114038745916772092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -42,8 +42,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926593206989238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.16, y: -25.821001, z: -4.105}
-  m_LocalScale: {x: 3.1017067, y: 3.1017072, z: 3.1017072}
+  m_LocalPosition: {x: -3.71, y: -23.93, z: -7.46}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -63,19 +63,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!65 &65118379467389846
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1926593206989238}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.23859735, y: 0.60034496, z: 0.055500396}
-  m_Center: {x: 0.0014094986, y: -0.019705078, z: 0.0032029832}
---- !u!65 &65728876478206526
+--- !u!65 &65209660756272154
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -85,8 +73,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.64, z: 1.4}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 20, y: 10.218153, z: 20}
+  m_Center: {x: -0.66779494, y: -4.894004, z: 1.3355052}
+--- !u!65 &65659600270799092
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1926593206989238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.013353, y: 10.218153, z: 0.20000002}
+  m_Center: {x: -0.961094, y: -4.894004, z: 0}
 --- !u!95 &95944713669224194
 Animator:
   serializedVersion: 3
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554e48f60685a1548b2d56e7eb981f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 2.5
 --- !u!114 &114351442928327576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca1dcabc1d3dde45bcf9b290a097055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attackrange: 1
+  Attackrange: 20
   DefaultDamage: 1
   AttackForce: 1.5
 --- !u!212 &212773808761581138
@@ -188,7 +188,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1a7ad132ea44c5e46873c0cf15487060, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f5555390cc5e9f747bfd3c1a1c9dd722, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

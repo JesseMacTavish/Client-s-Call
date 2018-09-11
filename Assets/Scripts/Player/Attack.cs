@@ -8,7 +8,7 @@ public class Attack : MonoBehaviour
     public float Attackrange = 1;
 
     [Tooltip("The damage of a standard single attack")]
-    public int DefaultDamage = 1;
+    public int DefaultDamage = 10;
 
     [Tooltip("The force of the attack that throws an enemy up")]
     public float AttackForce = 15;
@@ -28,7 +28,7 @@ public class Attack : MonoBehaviour
         _enemiesInRange = new List<GameObject>();
 
         _trigger = GetComponent<BoxCollider>();
-        _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange * 1.4f);
+        _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
 
     // Update is called once per frame
@@ -80,10 +80,10 @@ public class Attack : MonoBehaviour
 
             if (GetComponent<SpriteRenderer>().flipX)
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
                 if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
-                    if (enemy.Hit(damage))
+                    if (false)//TODO: enemy.Hit(damage))
                     {
                         _enemiesInRange.RemoveAt(i);
                         i--;
@@ -92,10 +92,10 @@ public class Attack : MonoBehaviour
             }
             else
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
                 if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
-                    if (enemy.Hit(damage))
+                    if (false)//TODO: enemy.Hit(damage))
                     {
                         _enemiesInRange.RemoveAt(i);
                         i--;
@@ -107,7 +107,6 @@ public class Attack : MonoBehaviour
 
     private void throwEnemyUp()
     {
-
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
             if (_enemiesInRange[i] == null)
@@ -117,18 +116,18 @@ public class Attack : MonoBehaviour
 
             if (GetComponent<SpriteRenderer>().flipX)
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
                 if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
-                    enemy.Flyup(AttackForce);
+                    //TODO: enemy.Flyup(AttackForce);
                 }
             }
             else
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
                 if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
-                    enemy.Flyup(AttackForce);
+                    //TODO: enemy.Flyup(AttackForce);
                 }
             }
         }

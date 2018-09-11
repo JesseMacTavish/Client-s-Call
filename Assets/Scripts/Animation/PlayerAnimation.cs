@@ -36,10 +36,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        //if (!currentState.IsName("PlayerWalk") && !currentState.IsName("PlayerAttack"))
-        //{
-        //    _animator.Play("PlayerWalk");
-        //}
+        if (!currentState.IsName("PlayerWalk") && !currentState.IsName("PlayerAttack"))
+        {
+            _animator.Play("PlayerWalk");
+        }
     }
 
     public void StopWalking()

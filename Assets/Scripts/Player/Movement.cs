@@ -68,14 +68,14 @@ public class Movement : MonoBehaviour
 
     private void addVelocity()
     {
-        if (_velocity.magnitude > _speed * 3)
-        {
-            _velocity.Normalize();
-            _velocity *= _speed * 2.5f;
-        }
+        //if (_velocity.magnitude > _speed * 3)
+        //{
+        //    _velocity.Normalize();
+        //    _velocity *= _speed * 2.5f;
+        //}
 
         cameraPos.x = _rigidbody.position.x;
-        mainCamera.transform.position = cameraPos;
+        //mainCamera.transform.position = cameraPos;
 
         if (!_animation.IsAttacking)
         {

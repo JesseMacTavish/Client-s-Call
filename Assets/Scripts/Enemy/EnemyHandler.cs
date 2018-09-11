@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EnemyHandler : MonoBehaviour
 {
-    private static EnemyHandler _handler;
-
-    [HideInInspector] public List<GameObject> Enemies = new List<GameObject>();
-    [HideInInspector] public List<GameObject> Attackers = new List<GameObject>();
+    //TODO: make it so that you can only progress when you killed all enemies
 
     [Tooltip("The maximum amount of enemies that will attack at a time")]
     public int MaxAttackers = 2;
+
+    private static EnemyHandler _handler;
+
+    public List<GameObject> Enemies = new List<GameObject>();
 
     private bool _firstTime = true;
 
@@ -25,7 +26,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if (_firstTime)
         {
-            UpdateAttackers();
+            //UpdateAttackers();
             _firstTime = false;
         }
     }
@@ -38,6 +39,7 @@ public class EnemyHandler : MonoBehaviour
         }
     }
 
+    /**
     public void UpdateAttackers(GameObject pEnemy = null)
     {
         if (pEnemy != null && Attackers.Contains(pEnemy))
@@ -77,4 +79,5 @@ public class EnemyHandler : MonoBehaviour
             Attackers.Add(enemy);
         }
     }
+    /**/
 }

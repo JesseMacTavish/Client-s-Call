@@ -20,13 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4497634934043504}
   - component: {fileID: 212096838850785336}
-  - component: {fileID: 54039086146066664}
-  - component: {fileID: 195994053855928734}
   - component: {fileID: 95784061912768030}
+  - component: {fileID: 65121275127532368}
+  - component: {fileID: 114193863687197646}
   - component: {fileID: 114482522898718396}
   - component: {fileID: 114202701415683870}
   - component: {fileID: 114533639149239036}
-  - component: {fileID: 65228788969677730}
+  - component: {fileID: 114166066342914244}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -41,28 +41,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1653819467274914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.475, y: -26.08, z: -6.312}
-  m_LocalScale: {x: 4.073152, y: 4.073151, z: 4.073151}
+  m_LocalPosition: {x: 6.81, y: -25.54, z: -7.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &54039086146066664
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1653819467274914}
-  serializedVersion: 2
-  m_Mass: 1000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
---- !u!65 &65228788969677730
+--- !u!65 &65121275127532368
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -72,8 +57,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.21000001, y: 0.31154412, z: 0.19999999}
-  m_Center: {x: 0, y: 0.046151377, z: 0}
+  m_Size: {x: 1.1447139, y: 2.1886415, z: 0.2}
+  m_Center: {x: 0.07237172, y: -0.28567934, z: 0}
 --- !u!95 &95784061912768030
 Animator:
   serializedVersion: 3
@@ -91,6 +76,32 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114166066342914244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653819467274914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0dd0a950ed5044285916737592b8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _updateInterval: 1
+  _retreatSpeed: 0.1
+  _retreatDistance: 4
+--- !u!114 &114193863687197646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653819467274914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4504d6b138dc4cf46831d1f197220466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 20
 --- !u!114 &114202701415683870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,12 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560a707227e768c4799d3b01c14ea61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
-  _attackPower: 5
-  _attackCooldown: 2
-  _knockUpTime: 0.1
-  _flyTime: 0.1
-  Player: {fileID: 0}
+  _updateInterval: 0.5
 --- !u!114 &114482522898718396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -119,7 +125,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a3785ed258a79e4c934cf150a4b90fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectToFollow: {fileID: 0}
+  _updateInterval: 0.5
+  _speed: 0.1
+  _distanceFromTarget: 1.1
+  Skip: 0
+  Direction: {x: 0, y: 0, z: 0}
 --- !u!114 &114533639149239036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -131,28 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35487b6bfa59364fa21418744a79bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
---- !u!195 &195994053855928734
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1653819467274914}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.105
-  m_Speed: 3
-  m_Acceleration: 200
-  avoidancePriority: 50
-  m_AngularSpeed: 10000
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 0.42
-  m_BaseOffset: 0.21
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
+  CURRENTSTATE: 0
 --- !u!212 &212096838850785336
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -187,12 +176,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c64c0291b0b419546954737382d67c04, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c83e36cca4f3f5e41bbe8b2970ee3a56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.21, y: 0.42}
+  m_Size: {x: 3.3, y: 2.76}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
