@@ -21,7 +21,6 @@ public class Attack : MonoBehaviour
 
     private List<GameObject> _enemiesInRange;
 
-    // Use this for initialization
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();
@@ -31,7 +30,6 @@ public class Attack : MonoBehaviour
         _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))

@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
         _animation = GetComponent<PlayerAnimation>();
 
         horizontalMovement = new Vector3(_speed, 0);
-        verticalMovement = new Vector3(0, 0, _speed * 3);
+        verticalMovement = new Vector3(0, 0, _speed * 3.5f);
     }
 
     // Update is called once per frame
