@@ -17,7 +17,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (!currentState.IsName("PlayerAttack"))
+        if (!IsAttacking)
         {
             _animator.Play("PlayerAttack");
         }
