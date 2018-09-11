@@ -22,10 +22,10 @@ public class JsonParser : MonoBehaviour
 [System.Serializable]
 public class JsonClass
 {
-    public string[] Smalltalk;
-    public string[] SmalltalkAnswer1;
-    public string[] SmalltalkAnswer2;
-    public string[] SmalltalkAnswer3;
+    public string[] Dialog;
+    public string[] DialogAnswer1;
+    public string[] DialogAnswer2;
+    public string[] DialogAnswer3;
 
     public static JsonClass Instance
     {

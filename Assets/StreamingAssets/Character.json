@@ -1,20 +1,20 @@
 ﻿{
-  "Smalltalk": [
-    "Jeff",
-    "Hello travaler, me name is Jeff!",
-    "Nice weather today. Good time for some rape and murder!",
-    "Wanna join me on my fun-spree?|Hell yeah, I like to kill!|Hell no, you are the worst!|Nah, I would prefer to play with a child."
+  "Dialog": [
+    "Elizabeth",
+    "Hello traveler, my name is Elizabeth!",
+    "Nice weather today. Good time for walk in the park!",
+    "Wanna join me?|Oh yes, I would love to!|Excuse me, I don't date with hoes.|Only if you loosen your dress...."
   ],
 
-  "SmalltalkAnswer1": [
-    "That's what I am talking about! Let's go brother!"
+  "DialogAnswer1": [
+    "Great, let's go!"
   ],
 
-  "SmalltalkAnswer2": [
-    "Too bad. I guess I will have to do that on my own."
+  "DialogAnswer2": [
+    "Too bad. I guess I will go alone."
   ],
 
-  "SmalltalkAnswer3": [
+  "DialogAnswer3": [
     "What? Jesus Christ be praised, you are such a freak."
   ]
 }
