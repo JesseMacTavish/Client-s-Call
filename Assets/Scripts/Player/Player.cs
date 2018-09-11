@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
         if (_health <= 0)
         {
             //Die
-            GetComponent<PlayerAnimation>().DeathAnimation();
+            //GetComponent<PlayerAnimation>().DeathAnimation();
         }
     }
 

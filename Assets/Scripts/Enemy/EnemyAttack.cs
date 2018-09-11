@@ -8,7 +8,12 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("The time IN SECONDS between 2 enemy updates")]
     [SerializeField] private float _updateInterval = 1;
 
+    [Tooltip("The damage the enemy does")]
+    [SerializeField] private int _damage = 10;
+
     private EnemyStates _state;
+    private FollowPlayer _reach;
+    private Player _player;
 
     private float _time;
     private bool _attacked;
@@ -17,6 +22,8 @@ public class EnemyAttack : MonoBehaviour
     void Start()
     {
         _state = GetComponent<EnemyStates>();
+        _reach = GetComponent<FollowPlayer>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -52,6 +59,11 @@ public class EnemyAttack : MonoBehaviour
     {
         _attacked = true;
         GetComponent<Animator>().Play("EnemyAttack");
+
+        if (_reach.InReach)
+        {
+            _player.Hit(_damage);
+        }
     }
 
     private EnemyStates.EnemyState randomState()

@@ -181,6 +181,14 @@ public class FollowPlayer : MonoBehaviour
         newOffset();
     }
 
+    public bool InReach
+    {
+        get
+        {
+            return _playerWithinReach;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

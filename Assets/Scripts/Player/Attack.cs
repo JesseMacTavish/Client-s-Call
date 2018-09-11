@@ -5,13 +5,16 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [Tooltip("The range in which you will hit enemies")]
-    public float Attackrange = 1;
+    public float Attackrange = 20;
 
     [Tooltip("The damage of a standard single attack")]
     public int DefaultDamage = 10;
 
     [Tooltip("The force of the attack that throws an enemy up")]
     public float AttackForce = 15;
+
+    [Tooltip("LeapLength, leapHeight\nActual leap is 2x longer than LeapLength")]
+    public Vector2 LeapLengthAndHeight;
 
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
@@ -20,6 +23,13 @@ public class Attack : MonoBehaviour
     private int _combo = 0;
 
     private List<GameObject> _enemiesInRange;
+
+    private bool _leaping;
+    private bool _highestPoint;
+    private Vector3 _oldPosition;
+    private Vector3 _newPosition;
+    private Vector3 _leapDirection;
+    private float _value;
 
     // Use this for initialization
     void Start()
@@ -45,8 +55,12 @@ public class Attack : MonoBehaviour
                 _pressedAttack = true;
             }
 
-
             _animation.AttackAnimation();
+        }
+
+        if (_leaping)
+        {
+            leaping();
         }
     }
 
@@ -136,6 +150,50 @@ public class Attack : MonoBehaviour
                     //TODO: enemy.Flyup(AttackForce);
                 }
             }
+        }
+    }
+
+    private void leap()
+    {
+        _oldPosition = transform.position;
+        _newPosition = _oldPosition + (Vector3)LeapLengthAndHeight;
+        _leapDirection = _newPosition - _oldPosition;
+        if (GetComponent<SpriteRenderer>().flipX)
+        {
+            _leapDirection.x *= -1;
+        }
+        _newPosition = _oldPosition + _leapDirection;
+        _value = 0;
+        _highestPoint = false;
+        _leaping = true;
+    }
+
+    private void leaping()
+    {
+        if (!_highestPoint)
+        {
+            _value += 1 / 3f;
+        }
+        else
+        {
+            _value += 1 / 2f;
+        }
+
+        transform.position = _oldPosition + _leapDirection * _value;
+
+        if (_value >= 1)
+        {
+            _oldPosition = transform.position;
+            _leapDirection.y *= -1;
+            _value = 0;
+
+            if (_highestPoint)
+            {
+                _leaping = false;
+                return;
+            }
+
+            _highestPoint = true;
         }
     }
 }

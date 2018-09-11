@@ -229,13 +229,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.083333336
-    functionName: continueAnimation
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.29166666
     functionName: attack
     data: 
@@ -245,6 +238,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.5416667
     functionName: continueAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6666667
+    functionName: leap
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

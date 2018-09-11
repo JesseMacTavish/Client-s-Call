@@ -154,6 +154,7 @@ MonoBehaviour:
   Attackrange: 20
   DefaultDamage: 1
   AttackForce: 1.5
+  LeapLengthAndHeight: {x: 5, y: 10}
 --- !u!212 &212773808761581138
 SpriteRenderer:
   m_ObjectHideFlags: 1
