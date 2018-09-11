@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SantaCharacter : MonoBehaviour
+public class DialogHandler : MonoBehaviour
 {
     public GameObject dialogBox;
     public GameObject optionsBox;
@@ -15,29 +15,35 @@ public class SantaCharacter : MonoBehaviour
     float _timeOnDecision;
     Text _dialog;
     Text _name;
-    int _dialogBoxID = 1;
+    string[] _fullTextOptions;
+    int _dialogBoxID;
     bool _optionsOn;
     bool _questionAsked;
 
-    List<Action> _optionsAction = new List<Action>();
- 
+    [TextArea]
+    public List<string> dialogScript = new List<string>();
+    [TextArea]
+    public List<string> answersScript = new List<string>();
+    public List<Action> optionsAction = new List<Action>();
+
     //Variables for slow type
     public float typeDelay = 0.1f;
     float _timeType;
-    string _fullText = "";
-    string[] _fullTextOptions;
+    protected string _fullText = "";
     string _typedCharacters = "";
 
     void Start()
     {
         _dialog = dialogBox.GetComponentInChildren<Text>();
         _name = dialogBox.transform.Find("Name").GetComponent<Text>();
-        _name.text = JsonClass.Instance.Smalltalk[0];
-        _fullText = JsonClass.Instance.Smalltalk[1];
+        string[] script = dialogScript[0].Split('|');
+        _name.text = script[0];
+        _fullText = script[1];
 
-        _optionsAction.Add(Option1);
-        _optionsAction.Add(Option2);
-        _optionsAction.Add(Option3);
+        optionsAction.Add(Option1);
+        optionsAction.Add(Option2);
+        optionsAction.Add(Option3);
+
     }
 
     void Update()
@@ -81,7 +87,7 @@ public class SantaCharacter : MonoBehaviour
 
         ClearText();
 
-        if (_dialogBoxID < JsonClass.Instance.Smalltalk.Length - 1)
+        if (_dialogBoxID < dialogScript.Count - 1)
         {
             _dialogBoxID++;
         }
@@ -91,15 +97,18 @@ public class SantaCharacter : MonoBehaviour
             return;
         }
 
-        if (JsonClass.Instance.Smalltalk[_dialogBoxID].Contains("|"))
+        string[] _script = dialogScript[_dialogBoxID].Split('|');
+        _name.text = _script[0];     
+
+        if (_script[1].Contains("%"))
         {
-            _fullTextOptions = JsonClass.Instance.Smalltalk[_dialogBoxID].Split('|');
+            _fullTextOptions = _script[1].Split('%');
             _fullText = _fullTextOptions[0];
             _questionAsked = true;
         }
         else
         {
-            _fullText = JsonClass.Instance.Smalltalk[_dialogBoxID];
+            _fullText = _script[1];
         }
     }
 
@@ -111,17 +120,20 @@ public class SantaCharacter : MonoBehaviour
             option.SetActive(true);
             option.GetComponentInChildren<Text>().text = _fullTextOptions[i + 1];
             int x = i;
-            option.GetComponent<Button>().onClick.AddListener(() => _optionsAction[x]());
+            option.GetComponent<Button>().onClick.AddListener(() => optionsAction[x]());
         }//Need to select one of the options so u can interact with them with arrows
         optionsBox.transform.GetChild(0).GetComponent<Button>().Select();
 
         optionsBox.SetActive(true);
-        sliders.SetActive(true);
+        if (timedDecision)
+        {
+            sliders.SetActive(true);
+        }
 
         _optionsOn = true;
     }
 
-    void CloseOptions()
+    protected void CloseOptions()
     {
         for (int i = 0; i < ammountOfOptions; i++)
         {
@@ -135,7 +147,7 @@ public class SantaCharacter : MonoBehaviour
         sliders.SetActive(false);
     }
 
-    void ClearText()
+    protected void ClearText()
     {
         _dialog.text = "";
         _typedCharacters = "";
@@ -149,34 +161,23 @@ public class SantaCharacter : MonoBehaviour
         sliders.transform.Find("Slider 2").GetComponent<Slider>().value = 1f - _timeOnDecision / givenTime;
         if (_timeOnDecision > givenTime)
         {
-            _optionsAction[UnityEngine.Random.Range(0, _optionsAction.Count)]();
+            optionsAction[UnityEngine.Random.Range(0, optionsAction.Count)]();
             _timeOnDecision = 0;
         }
     }
 
-    public void Option1()
+    virtual public void Option1()
     {
-        DecisionTracker.acceptedSanta = true;
-        ClearText();
-        _fullText = JsonClass.Instance.SmalltalkAnswer1[0];
 
-        CloseOptions();
     }
 
-    public void Option2()
+    virtual public void Option2()
     {
-        DecisionTracker.declineSanta = true;
-        ClearText();
-        _fullText = JsonClass.Instance.SmalltalkAnswer2[0];
 
-        CloseOptions();
     }
 
-    public void Option3()
+    virtual public void Option3()
     {
-        ClearText();
-        _fullText = JsonClass.Instance.SmalltalkAnswer3[0];
 
-        CloseOptions();
     }
 }
