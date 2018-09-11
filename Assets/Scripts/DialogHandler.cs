@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogHandler : MonoBehaviour
@@ -12,6 +13,7 @@ public class DialogHandler : MonoBehaviour
     public int ammountOfOptions;
     public bool timedDecision;
     public float givenTime;
+    public bool goToOtherScene;
     float _timeOnDecision;
     Text _dialog;
     Text _name;
@@ -94,6 +96,11 @@ public class DialogHandler : MonoBehaviour
         else
         {
             dialogBox.SetActive(false);
+
+            if (goToOtherScene)
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
             return;
         }
 

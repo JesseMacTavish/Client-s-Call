@@ -57,7 +57,9 @@
      <Compile Include="Assets\Scripts\DecisionTracker.cs" />
      <Compile Include="Assets\Scripts\DialogHandler.cs" />
      <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyHandler.cs" />
+     <Compile Include="Assets\Scripts\Enemy\EnemyRetreat.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyStates.cs" />
      <Compile Include="Assets\Scripts\Enemy\FollowPlayer.cs" />
      <Compile Include="Assets\Scripts\FontFix.cs" />

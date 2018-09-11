@@ -15,8 +15,7 @@ public class EnemyStates : MonoBehaviour
         DAMAGED,
         FLYUP,
     }
-
-    // Use this for initialization
+   
     void Start()
     {
         CurrentState = EnemyState.MOVING;

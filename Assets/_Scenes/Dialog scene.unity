@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 084a82d8910e03942abe64ab258cc69b,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -241,6 +242,7 @@ MonoBehaviour:
   ammountOfOptions: 3
   timedDecision: 1
   givenTime: 10
+  goToOtherScene: 0
   dialogScript: []
   answersScript: []
   typeDelay: 0.03
@@ -787,8 +789,9 @@ MonoBehaviour:
   optionsBox: {fileID: 861312694}
   sliders: {fileID: 791136214}
   ammountOfOptions: 3
-  timedDecision: 0
+  timedDecision: 1
   givenTime: 10
+  goToOtherScene: 1
   dialogScript:
   - Elizabeth|Hello, good sir!
   - Edwin|Greetings, M'lady!
