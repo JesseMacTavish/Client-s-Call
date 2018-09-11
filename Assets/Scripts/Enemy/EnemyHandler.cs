@@ -54,8 +54,8 @@ public class EnemyHandler : MonoBehaviour
 
         for (int i = 0; i < Enemies.Count; i++)
         {
-            EnemyStates enemyState = Enemies[i].GetComponent<EnemyStates>();
-            if (enemyState.CurrentState == EnemyStates.EnemyState.IDLE)
+            GameObject enemy = Enemies[i];
+            if (!Attackers.Contains(enemy))
             {
                 idlers.Add(i);
             }
@@ -71,8 +71,9 @@ public class EnemyHandler : MonoBehaviour
             int index = Random.Range(0, idlers.Count);
             int enemyIndex = idlers[index];
             idlers.RemoveAt(index);
+
             GameObject enemy = Enemies[enemyIndex];
-            enemy.GetComponent<EnemyStates>().CurrentState = EnemyStates.EnemyState.MOVING;
+
             Attackers.Add(enemy);
         }
     }

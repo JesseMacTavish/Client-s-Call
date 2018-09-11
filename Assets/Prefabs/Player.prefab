@@ -85,7 +85,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.64, z: 1}
+  m_Size: {x: 1, y: 0.64, z: 1.4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95944713669224194
 Animator:
@@ -151,10 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca1dcabc1d3dde45bcf9b290a097055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attackrange: 0.8
-  DefaultDamage: 0
-  AttackCooldown: 0.2
-  AttackForce: 10
+  Attackrange: 1
+  DefaultDamage: 1
+  AttackForce: 15
 --- !u!212 &212773808761581138
 SpriteRenderer:
   m_ObjectHideFlags: 1

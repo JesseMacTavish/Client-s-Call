@@ -17,19 +17,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (currentState.IsName("PlayerAttack"))
+        if (!currentState.IsName("PlayerAttack"))
         {
-            _animator.Play("PlayerCombo");
-            return;
+            _animator.Play("PlayerAttack");
         }
-
-        if (currentState.IsName("PlayerCombo"))
-        {
-            _animator.Play("PlayerAttackUp");
-            return;
-        }
-
-        _animator.Play("PlayerAttack");
     }
 
     public bool IsAttacking
@@ -37,25 +28,25 @@ public class PlayerAnimation : MonoBehaviour
         get
         {
             AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-            return currentState.IsName("PlayerAttack") || currentState.IsName("PlayerCombo");
+            return currentState.IsName("PlayerAttack");
         }
     }
 
-    public bool IsInCombo
+    public void WalkAnimation()
     {
-        get
-        {
-            AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-            return currentState.IsName("PlayerCombo");
-        }
+        AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
+
+        //if (!currentState.IsName("PlayerWalk") && !currentState.IsName("PlayerAttack"))
+        //{
+        //    _animator.Play("PlayerWalk");
+        //}
     }
 
-    public bool IsInCombo2
+    public void StopWalking()
     {
-        get
+        if (!IsAttacking)
         {
-            AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-            return currentState.IsName("PlayerAttackUp");
+            StopAll();
         }
     }
 
@@ -69,5 +60,10 @@ public class PlayerAnimation : MonoBehaviour
         }
 
         _animator.Play("PlayerDead");
+    }
+
+    public void StopAll()
+    {
+        _animator.Play("PlayerIdle");
     }
 }
