@@ -74,11 +74,14 @@ public class Movement : MonoBehaviour
             _velocity *= _speed * 2.5f;
         }
 
-        _rigidbody.velocity = _velocity;
-
         cameraPos.x = _rigidbody.position.x;
         mainCamera.transform.position = cameraPos;
-        
+
+        if (!_animation.IsAttacking)
+        {
+            _rigidbody.velocity = _velocity;
+        }
+
         _velocity.Set(0, 0, 0);
     }
 }

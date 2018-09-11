@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class FollowPlayer : MonoBehaviour
 {
+    //TODO: attack, move, attack, move etc.
+
     [Tooltip("The object that the AI will follow")]
     public GameObject ObjectToFollow;
 

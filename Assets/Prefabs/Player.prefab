@@ -42,8 +42,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926593206989238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.85, y: -17.49, z: -56.81}
-  m_LocalScale: {x: 21, y: 21, z: 21}
+  m_LocalPosition: {x: 4.16, y: -25.821001, z: -4.105}
+  m_LocalScale: {x: 3.1017067, y: 3.1017072, z: 3.1017072}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,8 +73,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.23859735, y: 0.5518192, z: 0.055500396}
-  m_Center: {x: 0.0014094966, y: 0.0045572007, z: 0.0032029834}
+  m_Size: {x: 0.23859735, y: 0.60034496, z: 0.055500396}
+  m_Center: {x: 0.0014094986, y: -0.019705078, z: 0.0032029832}
 --- !u!65 &65728876478206526
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554e48f60685a1548b2d56e7eb981f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 30
+  _speed: 5
 --- !u!114 &114351442928327576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attackrange: 1
   DefaultDamage: 1
-  AttackForce: 15
+  AttackForce: 1.5
 --- !u!212 &212773808761581138
 SpriteRenderer:
   m_ObjectHideFlags: 1

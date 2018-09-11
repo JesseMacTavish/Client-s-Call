@@ -108,10 +108,8 @@ public class Enemy : MonoBehaviour
 
     private void attack()
     {
-        //float distance = (Player.position - _rigidbody.position).magnitude;
         bool inReach = GetComponent<FollowPlayer>().InReach;
-
-        //if (distance <= _agent.stoppingDistance + 10)
+        
         if(inReach)
         {
             Player.GetComponent<Player>().Hit(_attackPower);
@@ -125,7 +123,7 @@ public class Enemy : MonoBehaviour
             flyStill();
             return;
         }
-
+        
         _rigidbody.position = _hitPosition + (_hitDirection * Mathf.Lerp(0, 1, _value));
 
         _value += (1 / _knockUpTime) * Time.deltaTime;
@@ -154,16 +152,14 @@ public class Enemy : MonoBehaviour
         _rigidbody.useGravity = false;
         _value = 0;
         _timeInAir = 0;
-
+        
         if (GetComponent<SpriteRenderer>().flipX == true)
         {
-            //_rigidbody.AddForce(new Vector3(0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
-            _newPosition = _hitPosition + new Vector3(2.5f, 10, 0);
+            _newPosition = _hitPosition + new Vector3(5, 10, 0).normalized * pForce;
         }
         else
         {
-            //_rigidbody.AddForce(new Vector3(-0.2f, 1, 0) * pForce, ForceMode.VelocityChange);
-            _newPosition = _hitPosition + new Vector3(-2.5f, 10, 0);
+            _newPosition = _hitPosition + new Vector3(-5, 10, 0).normalized * pForce;
         }
 
         _hitDirection = _newPosition - _hitPosition;

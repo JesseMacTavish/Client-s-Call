@@ -78,17 +78,36 @@ public class Attack : MonoBehaviour
                 _enemiesInRange.RemoveAt(i);
             }
 
-            Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-            if (enemy.Hit(damage))
+            if (GetComponent<SpriteRenderer>().flipX)
             {
-                _enemiesInRange.RemoveAt(i);
-                i--;
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+            else
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                    }
+                }
             }
         }
     }
 
     private void throwEnemyUp()
     {
+
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
             if (_enemiesInRange[i] == null)
@@ -96,9 +115,22 @@ public class Attack : MonoBehaviour
                 _enemiesInRange.RemoveAt(i);
             }
 
-            Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-
-            enemy.Flyup(AttackForce);
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
+                {
+                    enemy.Flyup(AttackForce);
+                }
+            }
+            else
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
+                {
+                    enemy.Flyup(AttackForce);
+                }
+            }
         }
     }
 }
