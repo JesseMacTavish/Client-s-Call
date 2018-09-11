@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateInterval: 1
   _retreatSpeed: 0.1
-  _retreatDistance: 4
+  _retreatDistance: 9
 --- !u!114 &114193863687197646
 MonoBehaviour:
   m_ObjectHideFlags: 1

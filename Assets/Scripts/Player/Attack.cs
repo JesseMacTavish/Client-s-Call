@@ -38,11 +38,27 @@ public class Attack : MonoBehaviour
             {
                 _combo = 0;
             }
+            else
+            {
+                _pressedAttack = true;
+            }
 
-            _pressedAttack = true;
 
             _animation.AttackAnimation();
         }
+    }
+
+    private void continueAnimation()
+    {
+        if (!_pressedAttack)
+        {
+            _combo = 0;
+            _animation.StopAll();
+            return;
+        }
+
+        _combo++;
+        _pressedAttack = false;
     }
 
     public List<GameObject> Enemies
@@ -57,17 +73,7 @@ public class Attack : MonoBehaviour
     {
         int damage = DefaultDamage;
 
-        if (!_pressedAttack)
-        {
-            _combo = 0;
-            _animation.StopAll();
-            return;
-        }
-
-        _pressedAttack = false;
-
         damage *= (_combo + 1);
-        _combo++;
 
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
@@ -78,10 +84,10 @@ public class Attack : MonoBehaviour
 
             if (GetComponent<SpriteRenderer>().flipX)
             {
-                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
-                if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
-                    if (false)//TODO: enemy.Hit(damage))
+                    if (enemy.Hit(damage))
                     {
                         _enemiesInRange.RemoveAt(i);
                         i--;
@@ -90,10 +96,10 @@ public class Attack : MonoBehaviour
             }
             else
             {
-                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
-                if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
-                    if (false)//TODO: enemy.Hit(damage))
+                    if (enemy.Hit(damage))
                     {
                         _enemiesInRange.RemoveAt(i);
                         i--;
@@ -114,16 +120,16 @@ public class Attack : MonoBehaviour
 
             if (GetComponent<SpriteRenderer>().flipX)
             {
-                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
-                if (enemy.GetComponent<Rigidbody>().position.x <= GetComponent<Rigidbody>().position.x)
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
                     //TODO: enemy.Flyup(AttackForce);
                 }
             }
             else
             {
-                EnemyAttack enemy = _enemiesInRange[i].GetComponent<EnemyAttack>();
-                if (enemy.GetComponent<Rigidbody>().position.x >= GetComponent<Rigidbody>().position.x)
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
                     //TODO: enemy.Flyup(AttackForce);
                 }
