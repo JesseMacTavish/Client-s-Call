@@ -33,8 +33,9 @@ public class Enemy : MonoBehaviour
                 transform.position += _flyDirection * 0.05f; //Hardcode
             }
 
-            if (transform.position == _peak)
+            if (transform.position.y >= _peak.y && _flyDirection.y > 0)
             {
+                Debug.Log("I suck a lolipop");
                 _flyDirection.y *= -1f;
                 _flyDirection = _flyDirection / 2f; //also hardcode
             }
@@ -44,6 +45,7 @@ public class Enemy : MonoBehaviour
                 _fly = false;
                 Invoke("changeStateRandom", 0.5f);
             }
+           
         }
     }
 
