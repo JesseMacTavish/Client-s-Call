@@ -177,12 +177,7 @@ public class FollowPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-<<<<<<< HEAD
-            float distance = (other.GetComponent<Rigidbody>().position - _transform.position).magnitude;
 
-            _playerWithinReach = false;
-=======
->>>>>>> 15d5ca4761c28b5626eb41b2f3bf11f5f6dbb372
             other.GetComponent<Attack>().Enemies.Remove(gameObject);
         }
     }

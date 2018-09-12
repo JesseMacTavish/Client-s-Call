@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 20
+  horizontalFlight: 0.5
 --- !u!114 &114202701415683870
 MonoBehaviour:
   m_ObjectHideFlags: 1

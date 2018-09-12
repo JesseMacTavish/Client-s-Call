@@ -148,7 +148,7 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly();
+                    enemy.Fly(AttackForce);
                 }
             }
             else
@@ -163,7 +163,7 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly();
+                    enemy.Fly(AttackForce);
                 }
             }
         }

@@ -42,6 +42,8 @@ public class EnemyStates : MonoBehaviour
                 break;
             case EnemyState.FLYUP:
                 break;
+            case EnemyState.DAMAGED:
+                break;
             default:
                 break;
         }

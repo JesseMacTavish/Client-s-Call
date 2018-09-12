@@ -7,10 +7,14 @@ public class Enemy : MonoBehaviour
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
 
+    public float horizontalFlight;
     private EnemyStates _state;
     private Animator _animator;
     bool _fly;
-    float _value;
+    Vector3 _oldPosition;
+    Vector3 _peak;
+    Vector3 _newPosition;
+    Vector3 _flyDirection;
 
     void Start()
     {
@@ -24,7 +28,22 @@ public class Enemy : MonoBehaviour
     {
         if (_fly)
         {
-            _value += Time.deltaTime;
+            if (_state.CURRENTSTATE != EnemyStates.EnemyState.DAMAGED)
+            {
+                transform.position += _flyDirection * 0.05f; //Hardcode
+            }
+
+            if (transform.position == _peak)
+            {
+                _flyDirection.y *= -1f;
+                _flyDirection = _flyDirection / 2f; //also hardcode
+            }
+
+            if (transform.position.y <= _oldPosition.y)
+            {
+                _fly = false;
+                Invoke("changeState", 0.5f);
+            }
         }
     }
 
@@ -41,17 +60,34 @@ public class Enemy : MonoBehaviour
         }
 
         _state.ChangeState(EnemyStates.EnemyState.DAMAGED);
-        Invoke("changeState", 0.5f);
+        if (_fly)
+        {
+            Invoke("changeStateFly", 0.1f);
+        }
+        else
+        {
+            Invoke("changeState", 0.5f);
+        }
 
         return false;
     }
 
-    public void Fly()
+    public void Fly(float pForce)
     {
-        //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
-
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
-        Invoke("changeState", 1f);
+        _fly = true;
+        _oldPosition = transform.position;
+
+        if (GetComponent<SpriteRenderer>().flipX)
+        {
+            _peak = new Vector3(transform.position.x + horizontalFlight, _oldPosition.y + pForce, transform.position.z);
+        }
+        else //Could be better
+        {
+            _peak = new Vector3(transform.position.x - horizontalFlight, _oldPosition.y + pForce, transform.position.z);
+        }
+
+        _flyDirection = _peak - _oldPosition;
     }
 
     private void die()
@@ -63,5 +99,10 @@ public class Enemy : MonoBehaviour
     private void changeState()
     {
         _state.ChangeState(EnemyStates.EnemyState.MOVING);
+    }
+
+    private void changeStateFly()
+    {
+        _state.ChangeState(EnemyStates.EnemyState.FLYUP);
     }
 }
