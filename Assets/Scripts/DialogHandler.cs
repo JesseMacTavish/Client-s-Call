@@ -99,7 +99,7 @@ public class DialogHandler : MonoBehaviour
 
             if (goToOtherScene)
             {
-                SceneManager.LoadScene("SampleScene");
+                SceneManager.LoadScene("level_design");
             }
             return;
         }

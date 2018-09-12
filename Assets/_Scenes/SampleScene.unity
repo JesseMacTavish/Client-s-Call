@@ -796,7 +796,7 @@ Prefab:
     - target: {fileID: 114836248718435550, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e,
         type: 2}
       propertyPath: AttackForce
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 65209660756272154, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e,
         type: 2}
@@ -807,6 +807,11 @@ Prefab:
         type: 2}
       propertyPath: m_Center.y
       value: -1.1207969
+      objectReference: {fileID: 0}
+    - target: {fileID: 114836248718435550, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e,
+        type: 2}
+      propertyPath: DefaultDamage
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f8aa4d2f4d59e549b37aa66d3a36a8e, type: 2}
