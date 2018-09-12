@@ -32,11 +32,11 @@ public class Enemy : MonoBehaviour
             if (_state.CURRENTSTATE != EnemyStates.EnemyState.DAMAGED)
             {
                 transform.position += _flyDirection * 0.05f; //Hardcode
+                CancelInvoke();
             }
 
             if (transform.position.y >= _peak.y && _flyDirection.y > 0)
             {
-                Debug.Log("I suck a lolipop");
                 _flyDirection.y *= -1f;
                 _flyDirection = _flyDirection / 2f; //also hardcode
             }
@@ -46,8 +46,14 @@ public class Enemy : MonoBehaviour
                 _fly = false;
                 Invoke("changeStateRandom", 0.5f);
             }
-           
+
+            if (_state.CURRENTSTATE == EnemyStates.EnemyState.DAMAGED)
+            {
+                transform.position += _flyDirection.normalized * -0.01f; //Hardcode
+                //CancelInvoke();
+            }
         }
+
     }
 
     public bool Hit(int pDamage)
@@ -72,6 +78,7 @@ public class Enemy : MonoBehaviour
         if (_fly || wasFly)
         {
             Invoke("changeStateFly", 0.1f);
+            transform.Translate(0, 0.3f, 0);
         }
         else
         {
@@ -123,13 +130,13 @@ public class Enemy : MonoBehaviour
         {
             case 0:
                 _state.ChangeState(EnemyStates.EnemyState.MOVING);
-                    break;
+                break;
             case 1:
                 _state.ChangeState(EnemyStates.EnemyState.RETREAT);
                 break;
             default:
                 _state.ChangeState(EnemyStates.EnemyState.MOVING);
-                    break;
+                break;
         }
     }
 }

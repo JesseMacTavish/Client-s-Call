@@ -45,11 +45,11 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.DAMAGED:
                 if (GetComponent<SpriteRenderer>().flipX)
                 {
-                    transform.Translate(0.3f, 0, 0);
+                    transform.position += Vector3.left * -0.1f; //Hardcode
                 }
                 else
                 {
-                    transform.Translate(-0.3f, 0, 0);
+                    transform.position += Vector3.right * -0.1f; //Hardcode
                 }
                 break;
             default:
