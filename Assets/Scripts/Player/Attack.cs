@@ -31,11 +31,14 @@ public class Attack : MonoBehaviour
     private Vector3 _leapDirection;
     private float _value;
 
+    private SpriteRenderer _renderer;
+
     // Use this for initialization
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();
         _enemiesInRange = new List<GameObject>();
+        _renderer = GetComponent<SpriteRenderer>();
 
         _trigger = GetComponent<BoxCollider>();
         _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
@@ -66,6 +69,21 @@ public class Attack : MonoBehaviour
 
     private void continueAnimation()
     {
+        if (Input.GetAxisRaw("Horizontal") == 1)
+        {
+            if (_renderer.flipX)
+            {
+                _renderer.flipX = false;
+            }
+        }
+        else if (Input.GetAxisRaw("Horizontal") == -1)
+        {
+            if (!_renderer.flipX)
+            {
+                _renderer.flipX = true;
+            }
+        }
+
         if (!_pressedAttack)
         {
             _combo = 0;
