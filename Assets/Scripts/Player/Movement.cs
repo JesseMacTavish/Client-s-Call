@@ -34,18 +34,21 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (Input.GetAxisRaw("Horizontal") == 1)
+        if (!_animation.IsAttacking)
         {
-            if (_renderer.flipX)
+            if (Input.GetAxisRaw("Horizontal") == 1)
             {
-                _renderer.flipX = false;
+                if (_renderer.flipX)
+                {
+                    _renderer.flipX = false;
+                }
             }
-        }
-        else if (Input.GetAxisRaw("Horizontal") == -1)
-        {
-            if (!_renderer.flipX)
+            else if (Input.GetAxisRaw("Horizontal") == -1)
             {
-                _renderer.flipX = true;
+                if (!_renderer.flipX)
+                {
+                    _renderer.flipX = true;
+                }
             }
         }
 

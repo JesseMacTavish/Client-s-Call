@@ -11,6 +11,9 @@ public class EnemyAttack : MonoBehaviour
     [Tooltip("The damage the enemy does")]
     [SerializeField] private int _damage = 10;
 
+    [Tooltip("The range in which the enemy can hit you")]
+    public float Attackrange = 1;
+
     private EnemyStates _state;
     private FollowPlayer _reach;
     private Player _player;
@@ -22,8 +25,10 @@ public class EnemyAttack : MonoBehaviour
     void Start()
     {
         _state = GetComponent<EnemyStates>();
-        _reach = GetComponent<FollowPlayer>();
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        BoxCollider trigger = GetComponent<BoxCollider>();
+        trigger.size = new Vector3(Attackrange, trigger.size.y, Attackrange);
     }
 
     // Update is called once per frame
@@ -60,7 +65,7 @@ public class EnemyAttack : MonoBehaviour
         _attacked = true;
         GetComponent<Animator>().Play("EnemyAttack");
 
-        if (_reach.InReach)
+        if (InReach)
         {
             _player.Hit(_damage);
         }
@@ -86,5 +91,13 @@ public class EnemyAttack : MonoBehaviour
         EnemyStates.EnemyState state = randomState();
 
         _state.ChangeState(state);
+    }
+
+    public bool InReach
+    {
+        get
+        {
+            return ((_player.GetComponent<Rigidbody>().position - transform.position).magnitude <= Attackrange);
+        }
     }
 }
