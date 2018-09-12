@@ -208,10 +208,7 @@ public class FollowPlayer : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             float distance = (other.GetComponent<Rigidbody>().position - _transform.position).magnitude;
-            if (distance < other.GetComponent<BoxCollider>().size.x)
-            {
-                return;
-            }
+
             _playerWithinReach = false;
             other.GetComponent<Attack>().Enemies.Remove(gameObject);
         }

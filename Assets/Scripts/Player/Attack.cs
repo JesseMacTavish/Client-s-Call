@@ -31,7 +31,6 @@ public class Attack : MonoBehaviour
     private Vector3 _leapDirection;
     private float _value;
 
-    // Use this for initialization
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();
@@ -41,7 +40,6 @@ public class Attack : MonoBehaviour
         _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -127,6 +125,10 @@ public class Attack : MonoBehaviour
 
     private void throwEnemyUp()
     {
+        int damage = DefaultDamage;
+
+        damage *= (_combo + 1);
+
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
             if (_enemiesInRange[i] == null)
@@ -139,7 +141,14 @@ public class Attack : MonoBehaviour
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
-                    //TODO: enemy.Flyup(AttackForce);
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.Fly();
                 }
             }
             else
@@ -147,7 +156,14 @@ public class Attack : MonoBehaviour
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
-                    //TODO: enemy.Flyup(AttackForce);
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.Fly();
                 }
             }
         }

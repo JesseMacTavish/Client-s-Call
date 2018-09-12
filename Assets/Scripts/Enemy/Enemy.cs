@@ -9,14 +9,23 @@ public class Enemy : MonoBehaviour
 
     private EnemyStates _state;
     private Animator _animator;
+    bool _fly;
+    float _value;
 
-    // Use this for initialization
     void Start()
     {
         EnemyHandler.Instance.Enemies.Add(gameObject);
 
         _state = GetComponent<EnemyStates>();
         _animator = GetComponent<Animator>();
+    }
+
+    void Update()
+    {
+        if (_fly)
+        {
+            _value += Time.deltaTime;
+        }
     }
 
     public bool Hit(int pDamage)
@@ -35,6 +44,14 @@ public class Enemy : MonoBehaviour
         Invoke("changeState", 0.5f);
 
         return false;
+    }
+
+    public void Fly()
+    {
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
+
+        _state.ChangeState(EnemyStates.EnemyState.FLYUP);
+        Invoke("changeState", 1f);
     }
 
     private void die()
