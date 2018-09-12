@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     private EnemyStates _state;
     private Animator _animator;
     bool _fly;
+
     Vector3 _oldPosition;
     Vector3 _peak;
     Vector3 _newPosition;
@@ -59,8 +60,14 @@ public class Enemy : MonoBehaviour
             return true;
         }
 
+        bool wasFly = false;
+        if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
+        {
+            wasFly = true;
+        }
+
         _state.ChangeState(EnemyStates.EnemyState.DAMAGED);
-        if (_fly)
+        if (_fly || wasFly)
         {
             Invoke("changeStateFly", 0.1f);
         }
