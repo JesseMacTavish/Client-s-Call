@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateInterval: 0.5
+  _damage: 10
+  Attackrange: 2
 --- !u!114 &114482522898718396
 MonoBehaviour:
   m_ObjectHideFlags: 1

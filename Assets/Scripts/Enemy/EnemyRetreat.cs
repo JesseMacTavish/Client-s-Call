@@ -61,6 +61,14 @@ public class EnemyRetreat : MonoBehaviour
         _direction = _transform.position - _playerRigidbody.position;
         _direction.z = 0;
         _direction.y = 0;
+
+        int random = 0;
+        while (random == 0)
+        {
+            random = Random.Range(-1, 2);
+        }
+
+        _direction.x *= random;
     }
 
     private void retreat()

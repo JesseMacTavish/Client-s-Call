@@ -17,19 +17,21 @@ public class FollowPlayer : MonoBehaviour
     private Transform _transform;
     private SpriteRenderer _renderer;
     private EnemyStates _state;
+    private EnemyAttack _reach;
 
     private GameObject _player;
     private Rigidbody _playerRigidbody;
-
-    private bool _playerWithinReach;
+    
     private float _time;
 
     private Vector3 _target;
     private Vector3 _offSet;
 
-    public bool Skip;
+    [HideInInspector] public bool Skip;
 
     [HideInInspector] public Vector3 Direction;
+
+    private float _distance;
 
     // Use this for initialization
     private void Start()
@@ -37,6 +39,7 @@ public class FollowPlayer : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
         _transform = GetComponent<Transform>();
         _state = GetComponent<EnemyStates>();
+        _reach = GetComponent<EnemyAttack>();
 
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerRigidbody = _player.GetComponent<Rigidbody>();
@@ -78,8 +81,9 @@ public class FollowPlayer : MonoBehaviour
         Direction = getTarget() - _transform.position;
         Direction.y = 0;
         _transform.Translate(Direction.normalized * _speed);
+        _distance -= _speed;
 
-        if (_playerWithinReach && Vector3.Distance(_transform.position, getTarget()) <= 4)
+        if (_reach.InReach && _distance <= 2)
         {
             _state.ChangeState(EnemyStates.EnemyState.ATTACKING);
         }
@@ -101,7 +105,6 @@ public class FollowPlayer : MonoBehaviour
     private Vector3 GetUnitVectorDegrees(float pDegrees)
     {
         float radians = Mathf.Deg2Rad * pDegrees;
-
         return new Vector3(Mathf.Cos(radians), 0, Mathf.Sin(radians));
     }
 
@@ -120,31 +123,6 @@ public class FollowPlayer : MonoBehaviour
             {
                 _renderer.flipX = false;
             }
-        }
-    }
-
-
-    /// <summary>
-    /// Change the state if within the trigger area of the pTarget
-    /// </summary>
-    /// <param name="pTarget">
-    /// The Rigidbody of the target
-    /// </param>
-    /// <param name="pStateWithinReach">
-    /// The state to change to if within reach
-    /// </param>
-    /// <param name="pStateNotWithinReach">
-    /// The state to change to if not within reach
-    /// </param>
-    private void changeStateIfWithinReach(EnemyStates.EnemyState pStateWithinReach, EnemyStates.EnemyState pStateNotWithinReach)
-    {
-        if (_playerWithinReach)
-        {
-            _state.ChangeState(pStateWithinReach);
-        }
-        else
-        {
-            _state.ChangeState(pStateNotWithinReach);
         }
     }
 
@@ -179,21 +157,13 @@ public class FollowPlayer : MonoBehaviour
     public void NewTarget()
     {
         newOffset();
-    }
-
-    public bool InReach
-    {
-        get
-        {
-            return _playerWithinReach;
-        }
+        _distance = Vector3.Distance(_target, transform.position);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            _playerWithinReach = true;
             List<GameObject> enemies = other.GetComponent<Attack>().Enemies;
 
             if (!enemies.Contains(gameObject))
@@ -207,12 +177,6 @@ public class FollowPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            float distance = (other.GetComponent<Rigidbody>().position - _transform.position).magnitude;
-            if (distance < other.GetComponent<BoxCollider>().size.x)
-            {
-                return;
-            }
-            _playerWithinReach = false;
             other.GetComponent<Attack>().Enemies.Remove(gameObject);
         }
     }
