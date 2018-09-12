@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
         {
             //Die
             //GetComponent<PlayerAnimation>().DeathAnimation();
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

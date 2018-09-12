@@ -78,7 +78,7 @@ public class Movement : MonoBehaviour
         //}
 
         cameraPos.x = _rigidbody.position.x;
-        //mainCamera.transform.position = cameraPos;
+        mainCamera.transform.position = cameraPos;
 
         if (!_animation.IsAttacking)
         {
