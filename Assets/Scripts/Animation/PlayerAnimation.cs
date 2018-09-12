@@ -21,6 +21,13 @@ public class PlayerAnimation : MonoBehaviour
         {
             _animator.Play("PlayerAttack");
         }
+        else
+        {
+            if (currentState.IsName("PlayerAttack"))
+            {
+                _animator.Play("PlayerAttack2");
+            }
+        }
     }
 
     public bool IsAttacking
@@ -28,7 +35,7 @@ public class PlayerAnimation : MonoBehaviour
         get
         {
             AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-            return currentState.IsName("PlayerAttack");
+            return (currentState.IsName("PlayerAttack") || (currentState.IsName("PlayerAttack2")));
         }
     }
 
@@ -36,7 +43,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (!currentState.IsName("PlayerWalk") && !currentState.IsName("PlayerAttack"))
+        if (!currentState.IsName("PlayerWalk") && !IsAttacking)
         {
             _animator.Play("PlayerWalk");
         }
