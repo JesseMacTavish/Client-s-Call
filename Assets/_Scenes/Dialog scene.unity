@@ -806,11 +806,11 @@ MonoBehaviour:
     that could save million of lives.%I would rather talk him out of the things he
     did.%I don't want to be a baby-killer.
   - Elizabeth|Well, in any case, I think this is the time you drink my totally-not-magical
-    potions and go to the dreamworld of yours.
+    potion and go to the dreamworld of yours.
   - Edwin|I drink what....?
   answersScript:
   - So you would just kill an innocent baby? I doubt that.
-  - Always going for the pacifist run, huh? It may bring you to doom.
+  - Always going for the pacifist run, huh? It may bring you to your doom.
   - Being honest I see. Even though you are letting millions of lives die.
   typeDelay: 0.03
 --- !u!1 &606412297

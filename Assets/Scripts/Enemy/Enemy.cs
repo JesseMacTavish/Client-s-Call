@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
             if (transform.position.y <= _oldPosition.y)
             {
                 _fly = false;
-                Invoke("changeState", 0.5f);
+                Invoke("changeStateRandom", 0.5f);
             }
         }
     }
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Invoke("changeState", 0.5f);
+            Invoke("changeStateRandom", 0.5f);
         }
 
         return false;
@@ -104,5 +104,23 @@ public class Enemy : MonoBehaviour
     private void changeStateFly()
     {
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
+    }
+
+    private void changeStateRandom()
+    {
+        int random = Random.Range(0, 2);
+
+        switch (random)
+        {
+            case 0:
+                _state.ChangeState(EnemyStates.EnemyState.MOVING);
+                    break;
+            case 1:
+                _state.ChangeState(EnemyStates.EnemyState.RETREAT);
+                break;
+            default:
+                _state.ChangeState(EnemyStates.EnemyState.MOVING);
+                    break;
+        }
     }
 }

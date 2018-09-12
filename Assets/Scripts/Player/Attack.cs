@@ -31,12 +31,8 @@ public class Attack : MonoBehaviour
     private Vector3 _leapDirection;
     private float _value;
 
-<<<<<<< HEAD
-=======
     private SpriteRenderer _renderer;
 
-    // Use this for initialization
->>>>>>> ad75dbe608caa59f3c2afb36ffca7334a3540a67
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();

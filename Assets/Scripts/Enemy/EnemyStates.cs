@@ -15,7 +15,7 @@ public class EnemyStates : MonoBehaviour
         DAMAGED,
         FLYUP,
     }
-   
+
     void Start()
     {
         CurrentState = EnemyState.MOVING;
@@ -43,6 +43,14 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.FLYUP:
                 break;
             case EnemyState.DAMAGED:
+                if (GetComponent<SpriteRenderer>().flipX)
+                {
+                    transform.Translate(0.3f, 0, 0);
+                }
+                else
+                {
+                    transform.Translate(-0.3f, 0, 0);
+                }
                 break;
             default:
                 break;
