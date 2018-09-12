@@ -21,7 +21,7 @@ public class FollowPlayer : MonoBehaviour
 
     private GameObject _player;
     private Rigidbody _playerRigidbody;
-    
+
     private float _time;
 
     private Vector3 _target;
@@ -71,9 +71,9 @@ public class FollowPlayer : MonoBehaviour
         if (!Skip)
         {
             checkDistanceToEnemies();
+            Skip = false;
         }
 
-        Skip = false;
     }
 
     private void walkTowardsTarget()
@@ -154,11 +154,13 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
+
     public void NewTarget()
     {
         newOffset();
-        _distance = Vector3.Distance(_target, transform.position);
+        _distance = Vector3.Distance(getTarget(), transform.position);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -177,7 +179,10 @@ public class FollowPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-
+            if(Vector3.Distance(transform.position, _playerRigidbody.position) < 2)
+            {
+                return;
+            }
             other.GetComponent<Attack>().Enemies.Remove(gameObject);
         }
     }

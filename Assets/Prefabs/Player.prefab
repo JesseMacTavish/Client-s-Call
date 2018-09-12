@@ -73,8 +73,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 10.967305, z: 15}
-  m_Center: {x: -0.6677953, y: -2.6181538, z: 1.3355056}
+  m_Size: {x: 15, y: 18.720165, z: 16.186354}
+  m_Center: {x: -0.6677953, y: 1.2582731, z: 0.74232894}
 --- !u!65 &65659600270799092
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -85,8 +85,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.6508636, y: 11.738744, z: 0.22223563}
-  m_Center: {x: 0.1030455, y: -2.2237816, z: -0.011117794}
+  m_Size: {x: 4.836962, y: 6.3674927, z: 0.41856128}
+  m_Center: {x: -0.087085165, y: -4.909407, z: -0.05712827}
 --- !u!95 &95944713669224194
 Animator:
   serializedVersion: 3
@@ -153,8 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attackrange: 15
   DefaultDamage: 1
-  AttackForce: 1.5
-  LeapLengthAndHeight: {x: 2, y: 2}
+  AttackForce: 3
+  LeapLengthAndHeight: {x: 1, y: 0}
 --- !u!212 &212773808761581138
 SpriteRenderer:
   m_ObjectHideFlags: 1
