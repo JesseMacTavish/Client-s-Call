@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemyStates : MonoBehaviour
 {
-    public EnemyState CURRENTSTATE;
+    [Tooltip("The state of the enemy at the beginning")]
+    public EnemyState StartState = EnemyState.SURROUNDING;
 
     public enum EnemyState
     {
-        IDLE,
+        SURROUNDING,
         MOVING,
         ATTACKING,
         RETREAT,
@@ -16,24 +17,24 @@ public class EnemyStates : MonoBehaviour
         FLYUP,
     }
 
-    void Start()
+    void Awake()
     {
-        CurrentState = EnemyState.MOVING;
+        CurrentState = StartState;
     }
 
     private void Update()
     {
-        CURRENTSTATE = CurrentState;
+        StartState = CurrentState;
     }
 
     public void ChangeState(EnemyState pState)
     {
         switch (pState)
         {
-            case EnemyState.IDLE:
-                break;
             case EnemyState.MOVING:
-                GetComponent<FollowPlayer>().NewTarget();
+                break;
+            case EnemyState.SURROUNDING:
+                GetComponent<EnemyMovement>().NewTarget();
                 break;
             case EnemyState.ATTACKING:
                 break;
@@ -43,6 +44,7 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.FLYUP:
                 break;
             case EnemyState.DAMAGED:
+                //TODO: move this to EnemyDamaged.cs
                 if (GetComponent<SpriteRenderer>().flipX)
                 {
                     transform.position += Vector3.left * -0.1f; //Hardcode
@@ -55,6 +57,8 @@ public class EnemyStates : MonoBehaviour
             default:
                 break;
         }
+
+        GetComponent<EnemyMovement>().AddAvailableDegree();
 
         CurrentState = pState;
     }
