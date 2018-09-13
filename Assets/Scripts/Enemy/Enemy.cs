@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
 
-    public float horizontalFlight;
+    public float MinHorizontalFlight;
+    public float MaxHorizontalFlight;
     private EnemyStates _state;
     private Animator _animator;
     bool _fly;
@@ -49,7 +50,7 @@ public class Enemy : MonoBehaviour
 
             if (_state.StartState == EnemyStates.EnemyState.DAMAGED)
             {
-                transform.position += _flyDirection.normalized * -0.01f; //Hardcode
+                transform.position += _flyDirection.normalized * -0.02f; //Hardcode
                 //CancelInvoke();
             }
         }
@@ -96,11 +97,11 @@ public class Enemy : MonoBehaviour
 
         if (GetComponent<SpriteRenderer>().flipX)
         {
-            _peak = new Vector3(transform.position.x + horizontalFlight, _oldPosition.y + pForce, transform.position.z);
+            _peak = new Vector3(transform.position.x + Random.Range(MinHorizontalFlight, MaxHorizontalFlight), _oldPosition.y + pForce, transform.position.z);
         }
         else //Could be better
         {
-            _peak = new Vector3(transform.position.x - horizontalFlight, _oldPosition.y + pForce, transform.position.z);
+            _peak = new Vector3(transform.position.x - Random.Range(MinHorizontalFlight, MaxHorizontalFlight), _oldPosition.y + pForce, transform.position.z);
         }
 
         _flyDirection = _peak - _oldPosition;
