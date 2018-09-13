@@ -16,6 +16,7 @@ public class EnemyHandler : MonoBehaviour
     public int MaxAttackers = 2;
 
     private List<GameObject> _enemies = new List<GameObject>();
+    private List<GameObject> _readyToAttack = new List<GameObject>();
 
     private bool _firstTime = true;
 
@@ -48,11 +49,16 @@ public class EnemyHandler : MonoBehaviour
 
     public void EnemyDied(GameObject pEnemy)
     {
-        pEnemy.GetComponent<FollowPlayer>().AddAvailableDegree();
+        pEnemy.GetComponent<EnemyMovement>().AddAvailableDegree();
 
         if (_enemies.Contains(pEnemy))
         {
             _enemies.Remove(pEnemy);
+        }
+
+        if (_readyToAttack.Contains(pEnemy))
+        {
+            _readyToAttack.Remove(pEnemy);
         }
 
         Destroy(pEnemy);
@@ -63,7 +69,12 @@ public class EnemyHandler : MonoBehaviour
         return false;
     }
 
-    
+    public void Ready(GameObject pEnemy)
+    {
+        _readyToAttack.Add(pEnemy);
+    }
+
+
     //UNDO UNTIL HERE
     /**/
     public void UpdateAttackers(GameObject pEnemy = null)

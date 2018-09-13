@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FollowPlayer : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     [Tooltip("The time IN SECONDS between 2 enemy updates")]
     [SerializeField] private float _updateInterval = 1;

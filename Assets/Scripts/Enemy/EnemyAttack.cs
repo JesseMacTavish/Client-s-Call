@@ -15,7 +15,7 @@ public class EnemyAttack : MonoBehaviour
     public float Attackrange = 1;
 
     private EnemyStates _state;
-    private FollowPlayer _reach;
+    private EnemyMovement _reach;
     private Player _player;
 
     private float _time;
