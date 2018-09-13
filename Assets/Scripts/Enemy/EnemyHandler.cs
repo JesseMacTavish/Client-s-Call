@@ -6,19 +6,23 @@ public class EnemyHandler : MonoBehaviour
 {
     //TODO: make it so that you can only progress when you killed all enemies
 
+    //TODO: this \/
+    ///Go in surround state ---> walk to a point in a radius around player
+    /// in handler choose a specific amount of enemies that will attack player
+    ///those will walk within reach of player and attack, then retreat or attack again.
+    ///handler will then choose other attackers
+
     [Tooltip("The maximum amount of enemies that will attack at a time")]
     public int MaxAttackers = 2;
 
-    private static EnemyHandler _handler;
-
-    public List<GameObject> Enemies = new List<GameObject>();
+    private List<GameObject> _enemies = new List<GameObject>();
 
     private bool _firstTime = true;
 
     // Use this for initialization
     void Awake()
     {
-        _handler = this;
+        Instance = this;
     }
 
     // Update is called once per frame
@@ -26,58 +30,51 @@ public class EnemyHandler : MonoBehaviour
     {
         if (_firstTime)
         {
-            //UpdateAttackers();
+            UpdateAttackers();
             _firstTime = false;
         }
     }
 
-    public static EnemyHandler Instance
+    public static EnemyHandler Instance { get; private set; }
+
+
+    public void EnemySpawned(GameObject pEnemy)
     {
-        get
+        if (!_enemies.Contains(pEnemy))
         {
-            return _handler;
+            _enemies.Add(pEnemy);
         }
     }
 
-    /**
+    public void EnemyDied(GameObject pEnemy)
+    {
+        pEnemy.GetComponent<FollowPlayer>().AddAvailableDegree();
+
+        if (_enemies.Contains(pEnemy))
+        {
+            _enemies.Remove(pEnemy);
+        }
+
+        Destroy(pEnemy);
+    }
+
+    public bool IsAttacker(GameObject pEnemy)
+    {
+        return false;
+    }
+
+    
+    //UNDO UNTIL HERE
+    /**/
     public void UpdateAttackers(GameObject pEnemy = null)
     {
-        if (pEnemy != null && Attackers.Contains(pEnemy))
-        {
-            Attackers.Remove(pEnemy);
-        }
+        ///remove pEnemy from _attackers
+        ///loop over enemies, ignore those in _attackers
+        ///store available enemies
+        ///choose [MaxAttackers] enemies from available enemies in a predictable way
+        ///add these to _attackers
 
-        if (Attackers.Count >= MaxAttackers || Enemies.Count == 0)
-        {
-            return;
-        }
 
-        List<int> idlers = new List<int>();
-
-        for (int i = 0; i < Enemies.Count; i++)
-        {
-            GameObject enemy = Enemies[i];
-            if (!Attackers.Contains(enemy))
-            {
-                idlers.Add(i);
-            }
-        }
-
-        while (Attackers.Count < MaxAttackers)
-        {
-            if (idlers.Count == 0)
-            {
-                return;
-            }
-
-            int index = Random.Range(0, idlers.Count);
-            int enemyIndex = idlers[index];
-            idlers.RemoveAt(index);
-
-            GameObject enemy = Enemies[enemyIndex];
-
-            Attackers.Add(enemy);
-        }
     }
     /**/
 }
