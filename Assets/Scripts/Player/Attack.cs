@@ -10,9 +10,6 @@ public class Attack : MonoBehaviour
     [Tooltip("The damage of a standard single attack")]
     public int DefaultDamage = 10;
 
-    [Tooltip("The force of the attack that throws an enemy up")]
-    public float AttackForce = 15;
-
     [Tooltip("LeapLength, leapHeight\nActual leap is 2x longer than LeapLength")]
     public Vector2 LeapLengthAndHeight;
 
@@ -166,7 +163,7 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly(AttackForce);
+                    enemy.Fly();
                 }
             }
             else
@@ -181,7 +178,53 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly(AttackForce);
+                    enemy.Fly();
+                }
+            }
+        }
+    }
+
+    private void throwEnemyAway()
+    {
+        int damage = DefaultDamage;
+
+        damage *= (_combo + 1);
+
+        for (int i = 0; i < _enemiesInRange.Count; i++)
+        {
+            if (_enemiesInRange[i] == null)
+            {
+                _enemiesInRange.RemoveAt(i);
+            }
+
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.KnockBack();
+                }
+            }
+            else
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.KnockBack();
                 }
             }
         }

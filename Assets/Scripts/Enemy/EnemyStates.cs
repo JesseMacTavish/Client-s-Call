@@ -45,14 +45,14 @@ public class EnemyStates : MonoBehaviour
                 break;
             case EnemyState.DAMAGED:
                 //TODO: move this to EnemyDamaged.cs
-                if (GetComponent<SpriteRenderer>().flipX)
-                {
-                    transform.position += Vector3.left * -0.1f; //Hardcode
-                }
-                else
-                {
-                    transform.position += Vector3.right * -0.1f; //Hardcode
-                }
+                //if (GetComponent<SpriteRenderer>().flipX)
+                //{
+                //    transform.position += Vector3.left * -0.1f; //Hardcode
+                //}
+                //else
+                //{
+                //    transform.position += Vector3.right * -0.1f; //Hardcode
+                //}
                 break;
             default:
                 break;

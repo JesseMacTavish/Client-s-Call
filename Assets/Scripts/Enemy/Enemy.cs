@@ -7,16 +7,18 @@ public class Enemy : MonoBehaviour
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
 
-    public float MinHorizontalFlight;
-    public float MaxHorizontalFlight;
+    public Vector2 kncockBackspeed;
+    float knockSpeedX;
+    float knockSpeedY;
+    public float flyupSpeed = 0.2f;
+    float _flightSpeed;
     private EnemyStates _state;
     private Animator _animator;
     bool _fly;
+    bool _knockBack;
+
 
     Vector3 _oldPosition;
-    Vector3 _peak;
-    Vector3 _newPosition;
-    Vector3 _flyDirection;
 
     void Start()
     {
@@ -30,18 +32,15 @@ public class Enemy : MonoBehaviour
     {
         if (_fly)
         {
+            _flightSpeed -= 0.01f;
+          
             if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
             {
-                transform.position += _flyDirection * 0.05f; //Hardcode
+                transform.position = new Vector3(transform.position.x, transform.position.y + _flightSpeed, transform.position.z);
+
                 CancelInvoke();
             }
-
-            if (transform.position.y >= _peak.y && _flyDirection.y > 0)
-            {
-                _flyDirection.y *= -1f;
-                _flyDirection = _flyDirection / 2f; //also hardcode
-            }
-
+        
             if (transform.position.y <= _oldPosition.y)
             {
                 _fly = false;
@@ -50,11 +49,34 @@ public class Enemy : MonoBehaviour
 
             if (_state.StartState == EnemyStates.EnemyState.DAMAGED)
             {
-                transform.position += _flyDirection.normalized * -0.02f; //Hardcode
+                _flightSpeed = 0.05f;
+                _flightSpeed += 0.01f;
                 //CancelInvoke();
             }
         }
 
+        if (_knockBack)
+        {
+            knockSpeedX -= 0.01f;
+            if (kncockBackspeed.x < 0)
+                kncockBackspeed.x = 0;
+            knockSpeedY -= 0.01f;
+
+            if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
+            {
+                if(GetComponent<SpriteRenderer>().flipX)
+                    transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+                else
+                    transform.position = new Vector3(transform.position.x - knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+                CancelInvoke();
+            }
+
+            if (transform.position.y <= _oldPosition.y)
+            {
+                _knockBack = false;
+                Invoke("changeStateRandom", 0.5f);
+            }
+        }
     }
 
     public bool Hit(int pDamage)
@@ -89,22 +111,25 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    public void Fly(float pForce)
+    public void Fly()
     {
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
         _fly = true;
         _oldPosition = transform.position;
+        _flightSpeed = flyupSpeed;
+    }
 
-        if (GetComponent<SpriteRenderer>().flipX)
+    public void KnockBack()
+    {
+        _state.ChangeState(EnemyStates.EnemyState.FLYUP);
+        _knockBack = true;
+        knockSpeedX = kncockBackspeed.x;
+        knockSpeedY = kncockBackspeed.y;
+        if (!_fly)
         {
-            _peak = new Vector3(transform.position.x + Random.Range(MinHorizontalFlight, MaxHorizontalFlight), _oldPosition.y + pForce, transform.position.z);
+            _oldPosition = transform.position;
         }
-        else //Could be better
-        {
-            _peak = new Vector3(transform.position.x - Random.Range(MinHorizontalFlight, MaxHorizontalFlight), _oldPosition.y + pForce, transform.position.z);
-        }
-
-        _flyDirection = _peak - _oldPosition;
+        Debug.Log("Ouch");
     }
 
     private void die()
