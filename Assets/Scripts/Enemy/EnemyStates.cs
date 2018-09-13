@@ -34,7 +34,7 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.MOVING:
                 break;
             case EnemyState.SURROUNDING:
-                GetComponent<FollowPlayer>().NewTarget();
+                GetComponent<EnemyMovement>().NewTarget();
                 break;
             case EnemyState.ATTACKING:
                 break;
@@ -58,7 +58,7 @@ public class EnemyStates : MonoBehaviour
                 break;
         }
 
-        GetComponent<FollowPlayer>().AddAvailableDegree();
+        GetComponent<EnemyMovement>().AddAvailableDegree();
 
         CurrentState = pState;
     }
