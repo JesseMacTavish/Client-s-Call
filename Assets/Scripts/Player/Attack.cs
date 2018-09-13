@@ -93,7 +93,7 @@ public class Attack : MonoBehaviour
         _pressedAttack = false;
     }
 
-    public List<GameObject> Enemies
+    public List<GameObject> EnemiesInRange
     {
         get
         {

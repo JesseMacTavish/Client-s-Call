@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        EnemyHandler.Instance.Enemies.Add(gameObject);
+        EnemyHandler.Instance.EnemySpawned(gameObject);
 
         _state = GetComponent<EnemyStates>();
         _animator = GetComponent<Animator>();
@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
     {
         if (_fly)
         {
-            if (_state.CURRENTSTATE != EnemyStates.EnemyState.DAMAGED)
+            if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
             {
                 transform.position += _flyDirection * 0.05f; //Hardcode
                 CancelInvoke();
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
                 Invoke("changeStateRandom", 0.5f);
             }
 
-            if (_state.CURRENTSTATE == EnemyStates.EnemyState.DAMAGED)
+            if (_state.StartState == EnemyStates.EnemyState.DAMAGED)
             {
                 transform.position += _flyDirection.normalized * -0.01f; //Hardcode
                 //CancelInvoke();
@@ -108,8 +108,7 @@ public class Enemy : MonoBehaviour
 
     private void die()
     {
-        EnemyHandler.Instance.Enemies.Remove(gameObject);
-        Destroy(gameObject);
+        EnemyHandler.Instance.EnemyDied(gameObject);
     }
 
     private void changeState()

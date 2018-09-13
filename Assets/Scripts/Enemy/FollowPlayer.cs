@@ -11,8 +11,11 @@ public class FollowPlayer : MonoBehaviour
     [Tooltip("The speed at which the enemy will move towards the target")]
     [SerializeField] private float _speed = 0.1f;
 
-    [Tooltip("The distance the enemy will stop from the target")]
-    [SerializeField] private float _distanceFromTarget = 1;
+    [Tooltip("The distance the enemy will stop from the target\nX = MinDistance, y = MaxDistance")]
+    [SerializeField] private Vector2 _surroundDistance = new Vector2(5, 7);
+
+    private static List<int> _availableDegreesRight = new List<int>() { 60, 40, 20, 0, -20, -40, -60, };
+    private static List<int> _availableDegreesLeft = new List<int>() { 120, 140, 160, 180, 200, 220, 240, };
 
     private Transform _transform;
     private SpriteRenderer _renderer;
@@ -26,12 +29,9 @@ public class FollowPlayer : MonoBehaviour
 
     private Vector3 _target;
     private Vector3 _offSet;
+    private int _degrees = int.MaxValue;
 
-    [HideInInspector] public bool Skip;
-
-    [HideInInspector] public Vector3 Direction;
-
-    private float _distance;
+    private bool _surroundedPlayer;
 
     // Use this for initialization
     private void Start()
@@ -43,49 +43,61 @@ public class FollowPlayer : MonoBehaviour
 
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerRigidbody = _player.GetComponent<Rigidbody>();
-        newOffset();
+
+        lookAtPlayer(_playerRigidbody.position);
+
+        if (_state.CurrentState == EnemyStates.EnemyState.SURROUNDING)
+        {
+            NewTarget();
+        }
     }
 
     private void Update()
     {
         lookAtPlayer(_playerRigidbody.position);
 
-        if (_state.CurrentState == EnemyStates.EnemyState.MOVING)
+        if (_state.CurrentState == EnemyStates.EnemyState.SURROUNDING)
         {
             walkTowardsTarget();
         }
 
-        if (_time >= _updateInterval)
+        if (_surroundedPlayer)
         {
-            intervalUpdate();
-            _time = 0;
-        }
-        else
-        {
-            _time += 1 * Time.deltaTime;
+            if (_time >= _updateInterval)
+            {
+                intervalUpdate();
+                _time = 0;
+            }
+            else
+            {
+                _time += 1 * Time.deltaTime;
+            }
         }
     }
 
     private void intervalUpdate()
     {
-        if (!Skip)
-        {
-            checkDistanceToEnemies();
-            Skip = false;
-        }
-
+        _surroundedPlayer = false;
+        NewTarget();
     }
 
     private void walkTowardsTarget()
     {
-        Direction = getTarget() - _transform.position;
-        Direction.y = 0;
-        _transform.Translate(Direction.normalized * _speed);
-        _distance -= _speed;
-
-        if (_reach.InReach && _distance <= 2)
+        if (_surroundedPlayer)
         {
-            _state.ChangeState(EnemyStates.EnemyState.ATTACKING);
+            return;
+        }
+
+        Vector3 direction = getTarget() - _transform.position;
+        direction.y = 0;
+        float distance = direction.magnitude;
+        _transform.Translate(direction.normalized * _speed);
+
+        distance -= _speed;
+
+        if (distance <= 0)
+        {
+            _surroundedPlayer = true;
         }
     }
 
@@ -97,9 +109,49 @@ public class FollowPlayer : MonoBehaviour
 
     private Vector3 newOffset()
     {
-        float random = Random.Range(0f, 360f);
-        _offSet = GetUnitVectorDegrees(random).normalized * _distanceFromTarget;
+        getNextDegree();
+
+        _offSet = GetUnitVectorDegrees(_degrees).normalized * Random.Range(_surroundDistance.x, _surroundDistance.y);
+
         return _offSet;
+    }
+
+    private void getNextDegree()
+    {
+        if (_renderer.flipX)
+        {
+            if (_availableDegreesRight.Count > 0)
+            {
+                _degrees = _availableDegreesRight[0];
+                _availableDegreesRight.Remove(_degrees);
+            }
+            else if (_availableDegreesLeft.Count > 0)
+            {
+                _degrees = _availableDegreesLeft[0];
+                _availableDegreesLeft.Remove(_degrees);
+            }
+            else
+            {
+                _degrees = 0;
+            }
+        }
+        else
+        {
+            if (_availableDegreesLeft.Count > 0)
+            {
+                _degrees = _availableDegreesLeft[0];
+                _availableDegreesLeft.Remove(_degrees);
+            }
+            else if (_availableDegreesRight.Count > 0)
+            {
+                _degrees = _availableDegreesRight[0];
+                _availableDegreesRight.Remove(_degrees);
+            }
+            else
+            {
+                _degrees = 180;
+            }
+        }
     }
 
     private Vector3 GetUnitVectorDegrees(float pDegrees)
@@ -126,39 +178,35 @@ public class FollowPlayer : MonoBehaviour
         }
     }
 
-    private void checkDistanceToEnemies()
-    {
-        foreach (GameObject enemy in EnemyHandler.Instance.Enemies)
-        {
-            if (enemy == gameObject)
-            {
-                continue;
-            }
-
-            if (Vector3.Distance(enemy.transform.position, _transform.position) < 1.5f)
-            {
-                //TODO: Do this properly
-
-                //enemy.transform.Translate(Vector3.back * 2.5f);
-                //_transform.Translate(Vector3.forward * 2.5f);
-
-                //enemy.GetComponent<FollowPlayer>().Direction.rot;
-                Vector3.RotateTowards(Direction, getTarget() + new Vector3(0, 0, 50), 6, _speed);
-
-                //enemy.GetComponent<EnemyStates>().ChangeState(EnemyStates.EnemyState.MOVING);
-                //_state.ChangeState(EnemyStates.EnemyState.MOVING);
-
-                enemy.GetComponent<FollowPlayer>().Skip = true;
-                Skip = true;
-            }
-        }
-    }
-
 
     public void NewTarget()
     {
+        AddAvailableDegree();
+
         newOffset();
-        _distance = Vector3.Distance(getTarget(), transform.position);
+    }
+
+    public void AddAvailableDegree()
+    {
+        if (_degrees != int.MaxValue)
+        {
+            if (_renderer.flipX)
+            {
+                if (!_availableDegreesRight.Contains(_degrees))
+                {
+                    _availableDegreesRight.Add(_degrees);
+                }
+            }
+            else
+            {
+                if (!_availableDegreesLeft.Contains(_degrees))
+                {
+                    _availableDegreesLeft.Add(_degrees);
+                }
+            }
+        }
+
+        _degrees = int.MaxValue;
     }
 
 
@@ -166,7 +214,7 @@ public class FollowPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            List<GameObject> enemies = other.GetComponent<Attack>().Enemies;
+            List<GameObject> enemies = other.GetComponent<Attack>().EnemiesInRange;
 
             if (!enemies.Contains(gameObject))
             {
@@ -179,11 +227,11 @@ public class FollowPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if(Vector3.Distance(transform.position, _playerRigidbody.position) < 2)
+            if (Vector3.Distance(transform.position, _playerRigidbody.position) < 2)
             {
                 return;
             }
-            other.GetComponent<Attack>().Enemies.Remove(gameObject);
+            other.GetComponent<Attack>().EnemiesInRange.Remove(gameObject);
         }
     }
 }
