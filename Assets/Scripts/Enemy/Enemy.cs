@@ -47,10 +47,10 @@ public class Enemy : MonoBehaviour
                 Invoke("changeStateRandom", 0.5f);
             }
 
-            if (_state.StartState == EnemyStates.EnemyState.DAMAGED)
+            if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED)
             {
                 _flightSpeed = 0.05f;
-                _flightSpeed += 0.01f;
+                _flightSpeed += 0.03f;
                 //CancelInvoke();
             }
         }

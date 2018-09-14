@@ -10,10 +10,18 @@ public class DialogHandler : MonoBehaviour
     public GameObject dialogBox;
     public GameObject optionsBox;
     public GameObject sliders;
+    [Space]
+    [Range(2, 3)]
     public int ammountOfOptions;
     public bool timedDecision;
     public float givenTime;
     public bool goToOtherScene;
+
+    [Header("Scenes to load")]
+    public UnityEngine.Object sceneToLoad1;
+    public UnityEngine.Object sceneToLoad2;
+    public UnityEngine.Object sceneToLoad3;
+
     float _timeOnDecision;
     Text _dialog;
     Text _name;
@@ -22,11 +30,20 @@ public class DialogHandler : MonoBehaviour
     bool _optionsOn;
     bool _questionAsked;
 
+    [Space]
     [TextArea]
     public List<string> dialogScript = new List<string>();
     [TextArea]
     public List<string> answersScript = new List<string>();
     public List<Action> optionsAction = new List<Action>();
+
+    public SetBool Op1;
+    public SetBool Op2;
+    public SetBool Op3;
+
+    private bool _op1;
+    private bool _op2;
+    private bool _op3;
 
     //Variables for slow type
     public float typeDelay = 0.1f;
@@ -36,6 +53,7 @@ public class DialogHandler : MonoBehaviour
 
     void Start()
     {
+        //TODO : Make the first line react to decisions player made
         _dialog = dialogBox.GetComponentInChildren<Text>();
         _name = dialogBox.transform.Find("Name").GetComponent<Text>();
         string[] script = dialogScript[0].Split('|');
@@ -45,7 +63,6 @@ public class DialogHandler : MonoBehaviour
         optionsAction.Add(Option1);
         optionsAction.Add(Option2);
         optionsAction.Add(Option3);
-
     }
 
     void Update()
@@ -73,7 +90,7 @@ public class DialogHandler : MonoBehaviour
         }
         _dialog.text = _typedCharacters;
 
-        if (_typedCharacters.Length == _fullText.Length && _questionAsked && !_optionsOn)
+        if (_typedCharacters.Length == _fullText.Length && _questionAsked)
         {
             ShowOptions();
         }
@@ -99,13 +116,27 @@ public class DialogHandler : MonoBehaviour
 
             if (goToOtherScene)
             {
-                SceneManager.LoadScene("level_design");
+                if (_op1)
+                {
+                    SceneManager.LoadScene(sceneToLoad1.name);
+                }
+                else if (_op2)
+                {
+                    SceneManager.LoadScene(sceneToLoad2.name);
+                }
+
+                else if (_op3)
+                {
+                    SceneManager.LoadScene(sceneToLoad3.name);
+                }
             }
             return;
         }
 
+        //TODO : Somewhere here should determine what kind of dialog to show (like depending on decision maybe)
+
         string[] _script = dialogScript[_dialogBoxID].Split('|');
-        _name.text = _script[0];     
+        _name.text = _script[0];
 
         if (_script[1].Contains("%"))
         {
@@ -138,6 +169,7 @@ public class DialogHandler : MonoBehaviour
         }
 
         _optionsOn = true;
+        _questionAsked = false;
     }
 
     protected void CloseOptions()
@@ -149,7 +181,6 @@ public class DialogHandler : MonoBehaviour
         }
 
         _optionsOn = false;
-        _questionAsked = false;
         optionsBox.SetActive(false);
         sliders.SetActive(false);
     }
@@ -173,18 +204,33 @@ public class DialogHandler : MonoBehaviour
         }
     }
 
-    virtual public void Option1()
+    public void Option1()
     {
+        DecisionTracker.ToggleBool(Op1);
+        ClearText();
+        _fullText = answersScript[0];
 
+        _op1 = true;
+        CloseOptions();
     }
 
-    virtual public void Option2()
+    public void Option2()
     {
+        DecisionTracker.ToggleBool(Op2);
+        ClearText();
+        _fullText = answersScript[1];
 
+        _op2 = true;
+        CloseOptions();
     }
 
-    virtual public void Option3()
+    public void Option3()
     {
+        DecisionTracker.ToggleBool(Op3);
+        ClearText();
+        _fullText = answersScript[2];
 
+        _op3 = true;
+        CloseOptions();
     }
 }
