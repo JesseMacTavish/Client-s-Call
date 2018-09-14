@@ -62,11 +62,8 @@ public class EnemyRetreat : MonoBehaviour
         _direction.z = 0;
         _direction.y = 0;
 
-        int random = 0;
-        while (random == 0)
-        {
-            random = Random.Range(-1, 2);
-        }
+        int random = Random.Range(0, 2);
+        random = (random == 0) ? -1 : random;
 
         _direction.x *= random;
     }
@@ -77,7 +74,7 @@ public class EnemyRetreat : MonoBehaviour
 
         if (Vector3.Distance(_transform.position, _playerRigidbody.position) >= _retreatDistance)
         {
-            _state.ChangeState(EnemyStates.EnemyState.MOVING);
+            _state.ChangeState(EnemyStates.EnemyState.SURROUNDING);
         }
     }
 }

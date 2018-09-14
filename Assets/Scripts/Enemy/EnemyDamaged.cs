@@ -15,6 +15,9 @@ public class EnemyDamaged : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED)
+        {
 
+        }
     }
 }

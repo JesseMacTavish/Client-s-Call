@@ -10,9 +10,6 @@ public class Attack : MonoBehaviour
     [Tooltip("The damage of a standard single attack")]
     public int DefaultDamage = 10;
 
-    [Tooltip("The force of the attack that throws an enemy up")]
-    public float AttackForce = 15;
-
     [Tooltip("LeapLength, leapHeight\nActual leap is 2x longer than LeapLength")]
     public Vector2 LeapLengthAndHeight;
 
@@ -21,6 +18,7 @@ public class Attack : MonoBehaviour
 
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
+    private Rigidbody _rigidbody;
 
     private bool _pressedAttack;
     private int _combo = 0;
@@ -40,9 +38,10 @@ public class Attack : MonoBehaviour
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();
-        _enemiesInRange = new List<GameObject>();
         _renderer = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody>();
 
+        _enemiesInRange = new List<GameObject>();
         _trigger = GetComponent<BoxCollider>();
         _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
@@ -175,7 +174,7 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly(AttackForce);
+                    enemy.Fly();
                 }
             }
             else
@@ -190,7 +189,53 @@ public class Attack : MonoBehaviour
                         return;
                     }
 
-                    enemy.Fly(AttackForce);
+                    enemy.Fly();
+                }
+            }
+        }
+    }
+
+    private void throwEnemyAway()
+    {
+        int damage = DefaultDamage;
+
+        damage *= (_combo + 1);
+
+        for (int i = 0; i < _enemiesInRange.Count; i++)
+        {
+            if (_enemiesInRange[i] == null)
+            {
+                _enemiesInRange.RemoveAt(i);
+            }
+
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.KnockBack();
+                }
+            }
+            else
+            {
+                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
+                {
+                    if (enemy.Hit(damage))
+                    {
+                        _enemiesInRange.RemoveAt(i);
+                        i--;
+                        return;
+                    }
+
+                    enemy.KnockBack();
                 }
             }
         }
@@ -222,11 +267,11 @@ public class Attack : MonoBehaviour
             _value += 1 / 2f;
         }
 
-        transform.position = _oldPosition + _leapDirection * _value;
+        _rigidbody.position = _oldPosition + _leapDirection * _value;
 
         if (_value >= 1)
         {
-            _oldPosition = transform.position;
+            _oldPosition = _rigidbody.position;
             _leapDirection.y *= -1;
             _value = 0;
 
