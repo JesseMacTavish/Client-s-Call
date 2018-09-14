@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateInterval: 1
   _retreatSpeed: 0.1
-  _retreatDistance: 9
+  _retreatDistance: 14
 --- !u!114 &114193863687197646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,7 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 20
-  horizontalFlight: 0.5
+  MinHorizontalFlight: 0
+  MaxHorizontalFlight: 0
 --- !u!114 &114202701415683870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateInterval: 0.5
   _damage: 10
-  Attackrange: 2
+  Attackrange: 2.8
 --- !u!114 &114482522898718396
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -20,6 +20,7 @@ public class EnemyAttack : MonoBehaviour
 
     private float _time;
     private bool _attacked;
+    private bool _attacking;
 
     // Use this for initialization
     void Start()
@@ -36,14 +37,17 @@ public class EnemyAttack : MonoBehaviour
     {
         if (_state.CurrentState == EnemyStates.EnemyState.ATTACKING)
         {
-            if (_time >= _updateInterval)
+            if (!_attacking)
             {
-                intervalUpdate();
-                _time = 0;
-            }
-            else
-            {
-                _time += 1 * Time.deltaTime;
+                if (_time >= _updateInterval)
+                {
+                    intervalUpdate();
+                    _time = 0;
+                }
+                else
+                {
+                    _time += 1 * Time.deltaTime;
+                }
             }
         }
     }
@@ -52,7 +56,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if (!_attacked)
         {
-            attack();
+            startAttack();
             return;
         }
 
@@ -63,12 +67,18 @@ public class EnemyAttack : MonoBehaviour
     private void attack()
     {
         _attacked = true;
-        GetComponent<Animator>().Play("EnemyAttack");
+        _attacking = false;
 
         if (InReach)
         {
             _player.Hit(_damage);
         }
+    }
+
+    private void startAttack()
+    {
+        GetComponent<Animator>().Play("EnemyAttack");
+        _attacking = true;
     }
 
     private EnemyStates.EnemyState randomState()
@@ -88,9 +98,12 @@ public class EnemyAttack : MonoBehaviour
 
     private void changeState()
     {
-        EnemyStates.EnemyState state = randomState();
+        //EnemyStates.EnemyState state = randomState();
 
-        _state.ChangeState(state);
+        //_state.ChangeState(state);
+
+        EnemyHandler.Instance.Attacked(gameObject);
+        _state.ChangeState(EnemyStates.EnemyState.RETREAT);
     }
 
     public bool InReach

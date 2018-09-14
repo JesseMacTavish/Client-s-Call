@@ -14,8 +14,8 @@ public class EnemyMovement : MonoBehaviour
     [Tooltip("The distance the enemy will stop from the target\nX = MinDistance, y = MaxDistance")]
     [SerializeField] private Vector2 _surroundDistance = new Vector2(5, 7);
 
-    private static List<int> _availableDegreesRight = new List<int>() { 60, 40, 20, 0, -20, -40, -60, };
-    private static List<int> _availableDegreesLeft = new List<int>() { 120, 140, 160, 180, 200, 220, 240, };
+    private static List<int> _availableDegreesRight = new List<int>() { 0, 20, -20, 40, -40, 60, -60, };//new List<int>() { 60, 40, 20, 0, -20, -40, -60, };
+    private static List<int> _availableDegreesLeft = new List<int>() { 180, 160, 200, 140, 220, 120, 240, };//new List<int>() { 120, 140, 160, 180, 200, 220, 240, };
 
     private Transform _transform;
     private SpriteRenderer _renderer;
@@ -59,19 +59,24 @@ public class EnemyMovement : MonoBehaviour
         if (_state.CurrentState == EnemyStates.EnemyState.SURROUNDING)
         {
             walkTowardsTarget();
+
+            if (_surroundedPlayer)
+            {
+                if (_time >= _updateInterval)
+                {
+                    intervalUpdate();
+                    _time = 0;
+                }
+                else
+                {
+                    _time += 1 * Time.deltaTime;
+                }
+            }
         }
 
-        if (_surroundedPlayer)
+        if (_state.CurrentState == EnemyStates.EnemyState.MOVING)
         {
-            if (_time >= _updateInterval)
-            {
-                intervalUpdate();
-                _time = 0;
-            }
-            else
-            {
-                _time += 1 * Time.deltaTime;
-            }
+            walkTowardsPlayer();
         }
     }
 
@@ -98,20 +103,44 @@ public class EnemyMovement : MonoBehaviour
         if (distance <= 0)
         {
             _surroundedPlayer = true;
+            EnemyHandler.Instance.Ready(gameObject);
+        }
+    }
+
+    private void walkTowardsPlayer()
+    {
+        Vector3 direction = getTarget() - _transform.position;
+        direction.y = 0;
+        float distance = direction.magnitude;
+        _transform.Translate(direction.normalized * _speed);
+
+        distance -= _speed;
+
+        if (distance <= 0)
+        {
+            _state.ChangeState(EnemyStates.EnemyState.ATTACKING);
         }
     }
 
     private Vector3 getTarget()
     {
         _target = _playerRigidbody.position + _offSet;
+
         return _target;
     }
 
     private Vector3 newOffset()
     {
-        getNextDegree();
+        if (_state.CurrentState == EnemyStates.EnemyState.SURROUNDING)
+        {
+            getNextDegree();
 
-        _offSet = GetUnitVectorDegrees(_degrees).normalized * Random.Range(_surroundDistance.x, _surroundDistance.y);
+            _offSet = GetUnitVectorDegrees(_degrees).normalized * Random.Range(_surroundDistance.x, _surroundDistance.y);
+        }
+        else if (_state.CurrentState == EnemyStates.EnemyState.MOVING)
+        {
+            _offSet = _offSet.normalized * (GetComponent<EnemyAttack>().Attackrange - 0.1f);
+        }
 
         return _offSet;
     }
@@ -182,6 +211,8 @@ public class EnemyMovement : MonoBehaviour
     public void NewTarget()
     {
         AddAvailableDegree();
+
+        _surroundedPlayer = false;
 
         newOffset();
     }

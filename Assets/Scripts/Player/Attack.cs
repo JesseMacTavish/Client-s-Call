@@ -18,6 +18,7 @@ public class Attack : MonoBehaviour
 
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
+    private Rigidbody _rigidbody;
 
     private bool _pressedAttack;
     private int _combo = 0;
@@ -36,9 +37,10 @@ public class Attack : MonoBehaviour
     void Start()
     {
         _animation = GetComponent<PlayerAnimation>();
-        _enemiesInRange = new List<GameObject>();
         _renderer = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody>();
 
+        _enemiesInRange = new List<GameObject>();
         _trigger = GetComponent<BoxCollider>();
         _trigger.size = new Vector3(Attackrange, _trigger.size.y, Attackrange);
     }
@@ -213,11 +215,11 @@ public class Attack : MonoBehaviour
             _value += 1 / 2f;
         }
 
-        transform.position = _oldPosition + _leapDirection * _value;
+        _rigidbody.position = _oldPosition + _leapDirection * _value;
 
         if (_value >= 1)
         {
-            _oldPosition = transform.position;
+            _oldPosition = _rigidbody.position;
             _leapDirection.y *= -1;
             _value = 0;
 

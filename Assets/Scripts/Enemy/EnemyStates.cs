@@ -29,10 +29,11 @@ public class EnemyStates : MonoBehaviour
 
     public void ChangeState(EnemyState pState)
     {
+        CurrentState = pState;
+
         switch (pState)
         {
             case EnemyState.MOVING:
-                break;
             case EnemyState.SURROUNDING:
                 GetComponent<EnemyMovement>().NewTarget();
                 break;
@@ -59,8 +60,6 @@ public class EnemyStates : MonoBehaviour
         }
 
         GetComponent<EnemyMovement>().AddAvailableDegree();
-
-        CurrentState = pState;
     }
 
     public EnemyState CurrentState { get; private set; }
