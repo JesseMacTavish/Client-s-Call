@@ -16,6 +16,9 @@ public class Attack : MonoBehaviour
     [Tooltip("LeapLength, leapHeight\nActual leap is 2x longer than LeapLength")]
     public Vector2 LeapLengthAndHeight;
 
+    [Header("Just for you henrik!!!")]
+    public Vector2 JUMP;
+
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
 
@@ -30,6 +33,7 @@ public class Attack : MonoBehaviour
     private Vector3 _newPosition;
     private Vector3 _leapDirection;
     private float _value;
+    private bool _jumping;
 
     private SpriteRenderer _renderer;
 
@@ -45,6 +49,11 @@ public class Attack : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, JUMP.y, 0), ForceMode.VelocityChange);
+        }
+
         if (Input.GetButtonDown("Fire1"))
         {
             if (!_animation.IsAttacking)

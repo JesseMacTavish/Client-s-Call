@@ -52,7 +52,7 @@ public class Movement : MonoBehaviour
             }
         }
 
-        _rigidbody.velocity = Vector3.zero;
+        //_rigidbody.velocity = Vector3.zero;
 
         _velocity += Input.GetAxisRaw("Horizontal") * horizontalMovement;
         _velocity += Input.GetAxisRaw("Vertical") * verticalMovement;
@@ -63,6 +63,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            _rigidbody.velocity = Vector3.zero;
             _animation.WalkAnimation();
         }
 
@@ -82,7 +83,7 @@ public class Movement : MonoBehaviour
 
         if (!_animation.IsAttacking)
         {
-            _rigidbody.velocity = _velocity;
+            _rigidbody.velocity += _velocity;
         }
 
         _velocity.Set(0, 0, 0);
