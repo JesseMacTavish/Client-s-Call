@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Player\Attack.cs" />
      <Compile Include="Assets\Scripts\Player\Movement.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Scripts\ScreenShake.cs" />
      <Compile Include="Assets\Scripts\StatsHandlerScript.cs" />
      <None Include="Assets\Shaders\RedShader.shader" />
      <None Include="Assets\Shaders\BreatheShader.shader" />

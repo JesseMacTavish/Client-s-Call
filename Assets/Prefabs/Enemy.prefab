@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4504d6b138dc4cf46831d1f197220466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dust: {fileID: 1960967100029754, guid: 83e820078a57a5144b1dc4bb6240ce07, type: 2}
   _health: 20
-  kncockBackspeed: {x: 0.2, y: 0.05}
+  kncockBackspeed: {x: 0.25, y: 0.05}
   flyupSpeed: 0.18
 --- !u!114 &114202701415683870
 MonoBehaviour:
@@ -118,6 +119,8 @@ MonoBehaviour:
   _updateInterval: 0.5
   _damage: 10
   Attackrange: 2
+  freezeTime: 0.1
+  screenShake: {fileID: 0}
 --- !u!114 &114482522898718396
 MonoBehaviour:
   m_ObjectHideFlags: 1

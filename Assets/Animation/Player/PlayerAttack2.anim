@@ -216,6 +216,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0
+    functionName: attack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.29166666
     functionName: attack
     data: 
@@ -251,14 +258,21 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.375
+  - time: 1.4166666
+    functionName: attack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.4166666
     functionName: throwEnemyUp
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.6666666
+  - time: 1.5833334
     functionName: continueAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -273,6 +287,13 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.9583334
+    functionName: attack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2
     functionName: attack
     data: 
     objectReferenceParameter: {fileID: 0}
