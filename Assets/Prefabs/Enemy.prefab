@@ -103,6 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4504d6b138dc4cf46831d1f197220466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slash: {fileID: 1476073318930664, guid: 66556193782112346993bae43b3aa540, type: 2}
+  stab: {fileID: 1617526116697114, guid: 211c53d2bbaceb74496d33bb039dce1f, type: 2}
+  upSlash: {fileID: 1487467368253302, guid: e3a847208cf33ca43b25fff9820ca2dc, type: 2}
   _health: 20
   _knockBackspeed: {x: 0.25, y: 0}
   _flyupSpeed: 0.2

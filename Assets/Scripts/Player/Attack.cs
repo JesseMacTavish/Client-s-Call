@@ -167,47 +167,34 @@ public class Attack : MonoBehaviour
     }
 
     private void throwEnemyUp()
-    {     
-        for (int i = 0; i < _enemiesInRange.Count; i++)
+    {
+        if (getEnemiesInRange().Count > 0)
         {
-            if (GetComponent<SpriteRenderer>().flipX)
+            foreach (Enemy enemy in getEnemiesInRange())
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
-                {
-                    enemy.Fly();
-                }
-            }
-            else
-            {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
-                {
-                    enemy.Fly();
-                }
+                enemy.Fly();
             }
         }
     }
 
     private void throwEnemyAway()
-    {      
-        for (int i = 0; i < _enemiesInRange.Count; i++)
-        {            
-            if (GetComponent<SpriteRenderer>().flipX)
+    {
+        if (getEnemiesInRange().Count > 0)
+        {
+            foreach (Enemy enemy in getEnemiesInRange())
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
-                {                   
-                    enemy.KnockBack();
-                }
+                enemy.KnockBack();
             }
-            else
+        }
+    }
+
+    private void makeSlash(int pSlash)
+    {
+        if (getEnemiesInRange().Count > 0)
+        {
+            foreach (Enemy enemy in getEnemiesInRange())
             {
-                Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
-                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
-                {        
-                    enemy.KnockBack();
-                }
+                enemy.SpawnSlash(pSlash);
             }
         }
     }
@@ -254,6 +241,31 @@ public class Attack : MonoBehaviour
 
             _highestPoint = true;
         }
+    }
+
+    List<Enemy> getEnemiesInRange()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        for (int i = 0; i < _enemiesInRange.Count; i++)
+        {
+            Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
+                {
+                    enemies.Add(enemy);
+                }
+            }
+            else
+            {
+                if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
+                {
+                    enemies.Add(enemy);
+                }
+            }
+        }
+
+        return enemies;
     }
 
     public void unFreezeAnimations()
