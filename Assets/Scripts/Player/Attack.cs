@@ -136,8 +136,8 @@ public class Attack : MonoBehaviour
                         i--;
                     }
 
-                    GetComponent<Animator>().enabled = false;
-                    enemy.GetComponent<Animator>().enabled = false;
+                    GetComponent<Animator>().speed = 0;
+                    enemy.GetComponent<Animator>().speed = 0;
                     Invoke("unFreezeAnimations", freezeTime);
                     enemy.Invoke("unFreezeAnimations", freezeTime);
 
@@ -155,8 +155,8 @@ public class Attack : MonoBehaviour
                         i--;
                     }
 
-                    GetComponent<Animator>().enabled = false;
-                    enemy.GetComponent<Animator>().enabled = false;
+                    GetComponent<Animator>().speed = 0;
+                    enemy.GetComponent<Animator>().speed = 0;
                     Invoke("unFreezeAnimations", freezeTime);
                     enemy.Invoke("unFreezeAnimations", freezeTime);
 
@@ -258,6 +258,6 @@ public class Attack : MonoBehaviour
 
     public void unFreezeAnimations()
     {
-        GetComponent<Animator>().enabled = true;
+        GetComponent<Animator>().speed = 1;
     }
 }

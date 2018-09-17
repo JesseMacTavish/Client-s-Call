@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject dust;
+    //public GameObject dust;
 
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
@@ -17,11 +17,8 @@ public class Enemy : MonoBehaviour
     private EnemyStates _state;
     bool _fly;
     bool _knockBack;
-
-<<<<<<< HEAD
+    
     private float _startY;
-=======
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
     Vector3 _oldPosition;
 
     void Start()
@@ -37,12 +34,8 @@ public class Enemy : MonoBehaviour
         if (_fly)
         {
             _flightSpeed -= 0.01f;
-
-<<<<<<< HEAD
+            
             if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
-=======
-            if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y + _flightSpeed, transform.position.z);
 
@@ -56,55 +49,34 @@ public class Enemy : MonoBehaviour
                 Invoke("changeStateRandom", 0.5f);
 
                 //Spawn the dust under the guy
-                float enemyHeight = GetComponent<SpriteRenderer>().sprite.texture.height;
-                float dustHeight = dust.GetComponent<SpriteRenderer>().sprite.texture.height;
-                float y = transform.position.y - (enemyHeight - dustHeight) / 200f;
-                Instantiate(dust, new Vector3(transform.position.x, y, transform.position.z - 0.1f), Quaternion.identity);
+                //float enemyHeight = GetComponent<SpriteRenderer>().sprite.texture.height;
+                //float dustHeight = dust.GetComponent<SpriteRenderer>().sprite.texture.height;
+                //float y = transform.position.y - (enemyHeight - dustHeight) / 200f;
+                //Instantiate(dust, new Vector3(transform.position.x, y, transform.position.z - 0.1f), Quaternion.identity);
             }
 
-<<<<<<< HEAD
             if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED || _state.CurrentState == EnemyStates.EnemyState.AIRDAMAGED)
             {
                 _flightSpeed = 0.05f;
-                _flightSpeed += 0.01f;
-=======
-            if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED)
-            {
-                _flightSpeed = 0.05f;
                 _flightSpeed += 0.03f;
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
             }
         }
         if (_knockBack)
         {
-<<<<<<< HEAD
-            knockSpeedX -= 0.01f;
-            if (knockBackspeed.x < 0)
-                knockBackspeed.x = 0;
-            knockSpeedY -= 0.01f;
-=======
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
 
             if (_state.CurrentState != EnemyStates.EnemyState.DAMAGED && _state.CurrentState != EnemyStates.EnemyState.AIRDAMAGED)
             {
                 if (GetComponent<SpriteRenderer>().flipX)
-<<<<<<< HEAD
-=======
                     transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
                 else
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
                     transform.position = new Vector3(transform.position.x - knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
-                else
-                    transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+
                 CancelInvoke();
             }
 
             if (transform.position.y <= _oldPosition.y)
             {
-<<<<<<< HEAD
                 transform.position = new Vector3(transform.position.x, _startY, transform.position.z);
-=======
-                transform.position = new Vector3(transform.position.x, _oldPosition.y, transform.position.z);
             }
             else
             {
@@ -114,7 +86,6 @@ public class Enemy : MonoBehaviour
 
             if (knockSpeedX <= 0)
             {
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
                 _knockBack = false;
                 Invoke("changeStateRandom", 0.5f);
             }
@@ -143,13 +114,6 @@ public class Enemy : MonoBehaviour
             return true;
         }
 
-<<<<<<< HEAD
-
-=======
-
-
-        _state.ChangeState(EnemyStates.EnemyState.DAMAGED);
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
         if (_fly)
         {
             Invoke("changeStateFly", 0.1f);
@@ -229,6 +193,6 @@ public class Enemy : MonoBehaviour
 
     public void unFreezeAnimations()
     {
-        GetComponent<Animator>().enabled = true;
+        GetComponent<Animator>().speed = 1;
     }
 }

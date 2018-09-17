@@ -7,6 +7,8 @@ public class EnemyStates : MonoBehaviour
     [Tooltip("The state of the enemy at the beginning")]
     [SerializeField] private EnemyState _startState = EnemyState.SURROUNDING;
 
+    private Animator _animator;
+
     public enum EnemyState
     {
         SURROUNDING,
@@ -21,6 +23,7 @@ public class EnemyStates : MonoBehaviour
     void Awake()
     {
         CurrentState = _startState;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -32,6 +35,7 @@ public class EnemyStates : MonoBehaviour
     public void ChangeState(EnemyState pState)
     {
         CurrentState = pState;
+        _animator.speed = 1;
 
         switch (pState)
         {
@@ -47,19 +51,7 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.FLYUP:
                 break;
             case EnemyState.DAMAGED:
-<<<<<<< HEAD
                 GetComponent<EnemyDamaged>().DamageAnimation();
-                //TODO: move this to EnemyDamaged.cs
-                //if (GetComponent<SpriteRenderer>().flipX)
-                //{
-                //    transform.position += Vector3.left * -0.1f; //Hardcode
-                //}
-                //else
-                //{
-                //    transform.position += Vector3.right * -0.1f; //Hardcode
-                //}
-=======
->>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
                 break;
             case EnemyState.AIRDAMAGED:
                 GetComponent<EnemyDamaged>().DamageAirAnimation();

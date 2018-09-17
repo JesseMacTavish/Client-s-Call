@@ -74,8 +74,8 @@ public class EnemyAttack : MonoBehaviour
         if (InReach)
         {
             _player.Hit(_damage);
-
-            GetComponent<Animator>().enabled = false;
+            
+            GetComponent<Animator>().speed = 0;
             Invoke("unFreezeAnimations", freezeTime);
 
             StartCoroutine(screenShake.Shake(0.1f, 0.1f));
@@ -105,10 +105,6 @@ public class EnemyAttack : MonoBehaviour
 
     private void changeState()
     {
-        //EnemyStates.EnemyState state = randomState();
-
-        //_state.ChangeState(state);
-
         EnemyHandler.Instance.Attacked(gameObject);
         _state.ChangeState(EnemyStates.EnemyState.RETREAT);
     }
@@ -123,6 +119,6 @@ public class EnemyAttack : MonoBehaviour
 
     public void unFreezeAnimations()
     {
-        GetComponent<Animator>().enabled = true;
+        GetComponent<Animator>().speed = 1;
     }
 }
