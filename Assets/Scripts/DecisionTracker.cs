@@ -9,7 +9,7 @@ public enum SetBool
     LEFT_HITLER
 }
 
-public class DecisionTracker : MonoBehaviour
+public class DecisionTracker 
 {
     public static float killer;
     public static float explorer;

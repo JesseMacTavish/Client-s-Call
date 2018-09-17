@@ -197,7 +197,7 @@ public class DialogHandler : MonoBehaviour
         }
 
         _optionsOn = true;
-        _questionAsked = false;
+        _questionAsked = false;        
     }
 
     protected void CloseOptions()

@@ -460,15 +460,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4850028126704700, guid: de6224a634c46054abaffcff46c4b794, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4850028126704700, guid: de6224a634c46054abaffcff46c4b794, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4850028126704700, guid: de6224a634c46054abaffcff46c4b794, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4850028126704700, guid: de6224a634c46054abaffcff46c4b794, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1043,6 +1043,11 @@ Prefab:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 767953745}
+    - target: {fileID: 114785078935709552, guid: de6224a634c46054abaffcff46c4b794,
+        type: 2}
+      propertyPath: talkToOtherCharacter
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: de6224a634c46054abaffcff46c4b794, type: 2}
   m_IsPrefabParent: 0
@@ -1351,32 +1356,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1642646258608894, guid: 10a66e8236e6acb49b13551f0a1d3a40, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812750644926172, guid: 10a66e8236e6acb49b13551f0a1d3a40, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1627416720612692, guid: 10a66e8236e6acb49b13551f0a1d3a40, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455443663191196, guid: 10a66e8236e6acb49b13551f0a1d3a40, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224971382862043716, guid: 10a66e8236e6acb49b13551f0a1d3a40,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 224777380432966474, guid: 10a66e8236e6acb49b13551f0a1d3a40,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 10a66e8236e6acb49b13551f0a1d3a40, type: 2}

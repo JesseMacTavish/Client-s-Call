@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    //public GameObject dust;
+    public GameObject slash;
+    public GameObject stab;
+    public GameObject upSlash;
 
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
@@ -17,7 +19,7 @@ public class Enemy : MonoBehaviour
     private EnemyStates _state;
     bool _fly;
     bool _knockBack;
-    
+
     private float _startY;
     Vector3 _oldPosition;
 
@@ -34,7 +36,7 @@ public class Enemy : MonoBehaviour
         if (_fly)
         {
             _flightSpeed -= 0.01f;
-            
+
             if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y + _flightSpeed, transform.position.z);
@@ -154,6 +156,28 @@ public class Enemy : MonoBehaviour
         if (!_fly)
         {
             _oldPosition = transform.position;
+        }
+    }
+
+    public void SpawnSlash(int pSlash)
+    {
+        switch (pSlash)
+        {
+            case 1:
+                if (GetComponent<SpriteRenderer>().flipX)
+                    Instantiate(slash, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.1f), Quaternion.identity);
+                else
+                    Instantiate(slash, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.1f), Quaternion.Euler(0, -180f, 0));
+                break;
+            case 2:
+                Instantiate(stab, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.1f), Quaternion.identity);
+                break;
+            case 3:
+                Instantiate(upSlash, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z - 0.1f), Quaternion.identity);
+                break;
+            default:
+                Instantiate(slash, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.1f), Quaternion.identity);
+                break;
         }
     }
 
