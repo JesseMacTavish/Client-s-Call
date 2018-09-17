@@ -13,14 +13,12 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -290,6 +288,7 @@
     <Compile Include="Assets\Scripts\ButtonScript.cs" />
     <Compile Include="Assets\Scripts\CharacterScript.cs" />
     <Compile Include="Assets\Scripts\DecisionTracker.cs" />
+    <Compile Include="Assets\Scripts\DestroyOnAnimEnd.cs" />
     <Compile Include="Assets\Scripts\DialogHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
@@ -306,6 +305,7 @@
     <Compile Include="Assets\Scripts\Player\Movement.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\ScreenShake.cs" />
+    <Compile Include="Assets\Scripts\ShowArrowOnSelect.cs" />
     <Compile Include="Assets\Scripts\StatsHandlerScript.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -321,9 +321,7 @@
     <None Include="Assets\Shaders\WaterShader.shader" />
     <None Include="Assets\Shaders\WoodShader.shader" />
     <None Include="Assets\Shaders\WorldPositionShader.shader" />
-    <None Include="Assets\StreamingAssets\EnemyInfo.json" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
