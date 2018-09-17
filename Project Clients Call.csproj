@@ -309,6 +309,7 @@
     <None Include="Assets\Scripts\DialogScript.txt" />
     <None Include="Assets\Shaders\BreatheShader.shader" />
     <None Include="Assets\Shaders\DisplayNormals.shader" />
+    <None Include="Assets\Shaders\GrabPassShader.shader" />
     <None Include="Assets\Shaders\RedShader.shader" />
     <None Include="Assets\Shaders\TextureShader.shader" />
     <None Include="Assets\Shaders\UVcycleShader.shader" />

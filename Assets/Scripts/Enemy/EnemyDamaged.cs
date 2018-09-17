@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class EnemyDamaged : MonoBehaviour
 {
-    private EnemyStates _state;
+    private Animator _animator;
 
     // Use this for initialization
     void Start()
     {
-        _state = GetComponent<EnemyStates>();
+        _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DamageAnimation()
     {
-        if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED)
-        {
+        _animator.Play("EnemyDamage");
+    }
 
-        }
+    public void DamageAirAnimation()
+    {
+        _animator.Play("EnemyDamageAir");
     }
 }

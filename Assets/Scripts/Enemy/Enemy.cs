@@ -7,17 +7,16 @@ public class Enemy : MonoBehaviour
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
 
-    public Vector2 kncockBackspeed;
+    public Vector2 knockBackspeed;
     float knockSpeedX;
     float knockSpeedY;
     public float flyupSpeed = 0.2f;
     float _flightSpeed;
     private EnemyStates _state;
-    private Animator _animator;
     bool _fly;
     bool _knockBack;
 
-
+    private float _startY;
     Vector3 _oldPosition;
 
     void Start()
@@ -25,7 +24,7 @@ public class Enemy : MonoBehaviour
         EnemyHandler.Instance.EnemySpawned(gameObject);
 
         _state = GetComponent<EnemyStates>();
-        _animator = GetComponent<Animator>();
+        _startY = transform.position.y;
     }
 
     void Update()
@@ -33,46 +32,47 @@ public class Enemy : MonoBehaviour
         if (_fly)
         {
             _flightSpeed -= 0.01f;
-          
-            if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
+
+            if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
             {
                 transform.position = new Vector3(transform.position.x, transform.position.y + _flightSpeed, transform.position.z);
 
                 CancelInvoke();
             }
-        
+
             if (transform.position.y <= _oldPosition.y)
             {
+                transform.position = new Vector3(transform.position.x, _startY, transform.position.z);
                 _fly = false;
                 Invoke("changeStateRandom", 0.5f);
             }
 
-            if (_state.StartState == EnemyStates.EnemyState.DAMAGED)
+            if (_state.CurrentState == EnemyStates.EnemyState.DAMAGED || _state.CurrentState == EnemyStates.EnemyState.AIRDAMAGED)
             {
                 _flightSpeed = 0.05f;
                 _flightSpeed += 0.01f;
-                //CancelInvoke();
             }
         }
 
         if (_knockBack)
         {
             knockSpeedX -= 0.01f;
-            if (kncockBackspeed.x < 0)
-                kncockBackspeed.x = 0;
+            if (knockBackspeed.x < 0)
+                knockBackspeed.x = 0;
             knockSpeedY -= 0.01f;
 
-            if (_state.StartState != EnemyStates.EnemyState.DAMAGED)
+            if (_state.CurrentState != EnemyStates.EnemyState.DAMAGED && _state.CurrentState != EnemyStates.EnemyState.AIRDAMAGED)
             {
-                if(GetComponent<SpriteRenderer>().flipX)
-                    transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
-                else
+                if (GetComponent<SpriteRenderer>().flipX)
                     transform.position = new Vector3(transform.position.x - knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+                else
+                    transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
                 CancelInvoke();
             }
 
             if (transform.position.y <= _oldPosition.y)
             {
+                transform.position = new Vector3(transform.position.x, _startY, transform.position.z);
                 _knockBack = false;
                 Invoke("changeStateRandom", 0.5f);
             }
@@ -83,22 +83,26 @@ public class Enemy : MonoBehaviour
     {
         CancelInvoke();
 
+        if (_state.CurrentState == EnemyStates.EnemyState.FLYUP || _state.CurrentState == EnemyStates.EnemyState.AIRDAMAGED)
+        {
+            _fly = true;
+            _state.ChangeState(EnemyStates.EnemyState.AIRDAMAGED);
+        }
+        else
+        {
+            _state.ChangeState(EnemyStates.EnemyState.DAMAGED);
+        }
+
         _health -= pDamage;
-        _animator.Play("EnemyDamage");
+
         if (_health <= 0)
         {
             die();
             return true;
         }
 
-        bool wasFly = false;
-        if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
-        {
-            wasFly = true;
-        }
 
-        _state.ChangeState(EnemyStates.EnemyState.DAMAGED);
-        if (_fly || wasFly)
+        if (_fly)
         {
             Invoke("changeStateFly", 0.1f);
             transform.Translate(0, 0.3f, 0);
@@ -113,6 +117,11 @@ public class Enemy : MonoBehaviour
 
     public void Fly()
     {
+        if (_state.CurrentState == EnemyStates.EnemyState.FLYUP)
+        {
+            return;
+        }
+
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
         _fly = true;
         _oldPosition = transform.position;
@@ -121,15 +130,19 @@ public class Enemy : MonoBehaviour
 
     public void KnockBack()
     {
+        if (_state.CurrentState != EnemyStates.EnemyState.FLYUP && _state.CurrentState != EnemyStates.EnemyState.AIRDAMAGED)
+        {
+            return;
+        }
+
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
         _knockBack = true;
-        knockSpeedX = kncockBackspeed.x;
-        knockSpeedY = kncockBackspeed.y;
+        knockSpeedX = knockBackspeed.x;
+        knockSpeedY = knockBackspeed.y;
         if (!_fly)
         {
             _oldPosition = transform.position;
         }
-        Debug.Log("Ouch");
     }
 
     private void die()
@@ -150,17 +163,18 @@ public class Enemy : MonoBehaviour
     private void changeStateRandom()
     {
         int random = Random.Range(0, 2);
+        EnemyHandler.Instance.Attacked(gameObject);
 
         switch (random)
         {
             case 0:
-                _state.ChangeState(EnemyStates.EnemyState.MOVING);
+                _state.ChangeState(EnemyStates.EnemyState.SURROUNDING);
                 break;
             case 1:
                 _state.ChangeState(EnemyStates.EnemyState.RETREAT);
                 break;
             default:
-                _state.ChangeState(EnemyStates.EnemyState.MOVING);
+                _state.ChangeState(EnemyStates.EnemyState.SURROUNDING);
                 break;
         }
     }

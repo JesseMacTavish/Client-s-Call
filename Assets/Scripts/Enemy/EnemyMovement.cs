@@ -14,13 +14,12 @@ public class EnemyMovement : MonoBehaviour
     [Tooltip("The distance the enemy will stop from the target\nX = MinDistance, y = MaxDistance")]
     [SerializeField] private Vector2 _surroundDistance = new Vector2(5, 7);
 
-    private static List<int> _availableDegreesRight = new List<int>() { 0, 20, -20, 40, -40, 60, -60, };//new List<int>() { 60, 40, 20, 0, -20, -40, -60, };
-    private static List<int> _availableDegreesLeft = new List<int>() { 180, 160, 200, 140, 220, 120, 240, };//new List<int>() { 120, 140, 160, 180, 200, 220, 240, };
+    private static List<int> _availableDegreesRight = new List<int>() /*{ 0, 20, -20, 40, -40, 60, -60, };*/ { 60, 40, 20, 0, -20, -40, -60, };
+    private static List<int> _availableDegreesLeft = new List<int>() /*{ 180, 160, 200, 140, 220, 120, 240, };*/ { 120, 140, 160, 180, 200, 220, 240, };
 
     private Transform _transform;
     private SpriteRenderer _renderer;
     private EnemyStates _state;
-    private EnemyAttack _reach;
 
     private GameObject _player;
     private Rigidbody _playerRigidbody;
@@ -39,7 +38,6 @@ public class EnemyMovement : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
         _transform = GetComponent<Transform>();
         _state = GetComponent<EnemyStates>();
-        _reach = GetComponent<EnemyAttack>();
 
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerRigidbody = _player.GetComponent<Rigidbody>();
