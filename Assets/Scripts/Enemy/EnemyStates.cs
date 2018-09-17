@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyStates : MonoBehaviour
 {
     [Tooltip("The state of the enemy at the beginning")]
-    public EnemyState StartState = EnemyState.SURROUNDING;
+    [SerializeField] private EnemyState _startState = EnemyState.SURROUNDING;
+
+    private Animator _animator;
 
     public enum EnemyState
     {
@@ -15,21 +17,25 @@ public class EnemyStates : MonoBehaviour
         RETREAT,
         DAMAGED,
         FLYUP,
+        AIRDAMAGED,
     }
 
     void Awake()
     {
-        CurrentState = StartState;
+        CurrentState = _startState;
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        StartState = CurrentState;
+        //todo: be sure to get rid of this update method later
+        _startState = CurrentState;
     }
 
     public void ChangeState(EnemyState pState)
     {
         CurrentState = pState;
+        _animator.speed = 1;
 
         switch (pState)
         {
@@ -45,15 +51,10 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.FLYUP:
                 break;
             case EnemyState.DAMAGED:
-                //TODO: move this to EnemyDamaged.cs
-                //if (GetComponent<SpriteRenderer>().flipX)
-                //{
-                //    transform.position += Vector3.left * -0.1f; //Hardcode
-                //}
-                //else
-                //{
-                //    transform.position += Vector3.right * -0.1f; //Hardcode
-                //}
+                GetComponent<EnemyDamaged>().DamageAnimation();
+                break;
+            case EnemyState.AIRDAMAGED:
+                GetComponent<EnemyDamaged>().DamageAirAnimation();
                 break;
             default:
                 break;

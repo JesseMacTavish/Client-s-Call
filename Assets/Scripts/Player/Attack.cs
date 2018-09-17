@@ -16,6 +16,9 @@ public class Attack : MonoBehaviour
     [Header("Just for you henrik!!!")]
     public Vector2 JUMP;
 
+    public ScreenShake screenShake;
+
+    public float freezeTime = 0.1f;
     private PlayerAnimation _animation;
     private BoxCollider _trigger;
     private Rigidbody _rigidbody;
@@ -132,6 +135,13 @@ public class Attack : MonoBehaviour
                         _enemiesInRange.RemoveAt(i);
                         i--;
                     }
+
+                    GetComponent<Animator>().speed = 0;
+                    enemy.GetComponent<Animator>().speed = 0;
+                    Invoke("unFreezeAnimations", freezeTime);
+                    enemy.Invoke("unFreezeAnimations", freezeTime);
+
+                    StartCoroutine(screenShake.Shake(0.1f, 0.03f));
                 }
             }
             else
@@ -144,36 +154,27 @@ public class Attack : MonoBehaviour
                         _enemiesInRange.RemoveAt(i);
                         i--;
                     }
+
+                    GetComponent<Animator>().speed = 0;
+                    enemy.GetComponent<Animator>().speed = 0;
+                    Invoke("unFreezeAnimations", freezeTime);
+                    enemy.Invoke("unFreezeAnimations", freezeTime);
+
+                    StartCoroutine(screenShake.Shake(0.1f, 0.03f));
                 }
             }
         }
     }
 
     private void throwEnemyUp()
-    {
-        int damage = DefaultDamage;
-
-        damage *= (_combo + 1);
-
+    {     
         for (int i = 0; i < _enemiesInRange.Count; i++)
         {
-            if (_enemiesInRange[i] == null)
-            {
-                _enemiesInRange.RemoveAt(i);
-            }
-
             if (GetComponent<SpriteRenderer>().flipX)
             {
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
                 {
-                    if (enemy.Hit(damage))
-                    {
-                        _enemiesInRange.RemoveAt(i);
-                        i--;
-                        return;
-                    }
-
                     enemy.Fly();
                 }
             }
@@ -182,13 +183,6 @@ public class Attack : MonoBehaviour
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
                 {
-                    if (enemy.Hit(damage))
-                    {
-                        _enemiesInRange.RemoveAt(i);
-                        i--;
-                        return;
-                    }
-
                     enemy.Fly();
                 }
             }
@@ -196,30 +190,14 @@ public class Attack : MonoBehaviour
     }
 
     private void throwEnemyAway()
-    {
-        int damage = DefaultDamage;
-
-        damage *= (_combo + 1);
-
+    {      
         for (int i = 0; i < _enemiesInRange.Count; i++)
-        {
-            if (_enemiesInRange[i] == null)
-            {
-                _enemiesInRange.RemoveAt(i);
-            }
-
+        {            
             if (GetComponent<SpriteRenderer>().flipX)
             {
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x <= GetComponent<Rigidbody>().position.x)
-                {
-                    if (enemy.Hit(damage))
-                    {
-                        _enemiesInRange.RemoveAt(i);
-                        i--;
-                        return;
-                    }
-
+                {                   
                     enemy.KnockBack();
                 }
             }
@@ -227,14 +205,7 @@ public class Attack : MonoBehaviour
             {
                 Enemy enemy = _enemiesInRange[i].GetComponent<Enemy>();
                 if (enemy.GetComponent<Transform>().position.x >= GetComponent<Rigidbody>().position.x)
-                {
-                    if (enemy.Hit(damage))
-                    {
-                        _enemiesInRange.RemoveAt(i);
-                        i--;
-                        return;
-                    }
-
+                {        
                     enemy.KnockBack();
                 }
             }
@@ -283,5 +254,10 @@ public class Attack : MonoBehaviour
 
             _highestPoint = true;
         }
+    }
+
+    public void unFreezeAnimations()
+    {
+        GetComponent<Animator>().speed = 1;
     }
 }

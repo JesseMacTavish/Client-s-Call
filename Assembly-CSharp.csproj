@@ -70,9 +70,19 @@
      <Compile Include="Assets\Scripts\Player\Attack.cs" />
      <Compile Include="Assets\Scripts\Player\Movement.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
-     <Compile Include="Assets\Scripts\Socializer.cs" />
+     <Compile Include="Assets\Scripts\ScreenShake.cs" />
      <Compile Include="Assets\Scripts\StatsHandlerScript.cs" />
+     <None Include="Assets\Shaders\RedShader.shader" />
+     <None Include="Assets\Shaders\BreatheShader.shader" />
+     <None Include="Assets\Shaders\VectorOperations.shader" />
+     <None Include="Assets\Shaders\UVcycleShader.shader" />
+     <None Include="Assets\Shaders\DisplayNormals.shader" />
      <None Include="Assets\Scripts\DialogScript.txt" />
+     <None Include="Assets\Shaders\VertexLitTransparentShader (1).shader" />
+     <None Include="Assets\Shaders\WoodShader.shader" />
+     <None Include="Assets\Shaders\WaterShader.shader" />
+     <None Include="Assets\Shaders\WorldPositionShader.shader" />
+     <None Include="Assets\Shaders\TextureShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

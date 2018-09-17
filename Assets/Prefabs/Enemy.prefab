@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114202701415683870}
   - component: {fileID: 114533639149239036}
   - component: {fileID: 114166066342914244}
+  - component: {fileID: 114998621066868594}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -102,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 20
-  kncockBackspeed: {x: 0.2, y: 0.05}
+  knockBackspeed: {x: 0, y: 0}
   flyupSpeed: 0.18
 --- !u!114 &114202701415683870
 MonoBehaviour:
@@ -118,6 +119,8 @@ MonoBehaviour:
   _updateInterval: 0.5
   _damage: 10
   Attackrange: 2
+  freezeTime: 0.1
+  screenShake: {fileID: 0}
 --- !u!114 &114482522898718396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +146,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35487b6bfa59364fa21418744a79bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartState: 0
+  _startState: 0
+--- !u!114 &114998621066868594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653819467274914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c302245b88a8d43a16c34b69444566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212096838850785336
 SpriteRenderer:
   m_ObjectHideFlags: 1

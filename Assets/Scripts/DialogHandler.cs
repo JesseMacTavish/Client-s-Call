@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,15 @@ public class DialogHandler : MonoBehaviour
     public GameObject dialogBox;
     public GameObject optionsBox;
     public GameObject sliders;
+    public AudioSource audioSource;
+    [Space]
+    [Range(2, 3)]
     public int ammountOfOptions;
     public bool timedDecision;
     public float givenTime;
-    public bool goToOtherScene;
+    public bool talkToOtherCharacter;
+    public GameObject otherCharacter;
+
     float _timeOnDecision;
     Text _dialog;
     Text _name;
@@ -22,17 +28,34 @@ public class DialogHandler : MonoBehaviour
     bool _optionsOn;
     bool _questionAsked;
 
+    [Space]
     [TextArea]
     public List<string> dialogScript = new List<string>();
     [TextArea]
     public List<string> answersScript = new List<string>();
-    public List<Action> optionsAction = new List<Action>();
+    public List<GameObject> pictures = new List<GameObject>();
+    public List<AudioClip> sounds = new List<AudioClip>();
+
+    List<Action> optionsAction = new List<Action>();
 
     //Variables for slow type
     public float typeDelay = 0.1f;
     float _timeType;
-    protected string _fullText = "";
+    string _text = "";
     string _typedCharacters = "";
+
+    [Header("Scenes to load")]
+    public UnityEngine.Object sceneToLoad1;
+    public UnityEngine.Object sceneToLoad2;
+    public UnityEngine.Object sceneToLoad3;
+
+    public SetBool Op1;
+    public SetBool Op2;
+    public SetBool Op3;
+
+    private bool _op1;
+    private bool _op2;
+    private bool _op3;
 
     void Start()
     {
@@ -40,12 +63,11 @@ public class DialogHandler : MonoBehaviour
         _name = dialogBox.transform.Find("Name").GetComponent<Text>();
         string[] script = dialogScript[0].Split('|');
         _name.text = script[0];
-        _fullText = script[1];
+        _text = script[1];
 
         optionsAction.Add(Option1);
         optionsAction.Add(Option2);
         optionsAction.Add(Option3);
-
     }
 
     void Update()
@@ -66,14 +88,14 @@ public class DialogHandler : MonoBehaviour
     void Type()
     {
         _timeType += Time.deltaTime;
-        while (_timeType >= typeDelay && _typedCharacters.Length < _fullText.Length)
+        while (_timeType >= typeDelay && _typedCharacters.Length < _text.Length)
         {
-            _typedCharacters += _fullText[_typedCharacters.Length];
+            _typedCharacters += _text[_typedCharacters.Length];
             _timeType = 0;
         }
         _dialog.text = _typedCharacters;
 
-        if (_typedCharacters.Length == _fullText.Length && _questionAsked && !_optionsOn)
+        if (_typedCharacters.Length == _text.Length && _questionAsked)
         {
             ShowOptions();
         }
@@ -81,9 +103,9 @@ public class DialogHandler : MonoBehaviour
 
     void Continue()
     {
-        if (_typedCharacters.Length < _fullText.Length)
+        if (_typedCharacters.Length < _text.Length)
         {
-            _typedCharacters = _fullText;
+            _typedCharacters = _text;
             return;
         }
 
@@ -95,27 +117,62 @@ public class DialogHandler : MonoBehaviour
         }
         else
         {
-            dialogBox.SetActive(false);
-
-            if (goToOtherScene)
+            if (!talkToOtherCharacter)
             {
-                SceneManager.LoadScene("level_design");
+                dialogBox.SetActive(false);
+                if (_op1)
+                {
+                    SceneManager.LoadScene(sceneToLoad1.name);
+                }
+                else if (_op2)
+                {
+                    SceneManager.LoadScene(sceneToLoad2.name);
+                }
+
+                else if (_op3)
+                {
+                    SceneManager.LoadScene(sceneToLoad3.name);
+                }
+            }
+            else
+            {
+                otherCharacter.SetActive(true);
+                gameObject.SetActive(false);
             }
             return;
         }
 
-        string[] _script = dialogScript[_dialogBoxID].Split('|');
-        _name.text = _script[0];     
 
-        if (_script[1].Contains("%"))
+        string[] _script = dialogScript[_dialogBoxID].Split('|');
+        _name.text = _script[0];
+        string textLine = _script[1];
+
+        //Add picture
+        if (textLine.Contains("+"))
         {
-            _fullTextOptions = _script[1].Split('%');
-            _fullText = _fullTextOptions[0];
+            string _pictureID = textLine[textLine.IndexOf("+") + 1].ToString();
+            pictures[Int32.Parse(_pictureID)].SetActive(true);
+            textLine = textLine.Remove(textLine.IndexOf("+"), 2);
+        }
+
+        //Add sound
+        if (textLine.Contains("*"))
+        {
+            string _soundID = textLine[textLine.IndexOf("*") + 1].ToString();
+            audioSource.PlayOneShot(sounds[Int32.Parse(_soundID)]);
+            textLine = textLine.Remove(textLine.IndexOf("*"), 2);
+        }
+
+        //Add quesion
+        if (textLine.Contains("%"))
+        {
+            _fullTextOptions = textLine.Split('%');
+            _text = _fullTextOptions[0];
             _questionAsked = true;
         }
         else
         {
-            _fullText = _script[1];
+            _text = textLine;
         }
     }
 
@@ -135,9 +192,12 @@ public class DialogHandler : MonoBehaviour
         if (timedDecision)
         {
             sliders.SetActive(true);
+            SetTimeSlider(1f);
+            _timeOnDecision = 0f;
         }
 
         _optionsOn = true;
+        _questionAsked = false;
     }
 
     protected void CloseOptions()
@@ -149,7 +209,6 @@ public class DialogHandler : MonoBehaviour
         }
 
         _optionsOn = false;
-        _questionAsked = false;
         optionsBox.SetActive(false);
         sliders.SetActive(false);
     }
@@ -158,33 +217,61 @@ public class DialogHandler : MonoBehaviour
     {
         _dialog.text = "";
         _typedCharacters = "";
+        _text = "";
     }
 
     void CountDown()
     {
         _timeOnDecision += Time.deltaTime;
-
-        sliders.transform.Find("Slider 1").GetComponent<Slider>().value = 1f - _timeOnDecision / givenTime;
-        sliders.transform.Find("Slider 2").GetComponent<Slider>().value = 1f - _timeOnDecision / givenTime;
+        SetTimeSlider(1f - _timeOnDecision / givenTime);
         if (_timeOnDecision > givenTime)
         {
             optionsAction[UnityEngine.Random.Range(0, optionsAction.Count)]();
-            _timeOnDecision = 0;
         }
     }
 
-    virtual public void Option1()
+    void SetTimeSlider(float pValue)
     {
-
+        sliders.transform.Find("Slider 1").GetComponent<Slider>().value = pValue;
+        sliders.transform.Find("Slider 2").GetComponent<Slider>().value = pValue;
     }
 
-    virtual public void Option2()
+    public void Option1()
     {
+        DecisionTracker.ToggleBool(Op1);
 
+        dialogScript = answersScript[0].Split('^').ToList();
+        _dialogBoxID = -1;
+        ClearText();
+
+        _op1 = true;
+        Continue();
+        CloseOptions();
     }
 
-    virtual public void Option3()
+    public void Option2()
     {
+        DecisionTracker.ToggleBool(Op2);
 
+        dialogScript = answersScript[1].Split('^').ToList();
+        _dialogBoxID = -1;
+        ClearText();
+
+        _op2 = true;
+        Continue();
+        CloseOptions();
+    }
+
+    public void Option3()
+    {
+        DecisionTracker.ToggleBool(Op3);
+
+        dialogScript = answersScript[2].Split('^').ToList();
+        _dialogBoxID = -1;
+        ClearText();
+
+        _op3 = true;
+        Continue();
+        CloseOptions();
     }
 }
