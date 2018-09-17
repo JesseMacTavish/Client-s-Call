@@ -13,6 +13,8 @@ public class EnemyAttack : MonoBehaviour
 
     [Tooltip("The range in which the enemy can hit you")]
     public float Attackrange = 1;
+    public float freezeTime = 0.1f;
+    public ScreenShake screenShake;
 
     private EnemyStates _state;
     private EnemyMovement _reach;
@@ -72,6 +74,11 @@ public class EnemyAttack : MonoBehaviour
         if (InReach)
         {
             _player.Hit(_damage);
+
+            GetComponent<Animator>().enabled = false;
+            Invoke("unFreezeAnimations", freezeTime);
+
+            StartCoroutine(screenShake.Shake(0.1f, 0.1f));
         }
     }
 
@@ -112,5 +119,10 @@ public class EnemyAttack : MonoBehaviour
         {
             return ((_player.GetComponent<Rigidbody>().position - transform.position).magnitude <= Attackrange);
         }
+    }
+
+    public void unFreezeAnimations()
+    {
+        GetComponent<Animator>().enabled = true;
     }
 }

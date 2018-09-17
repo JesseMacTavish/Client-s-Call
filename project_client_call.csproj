@@ -305,10 +305,11 @@
     <Compile Include="Assets\Scripts\DialogHandler.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyDamaged.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyHandler.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyRetreat.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyStates.cs" />
-    <Compile Include="Assets\Scripts\Enemy\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\FontFix.cs" />
     <Compile Include="Assets\Scripts\Healthbar.cs" />
     <Compile Include="Assets\Scripts\JsonParser.cs" />
@@ -320,6 +321,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\DialogScript.txt" />
+    <None Include="Assets\Shaders\BreatheShader.shader" />
+    <None Include="Assets\Shaders\DisplayNormals.shader" />
+    <None Include="Assets\Shaders\RedShader.shader" />
+    <None Include="Assets\Shaders\TextureShader.shader" />
+    <None Include="Assets\Shaders\UVcycleShader.shader" />
+    <None Include="Assets\Shaders\VectorOperations.shader" />
+    <None Include="Assets\Shaders\VertexLitTransparentShader (1).shader" />
+    <None Include="Assets\Shaders\WaterShader.shader" />
+    <None Include="Assets\Shaders\WoodShader.shader" />
+    <None Include="Assets\Shaders\WorldPositionShader.shader" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />

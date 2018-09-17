@@ -47,6 +47,7 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.FLYUP:
                 break;
             case EnemyState.DAMAGED:
+<<<<<<< HEAD
                 GetComponent<EnemyDamaged>().DamageAnimation();
                 //TODO: move this to EnemyDamaged.cs
                 //if (GetComponent<SpriteRenderer>().flipX)
@@ -57,6 +58,8 @@ public class EnemyStates : MonoBehaviour
                 //{
                 //    transform.position += Vector3.right * -0.1f; //Hardcode
                 //}
+=======
+>>>>>>> 441073a68afcd0ca00a26516ba8e88f169321b87
                 break;
             case EnemyState.AIRDAMAGED:
                 GetComponent<EnemyDamaged>().DamageAirAnimation();
