@@ -11,7 +11,7 @@ public class EnemyRetreat : MonoBehaviour
     [SerializeField] private float _retreatSpeed = 0.1f;
 
     [Tooltip("The distance at which the enemy will stop retreating")]
-    [SerializeField] private float _retreatDistance = 10;
+    [SerializeField] private float _retreatDistance = 9;
 
     private Transform _transform;
     private EnemyStates _state;
@@ -75,6 +75,24 @@ public class EnemyRetreat : MonoBehaviour
         if (Vector3.Distance(_transform.position, _playerRigidbody.position) >= _retreatDistance)
         {
             _state.ChangeState(EnemyStates.EnemyState.SURROUNDING);
+        }
+    }
+
+
+    //Parameters:
+    public float RetreatSpeed
+    {
+        set
+        {
+            _retreatSpeed = value;
+        }
+    }
+
+    public float RetreatDistance
+    {
+        set
+        {
+            _retreatDistance = value;
         }
     }
 }

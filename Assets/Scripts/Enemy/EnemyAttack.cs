@@ -6,14 +6,17 @@ using UnityEngine.AI;
 public class EnemyAttack : MonoBehaviour
 {
     [Tooltip("The time IN SECONDS between 2 enemy updates")]
-    [SerializeField] private float _updateInterval = 1;
+    [SerializeField] private float _updateInterval = 0.5f;
 
     [Tooltip("The damage the enemy does")]
     [SerializeField] private int _damage = 10;
 
     [Tooltip("The range in which the enemy can hit you")]
-    public float Attackrange = 1;
-    public float freezeTime = 0.1f;
+    [SerializeField] private float _attackrange = 2;
+
+    [Tooltip("The time IN SECONDS that the enemy will be frozen")]
+    [SerializeField] private float _freezeTime = 0.1f;
+
     public ScreenShake screenShake;
 
     private EnemyStates _state;
@@ -31,7 +34,7 @@ public class EnemyAttack : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
         BoxCollider trigger = GetComponent<BoxCollider>();
-        trigger.size = new Vector3(Attackrange, trigger.size.y, Attackrange);
+        trigger.size = new Vector3(_attackrange, trigger.size.y, _attackrange);
     }
 
     // Update is called once per frame
@@ -76,7 +79,7 @@ public class EnemyAttack : MonoBehaviour
             _player.Hit(_damage);
             
             GetComponent<Animator>().speed = 0;
-            Invoke("unFreezeAnimations", freezeTime);
+            Invoke("unFreezeAnimations", _freezeTime);
 
             StartCoroutine(screenShake.Shake(0.1f, 0.1f));
         }
@@ -113,12 +116,42 @@ public class EnemyAttack : MonoBehaviour
     {
         get
         {
-            return ((_player.GetComponent<Rigidbody>().position - transform.position).magnitude <= Attackrange);
+            return ((_player.GetComponent<Rigidbody>().position - transform.position).magnitude <= _attackrange);
         }
     }
 
     public void unFreezeAnimations()
     {
         GetComponent<Animator>().speed = 1;
+    }
+
+
+    //Parameters:
+    public int Damage
+    {
+        set
+        {
+            _damage = value;
+        }
+    }
+
+    public float AttackRange
+    {
+        get
+        {
+            return _attackrange;
+        }
+        set
+        {
+            _attackrange = value;
+        }
+    }
+
+    public float FreezeTime
+    {
+        set
+        {
+            _freezeTime = value;
+        }
     }
 }

@@ -137,7 +137,7 @@ public class EnemyMovement : MonoBehaviour
         }
         else if (_state.CurrentState == EnemyStates.EnemyState.MOVING)
         {
-            _offSet = _offSet.normalized * (GetComponent<EnemyAttack>().Attackrange - 0.1f);
+            _offSet = _offSet.normalized * (GetComponent<EnemyAttack>().AttackRange - 0.1f);
         }
 
         return _offSet;
@@ -261,6 +261,24 @@ public class EnemyMovement : MonoBehaviour
                 return;
             }
             other.GetComponent<Attack>().EnemiesInRange.Remove(gameObject);
+        }
+    }
+
+
+    //Parameters:
+    public float Speed
+    {
+        set
+        {
+            _speed = value;
+        }
+    }
+
+    public Vector2 SurroundDistance
+    {
+        set
+        {
+            _surroundDistance = value;
         }
     }
 }

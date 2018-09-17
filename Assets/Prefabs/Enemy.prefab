@@ -22,12 +22,13 @@ GameObject:
   - component: {fileID: 212096838850785336}
   - component: {fileID: 95784061912768030}
   - component: {fileID: 65121275127532368}
+  - component: {fileID: 114992918872212146}
   - component: {fileID: 114193863687197646}
-  - component: {fileID: 114482522898718396}
   - component: {fileID: 114202701415683870}
-  - component: {fileID: 114533639149239036}
-  - component: {fileID: 114166066342914244}
   - component: {fileID: 114998621066868594}
+  - component: {fileID: 114482522898718396}
+  - component: {fileID: 114166066342914244}
+  - component: {fileID: 114533639149239036}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -103,8 +104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 20
-  knockBackspeed: {x: 0, y: 0}
-  flyupSpeed: 0.18
+  _knockBackspeed: {x: 0.25, y: 0}
+  _flyupSpeed: 0.2
 --- !u!114 &114202701415683870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,8 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateInterval: 0.5
   _damage: 10
-  Attackrange: 2
-  freezeTime: 0.1
+  _attackrange: 2
+  _freezeTime: 0.1
   screenShake: {fileID: 0}
 --- !u!114 &114482522898718396
 MonoBehaviour:
@@ -147,6 +148,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startState: 0
+--- !u!114 &114992918872212146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653819467274914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4324a94b4d0524418fdba3cf6aca63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
 --- !u!114 &114998621066868594
 MonoBehaviour:
   m_ObjectHideFlags: 1

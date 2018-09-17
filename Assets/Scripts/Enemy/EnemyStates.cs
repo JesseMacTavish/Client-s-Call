@@ -18,6 +18,7 @@ public class EnemyStates : MonoBehaviour
         DAMAGED,
         FLYUP,
         AIRDAMAGED,
+        DASHING,
     }
 
     void Awake()
@@ -56,6 +57,9 @@ public class EnemyStates : MonoBehaviour
             case EnemyState.AIRDAMAGED:
                 GetComponent<EnemyDamaged>().DamageAirAnimation();
                 break;
+            case EnemyState.DASHING:
+
+                break;
             default:
                 break;
         }
@@ -64,4 +68,12 @@ public class EnemyStates : MonoBehaviour
     }
 
     public EnemyState CurrentState { get; private set; }
+
+    public EnemyState StartState
+    {
+        set
+        {
+            _startState = value;
+        }
+    }
 }

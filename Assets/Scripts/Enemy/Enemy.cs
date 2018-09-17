@@ -9,10 +9,11 @@ public class Enemy : MonoBehaviour
     [Tooltip("The amount of health the enemy has")]
     [SerializeField] private int _health = 20;
 
-    public Vector2 knockBackspeed;
-    float knockSpeedX;
-    float knockSpeedY;
-    public float flyupSpeed = 0.2f;
+    [SerializeField] private Vector2 _knockBackspeed;
+    [SerializeField] private float _flyupSpeed = 0.2f;
+
+    float _knockSpeedX;
+    float _knockSpeedY;
     float _flightSpeed;
     private EnemyStates _state;
     bool _fly;
@@ -67,9 +68,9 @@ public class Enemy : MonoBehaviour
             if (_state.CurrentState != EnemyStates.EnemyState.DAMAGED && _state.CurrentState != EnemyStates.EnemyState.AIRDAMAGED)
             {
                 if (GetComponent<SpriteRenderer>().flipX)
-                    transform.position = new Vector3(transform.position.x + knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+                    transform.position = new Vector3(transform.position.x + _knockSpeedX, transform.position.y + _knockSpeedY, transform.position.z);
                 else
-                    transform.position = new Vector3(transform.position.x - knockSpeedX, transform.position.y + knockSpeedY, transform.position.z);
+                    transform.position = new Vector3(transform.position.x - _knockSpeedX, transform.position.y + _knockSpeedY, transform.position.z);
 
                 CancelInvoke();
             }
@@ -80,11 +81,11 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                knockSpeedY -= 0.01f;
+                _knockSpeedY -= 0.01f;
             }
-            knockSpeedX -= 0.01f;
+            _knockSpeedX -= 0.01f;
 
-            if (knockSpeedX <= 0)
+            if (_knockSpeedX <= 0)
             {
                 _knockBack = false;
                 Invoke("changeStateRandom", 0.5f);
@@ -137,7 +138,7 @@ public class Enemy : MonoBehaviour
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
         _fly = true;
         _oldPosition = transform.position;
-        _flightSpeed = flyupSpeed;
+        _flightSpeed = _flyupSpeed;
     }
 
     public void KnockBack()
@@ -149,8 +150,8 @@ public class Enemy : MonoBehaviour
 
         _state.ChangeState(EnemyStates.EnemyState.FLYUP);
         _knockBack = true;
-        knockSpeedX = knockBackspeed.x;
-        knockSpeedY = knockBackspeed.y;
+        _knockSpeedX = _knockBackspeed.x;
+        _knockSpeedY = _knockBackspeed.y;
         if (!_fly)
         {
             _oldPosition = transform.position;
@@ -194,5 +195,31 @@ public class Enemy : MonoBehaviour
     public void unFreezeAnimations()
     {
         GetComponent<Animator>().speed = 1;
+    }
+    
+
+    //Parameters
+    public int Health
+    {
+        set
+        {
+            _health = value;
+        }
+    }
+
+    public Vector2 KnockBackSpeed
+    {
+        set
+        {
+            _knockBackspeed = value;
+        }
+    }
+
+    public float FlyUpSpeed
+    {
+        set
+        {
+            _flyupSpeed = value;
+        }
     }
 }
